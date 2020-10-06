@@ -8,9 +8,9 @@
           <meta name="description" content="">
           <meta name="author" content="">
           <!-- Favicon icon -->
-   
+
           <title><?= $title?></title>
-   
+
           <!-- Bootstrap Core CSS -->
           <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css">
           <link href="<?=base_url()?>assets/module/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -44,7 +44,6 @@
      <div class="preloader">
           <div class="loader">
                <div class="loader__figure"></div>
-               <p class="loader__label">Consulting Expert LCC</p>
+               <p class="loader__label">Consulting Expert LLC</p>
           </div>
      </div>
-       

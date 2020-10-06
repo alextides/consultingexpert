@@ -67,9 +67,9 @@
 
                                 <li role="separator" class="divider"></li>
                                 <?php if ($this->session->userdata("user_type") != "2") { ?>
-                                    <?php echo "<li><a href='" . base_url("admin/profile") . "'></i> Hi <strong>'" . $this->session->userdata("first_name") . "'</strong></a></li>"; ?>
+                                    <?php echo "<li><a href='" . base_url("admin/profile") . "'></i> Hi <strong>'" . $this->session->userdata('user_details')[0]['first_name'] . " " . $this->session->userdata('user_details')[0]['last_name']."'</strong></a></li>"; ?>
                                 <?php } else { ?>
-                                    <?php echo "<li><a href='" . base_url("employee/profile") . "'></i> Hi <strong>'" . $this->session->userdata("first_name") . "'</strong></a></li>"; ?>
+                                    <?php echo "<li><a href='" . base_url("employee/profile") . "'></i> Hi <strong>'" . $this->session->userdata('user_details')[0]['first_name'] . " " . $this->session->userdata('user_details')[0]['last_name']."'</strong></a></li>"; ?>
                                 <?php } ?>
                                 <li><a href="<?= base_url("logout") ?>"><i class="fa fa-power-off"></i> Logout</a></li>
                             </ul>
