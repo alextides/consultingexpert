@@ -19,12 +19,12 @@ class MY_Controller extends MX_Controller {
 	public function load_page($page, $data = array(), $footer){
 
 		$this->load->view('includes/head',$data);
-		$this->load->view('includes/admin/header',$data);
-		$this->load->view('includes/admin/sidebar',$data);
+		$this->load->view('includes/sidebar',$data);
       	$this->load->view($page,$data);
-      	$this->load->view($footer,$data);
+      $this->load->view('includes/footer',$data);
 
-	 }
+	}
+
 	 public function load_user_page($page, $data = array(), $footer){
 		$this->load->view('includes/head',$data);
 		$this->load->view('includes/admin/header',$data);
@@ -45,4 +45,19 @@ class MY_Controller extends MX_Controller {
       	$this->load->view($page,$data);
       	$this->load->view('includes/login_footer',$data);
     }
+
+	 public function load_page2($page,$data = array(), $add_to_footer="",$add_to_header=""){
+ 		// $data['navigation'] = $this->getNavigation();
+
+ 		if (!empty($add_to_footer)) {
+ 			$data["add_to_footer"]=$add_to_footer;
+ 		}
+ 		if (!empty($add_to_header)) {
+ 			$data["add_to_header"]=$add_to_header;
+ 		}
+ 		$this->load->view('includes/head',$data);
+ 		$this->load->view('includes/sidebar',$data);
+ 		$this->load->view($page);
+ 		$this->load->view('includes/footer');
+ 	}
 }

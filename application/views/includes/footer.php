@@ -30,5 +30,17 @@
    <!-- ============================================================== -->
    <script src="<?=base_url()?>assets/module/styleswitcher/jQuery.style.switcher.js"></script>
 
+
+   <?php 
+
+   if (isset($add_to_footer)) {
+       $add_to_footer_files = explode(',',$add_to_footer);
+       foreach ($add_to_footer_files as $value) {
+           $this->load->view($value);
+       }
+   }
+
+    ?>
+
     </body>
 </html>
