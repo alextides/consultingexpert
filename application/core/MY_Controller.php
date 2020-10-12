@@ -60,4 +60,9 @@ class MY_Controller extends MX_Controller {
  		$this->load->view($page);
  		$this->load->view('includes/footer');
  	}
+
+	public function setSwal($icon='warning',$msg=''){
+		$load = array('icon' => $icon, 'content' => $msg);
+		$this->session->set_flashdata('swals', $load);
+	}
 }

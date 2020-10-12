@@ -6,7 +6,7 @@ class Userlist extends MY_Controller {
    public function index(){
 
          $data['technicianlist'] = 1;
-         $data['title'] = 'Technician List';
+         $data['title'] = 'Manage Users';
 
          // echo "<pre>";
          // print_r($result);
@@ -17,7 +17,7 @@ class Userlist extends MY_Controller {
       	// $this->load_page('index', $data);
    }
 
-	public function view_technicians()
+	public function view_users()
 	{
       // Datatables Variables
          $draw = intval($this->input->post("draw"));
@@ -46,12 +46,10 @@ class Userlist extends MY_Controller {
          $valid_columns = array(
    			1=>'first_name',
    			2=>'last_name',
-   			3=>'brand_establishment',
-   			4=>'service_center',
-   			5=>'address',
-   			6=>'contact_number',
-   			7=>'email',
-   			8=>'status',
+   			3=>'address',
+   			4=>'contact_number',
+   			5=>'email',
+   			6=>'activity_status',
    		);
 
          if(!isset($valid_columns[$col]))
@@ -86,81 +84,83 @@ class Userlist extends MY_Controller {
    			$this->db->group_end();
    		}
 
-         if($this->session->userdata('type') == 'manufacturer' ){
-              $users = $this->db->
-              select('*')->
-              from('sr_technician')->
-              where('sr_technician.fk_manufacturer_id', $this->session->userdata('user_id'))->
-              where('sr_users.delete_status', 'false')->
-              join('sr_userdata', 'sr_userdata.fk_user_id = sr_technician.fk_user_id')->
-              join('sr_users', 'sr_users.user_id = sr_technician.fk_user_id')->
-              join('sr_service_centers', 'sr_service_centers.service_center_id = sr_technician.fk_service_center_id')->
-              get();
-         } else if($this->session->userdata('type') == 'admin' ){
-             $users = $this->db->
-             select('*')->
-             from('sr_technician')->
-             where('sr_users.delete_status', 'false')->
-             join('sr_userdata', 'sr_userdata.fk_user_id = sr_technician.fk_user_id')->
-             join('sr_users', 'sr_users.user_id = sr_technician.fk_user_id')->
-             join('sr_service_centers', 'sr_service_centers.service_center_id = sr_technician.fk_service_center_id')->
-             get();
-
-         }else{
-            $manu_id = $this->db->
-            select('fk_manufacturer_id')->
-            from('sr_manager')->
-            where('fk_user_id', $this->session->userdata('user_id'))->
-            get()->result_array();
+         // if($this->session->userdata('type') == 'manufacturer' ){
+         //      $users = $this->db->
+         //      select('*')->
+         //      from('sr_technician')->
+         //      where('sr_technician.fk_manufacturer_id', $this->session->userdata('user_id'))->
+         //      where('sr_users.delete_status', 'false')->
+         //      join('sr_userdata', 'sr_userdata.fk_user_id = sr_technician.fk_user_id')->
+         //      join('sr_users', 'sr_users.user_id = sr_technician.fk_user_id')->
+         //      join('sr_service_centers', 'sr_service_centers.service_center_id = sr_technician.fk_service_center_id')->
+         //      get();
+         // } else if($this->session->userdata('type') == 'admin' ){
+         //     $users = $this->db->
+         //     select('*')->
+         //     from('sr_technician')->
+         //     where('sr_users.delete_status', 'false')->
+         //     join('sr_userdata', 'sr_userdata.fk_user_id = sr_technician.fk_user_id')->
+         //     join('sr_users', 'sr_users.user_id = sr_technician.fk_user_id')->
+         //     join('sr_service_centers', 'sr_service_centers.service_center_id = sr_technician.fk_service_center_id')->
+         //     get();
+         //
+         // }else{
+         //    $manu_id = $this->db->
+         //    select('fk_manufacturer_id')->
+         //    from('sr_manager')->
+         //    where('fk_user_id', $this->session->userdata('user_id'))->
+         //    get()->result_array();
 
             $users = $this->db->
             select('*')->
-            from('sr_technician')->
-            where('sr_technician.fk_manufacturer_id', $manu_id[0]['fk_manufacturer_id'])->
-            where('sr_users.delete_status', 'false')->
-            join('sr_userdata', 'sr_userdata.fk_user_id = sr_technician.fk_user_id')->
-            join('sr_users', 'sr_users.user_id = sr_technician.fk_user_id')->
-            join('sr_service_centers', 'sr_service_centers.service_center_id = sr_technician.fk_service_center_id')->
+            from('ci_users')->
+            where('delete_status', '0')->
+            join('ci_userdata', 'ci_userdata.fk_user_id = ci_users.user_id')->
             get();
-         }
+         // }
 
           $data = array();
 
           foreach($users->result() as $r) {
-            if($this->session->userdata('type') != 'admin'){
-                if ($r->status == "active") {
-      				   $action_btn = "<a class='btn btn-warning btn-xs status_user' href='".base_url('technicianlist/deactivate_user/'.$r->user_id)."'>Deactivate</a>";
+            // if($this->session->userdata('type') != 'admin'){
+                if ($r->activity_status == "1") {
+      				   $action_btn = "<a class='btn btn-warning btn-xs status_user' href='".base_url('userlist/deactivate_user/'.$r->user_id)."'>Deactivate</a>";
            			}else{
-           				$action_btn = "<a class='btn btn-primary btn-xs status_user' href='".base_url('technicianlist/activate_user/'.$r->user_id)."'>Activate</a>";
+           				$action_btn = "<a class='btn btn-primary btn-xs status_user' href='".base_url('userlist/activate_user/'.$r->user_id)."'>Activate</a>";
            			}
            			$action_btn .= "<a class='btn btn-success btn-xs edit_user' data-id=".$r->user_id." href='javascript:void(0)'>Edit</a>";
            			$action_btn .= "<a class='btn btn-danger btn-xs delete_user' href='".base_url('technicianlist/delete_user/'.$r->user_id)."'>Delete</a>";
-            }
-            if($this->session->userdata('type') != 'admin'){
-                 $data[] = array(
-                      $r->first_name,
-                      $r->last_name,
-                      $r->brand_establishment,
-                      $r->sc_name,
-                      $r->address,
-                      $r->contact_number,
-                      $r->email,
-                      $r->status,
-                      $action_btn
-                 );
+            // }
+            // if($this->session->userdata('type') != 'admin'){
+            //      $data[] = array(
+            //           $r->first_name,
+            //           $r->last_name,
+            //           $r->brand_establishment,
+            //           $r->sc_name,
+            //           $r->address,
+            //           $r->contact_number,
+            //           $r->email,
+            //           $r->status,
+            //           $action_btn
+            //      );
+            // }else{
+
+            if($r->activity_status == '1'){
+               $status = "Active";
             }else{
+               $status = "Inactive";
+            }
 
               $data[] = array(
                 $r->first_name,
                 $r->last_name,
-                $r->brand_establishment,
-                $r->sc_name,
                 $r->address,
                 $r->contact_number,
                 $r->email,
-                $r->status
+                $status,
+                $action_btn
               );
-            }
+            // }
           }
 
           $output = array(
@@ -176,19 +176,19 @@ class Userlist extends MY_Controller {
 	public function activate_user($id='')
 	{
 		$res=$this->db
-		->set('status','active')
+		->set('activity_status','1')
 		->where('user_id',$id)
-		->update('sr_users');
+		->update('ci_users');
 
 		$this->session->set_userdata('swal','User activated successfully.');
-		redirect('technicianlist');
+		redirect('userlist');
 	}
 	public function deactivate_user($id='')
 	{
-		$res=$this->db
-		->set('status','inactive')
-		->where('user_id',$id)
-		->update('sr_users');
+      $res=$this->db
+      ->set('activity_status','0')
+      ->where('user_id',$id)
+      ->update('ci_users');
 
 		$this->session->set_userdata('swal','User deactivated successfully.');
 		redirect('technicianlist');

@@ -4818,3 +4818,48 @@ File: scss
     width: 100%; }
     .dataTables_wrapper .dataTables_paginate .paginate_button {
       padding: 0.5rem 0.6rem; } }
+
+
+/* Maynard's css */
+
+.dataTables_wrapper .dataTables_paginate {
+    width: 100%;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+    padding: 0.5rem 0.6rem;
+}
+
+/* datatables */
+a.status_user, a.status_file, a.edit_user, a.edit_file, a.delete_user, a.delete_file, a.view_file, a.download_file, a.status_badge, a.edit_badge, a.delete_badge, a.badge_owners, a.assign_badge, a.remove_technician, a.view_request, a.edit_service, a.delete_service, a.assign_services, a.view_product, a.edit_product, a.delete_product {
+   margin: 5px;
+}
+
+button {
+   cursor: pointer;
+}
+
+/* media queries */
+@media only screen and (max-width: 425px) {
+   .dataTables_length, .dataTables_info, .dataTables_paginate {
+      text-align: center;
+      width: 100%;
+   }
+   .center-container {
+      margin: 20px 0px 10px 0px;
+      text-align: center !important;
+   }
+   .page-title-text{
+      text-align: center;
+   }
+
+   textarea {
+      width: 100%;
+   }
+
+   .form-row-option-mod{
+      margin-left: 30px;
+   }
+}
+
+/* end of Maynard's CSS */

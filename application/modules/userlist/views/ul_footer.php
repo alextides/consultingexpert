@@ -73,12 +73,12 @@ $(document).on('click','.delete_user',function(e){
 $(document).ready(function(e){
   var filter_user_type ="";
   var base_url = "<?php echo base_url();?>";
-  var data_table = $('#technicianlist_datatable').DataTable({
+  var data_table = $('#userlist_datatable').DataTable({
      "pageLength" : 10,
      "serverSide": true,
      "order": [[0, "asc" ]],
      "ajax":{
-              url :  base_url+'technicianlist/view_technicians',
+              url :  base_url+'userlist/view_users',
               type : 'POST',
             },
       });

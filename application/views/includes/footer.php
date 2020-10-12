@@ -22,6 +22,8 @@
    <script src="<?=base_url()?>assets/module/d3/d3.min.js"></script>
    <script src="<?=base_url()?>assets/module/c3-master/c3.min.js"></script>
    <!-- Popup message jquery -->
+   <script src="<?=base_url()?>assets/module/sweetalert2/dist/sweetalert2.min.js"></script>
+   <!-- Sweet alert jquery -->
    <script src="<?=base_url()?>assets/module/oast-master/js/jquery.toast.js"></script>
    <!-- Chart JS -->
    <script src="<?=base_url()?>assets/js/dashboard1.js"></script>
@@ -31,7 +33,27 @@
    <script src="<?=base_url()?>assets/module/styleswitcher/jQuery.style.switcher.js"></script>
 
 
-   <?php 
+   <?php
+
+   if ($this->session->has_userdata('modal')) {
+       $data['content']=$this->session->userdata('modal');
+       $this->load->view('swal_common',$data);
+       // $this->load->view('modal_common',$data);
+
+       // echo "<script>alert('".$this->session->userdata('alert')."');</script>";
+       $this->session->unset_userdata('modal');
+   }
+
+   if ($this->session->has_userdata('swal')) {
+       // $data['content']=$this->session->userdata('swal');
+       $this->load->view('swal_common', array('content' => $this->session->userdata('swal')));
+       $this->session->unset_userdata('swal');
+   }
+
+   if($this->session->flashdata('swals')){
+       $swal = $this->session->flashdata('swals');
+       $this->load->view('swal_common',$swal);
+   }
 
    if (isset($add_to_footer)) {
        $add_to_footer_files = explode(',',$add_to_footer);
