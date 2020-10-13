@@ -1,4 +1,30 @@
- <div class="page-wrapper" id="vueapp">
+<style>
+    .private-btn {
+        padding: 35px;
+        font-size: 25px;
+        background: #e6f2ff;
+        border: 1px solid #9cf;
+        border-radius: 9px;
+        color: #404040;
+        width: 29%;
+        margin-left: 40px;
+    }
+
+    .select-private {
+        margin-top: 50px;
+        margin-left: -29px;
+    }
+
+    .public-private {
+        font-size: 19px;
+    }
+
+    .label-public {
+        margin-right: 50px;
+    }
+</style>
+
+<div class="page-wrapper" id="vueapp">
     <!-- ============================================================== -->
     <!-- Container fluid  -->
     <!-- ============================================================== -->
@@ -8,49 +34,29 @@
         <!-- ============================================================== -->
         <div class="row page-titles">
             <div class="col-md-12 align-self-center">
-                <h3 class="text-themecolor">Files</h3>
+                <h3 class="text-themecolor">Dashboard</h3>
             </div>
-         
-        </div>
-       
-        <!-- startt -->
-        <div class="row">
-                    <div class="col-12">
-                         <div class="card">
-                            <div class="card-body">
-                                <div class="table-responsive">
-                                    <table id="myTable" class="table table-bordered table-striped">
-                                        <thead>
-                                            <tr>
-                                                <th>File Name</th>
-                                                <th>Date Uploaded</th>
-                                                <th>Uploaded By</th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr v-for="file in allfiles" :key="file.file_id">
-                                                <td>{{file.file_name}}</td>
-                                                <td>{{file.uploaded_date}}</td>
-                                                <td>{{file.first_name}}</td>
-                                                <td class="text-center actionsbtn">
-                                                    <a :href="b_url+'assets/uploads/'+file.file_name" target="_blank" class="text-success" style="font-size:14px;"><i class="fas fa-eye"></i></a>
-                                                 
-                                                    <a  @click="showDownload(file.file_name, file.file_id)" href="javascript:;"><i class="fas fa-download"></i></a>
-                                                   
-                                                </td>
-                                            </tr>
-                                            
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                   </div>
 
-                            
+        </div>
+
+        <!-- startt -->
+        <div class="select-public-private">
+            <div class="public-private">
+                <input type="radio" id="public_account" name="public_private" value="Public Account">
+                <label for="public_account" class="label-public">Public Account</label>
+                <input type="radio" id="private_account" name="public_private" value="Private Account">
+                <label for="private_account">Private Account</label>
+            </div>
+
+            <div class="select-private">
+                <input class="private-btn" type="button" value="Subscription">
+                <input class="private-btn" type="button" value="Order a Website">
+                <input class="private-btn" type="button" value="Quote for DD Application">
+            </div>
         </div>
         <!-- end content -->
+
+
 
     </div>
     <!-- ============================================================== -->
@@ -60,7 +66,7 @@
     <!-- footer -->
     <!-- ============================================================== -->
     <footer class="footer">
-      
+        Consulting Expert LCC
     </footer>
     <!-- ============================================================== -->
     <!-- End footer -->

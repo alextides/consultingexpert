@@ -1,0 +1,17 @@
+public function profile(){
+		$data = array(
+			'title' 		=> "Profile | Zontar",
+			'profile_user'  => $this->get_myprofile()
+		);
+		$this->load_page('profile',$data);
+	}
+
+	public function get_myprofile(){
+		$data = array(
+			'select' => 'details.user_id,details.first_name,details.last_name,details.email_address,details.job_position,details.address,details.gender,details.birthdate,user.username,details.profile_picture',
+			'join'	 => array('ztr_usermeta as details' => ' details.user_id = user.fk_user_id'),
+			'where'	 => array('details.user_id' => $_SESSION['user_id'],'user.type'=>$_SESSION['user_type'])
+		);
+		$query = $this->MY_Model->getRows('ztr_users as user',$data,'row');
+		return $query;
+	}
