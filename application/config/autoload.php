@@ -1,9 +1,10 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-$autoload['libraries'] = array('database', 'email', 'session', 'form_validation', 'pagination');
+// $autoload['libraries'] = array('database', 'email', 'session', 'form_validation', 'pagination');
 
 $this->load->helper('string');
+$this->load->helper('url');
 /*
 | -------------------------------------------------------------------
 | AUTO-LOADER
@@ -61,7 +62,7 @@ $autoload['packages'] = array();
 |
 |	$autoload['libraries'] = array('user_agent' => 'ua');
 */
-$autoload['libraries'] = array('database','email','session');
+$autoload['libraries'] = array('database', 'email', 'session', 'form_validation', 'pagination');
 
 /*
 | -------------------------------------------------------------------

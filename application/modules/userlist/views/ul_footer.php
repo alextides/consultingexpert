@@ -85,68 +85,13 @@ $(document).ready(function(e){
   });
 
   $(document).on('click','.add-technician',function(e){
-     e.preventDefault();
-     var data_id = $(this).attr('data-id');
-     let new_array = [];
-     let checker = '';
-    $.ajax({
-        url     : <?php base_url(); ?>'/speedyrepair/technicianlist/view_establishments/' + data_id,
-        type    : 'POST',
-        dataType: 'json',
-        success : function(data){
-           var txt = '';
-           $('#brand_e').empty();
-           if(data != ''){
-             for (var i = 0; i < data.length; i++) {
-                 if(data[i].brand_establishment != ''){
+     // e.preventDefault();
+     // var data_id = $(this).attr('data-id');
+     // let new_array = [];
+     // let checker = '';
 
-                    check = jQuery.inArray(data[i].brand_establishment, new_array );
+     $('#addUser').modal('show');
 
-                    if (check === -1){
-                       new_array.push(data[i].brand_establishment);
-                    }
-
-                 }
-             }
-             for (var i = 0; i < new_array.length; i++) {
-
-                 txt += `
-                 <option value="${new_array[i]}">${new_array[i]}</option>
-                 `;
-             }
-              $('#brand_e').html(txt);
-           }
-        },
-        error: function() {
-           alert(data);
-        }
-     });
-
-     $.ajax({
-         url     : <?php base_url(); ?>'/speedyrepair/technicianlist/assign_service_center/' + data_id,
-         type    : 'POST',
-         dataType: 'json',
-         success : function(data1){
-            var txt = '';
-            $('#assignment').empty();
-
-            txt += `
-            <option value="0">Not Assigned</option>
-            `;
-
-              for (var i = 0; i < data1.length; i++) {
-
-                  txt += `
-                  <option value="${data1[i].service_center_id}">${data1[i].sc_name}</option>
-                  `;
-              }
-               $('#assignment').html(txt);
-               $('#addUser').modal('show');
-         },
-         error: function(data1) {
-            console.log(data1);
-         }
-      });
   });
 
 
@@ -155,65 +100,8 @@ $(document).ready(function(e){
      var data_id = $(this).attr('data-id');
      let new_array = [];
      let checker = '';
-    $.ajax({
-        url     : <?php base_url(); ?>'/speedyrepair/technicianlist/view_establishments/' + data_id,
-        type    : 'POST',
-        dataType: 'json',
-        success : function(data){
-           var txt = '';
-           $('#edit_brand_e').empty();
-           if(data != ''){
-              for (var i = 0; i < data.length; i++) {
-                 if(data[i].brand_establishment != ''){
 
-                    check = jQuery.inArray(data[i].brand_establishment, new_array );
-
-                    if (check === -1){
-                       new_array.push(data[i].brand_establishment);
-                    }
-
-                 }
-              }
-              for (var i = 0; i < new_array.length; i++) {
-
-                 txt += `
-                 <option value="${new_array[i]}">${new_array[i]}</option>
-                 `;
-              }
-              $('#edit_brand_e').html(txt);
-              $('input[name="id_value_id"]').val(data_id);
-           }
-        },
-        error: function() {
-           alert(data);
-        }
-     });
-
-     $.ajax({
-         url     : <?php base_url(); ?>'/speedyrepair/technicianlist/assign_service_center/' + data_id,
-         type    : 'POST',
-         dataType: 'json',
-         success : function(data1){
-            var txt = '';
-            $('#edit_assignment').empty();
-
-              for (var i = 0; i < data1.length; i++) {
-
-                  txt += `
-                  <option value="${data1[i].service_center_id}">${data1[i].sc_name}</option>
-                  `;
-              }
-              txt += `
-              <option value="0">Not Assigned</option>
-              `;
-               $('#edit_assignment').html(txt);
-         },
-         error: function(data1) {
-            console.log(data1);
-         }
-      });
-
-     var base_url = "<?php echo base_url();?>technicianlist/edit_user/";
+     var base_url = "<?php echo base_url();?>userlist/edit_user/";
      $.ajax({
          type : "GET",
          url  : base_url + data_id,
@@ -228,22 +116,6 @@ $(document).ready(function(e){
             $('[name="edit_contact"]').val(result[0].contact_number);
             $('[name="edit_username"]').val(result[0].username);
             $('[name="edit_password"]').val(result[0].password);
-
-            for (var i = 0; i < data.length; i++) {
-               $("#edit_brand_e option").each(function(){
-                   if($(this).val()==result[0].brand_establishment){
-                       $(this).attr("selected","selected");
-                   }
-               });
-            }
-
-            for (var i = 0; i < data.length; i++) {
-               $("#edit_assignment option").each(function(){
-                   if($(this).val()==result[0].sc_name){
-                       $(this).attr("selected","selected");
-                   }
-               });
-            }
 
             $('#editUser').modal('show');
          },
@@ -290,14 +162,14 @@ $(document).ready(function(){
  $('#username').on('blur', function(){
   var username = $('#username').val();
   $.ajax({
-    url: '<?php echo base_url();?>technicianlist/verify_username',
+    url: '<?php echo base_url();?>userlist/verify_username',
     type: 'post',
     data: {'username' : username},
     success: function(response){
       if (response == 'taken' ) {
          username_state = false;
       	$('#username').css("border", "1px solid red");
-      	$('#username').siblings("span").text('Username already taken');
+      	$('#username').siblings("span").text('Username already taken.');
       }else if (response == 'not_taken') {
          username_state = true;
          $('#username').css("border", "1px solid #ced4da");
@@ -316,14 +188,14 @@ $(document).ready(function(){
  $('#email').on('blur', function(){
   var email = $('#email').val();
   $.ajax({
-    url: '<?php echo base_url();?>technicianlist/verify_email',
+    url: '<?php echo base_url();?>userlist/verify_email',
     type: 'post',
     data: {'email' : email},
     success: function(response){
       if (response == 'taken' ) {
          email_state = false;
       	$('#email').css("border", "1px solid red");
-      	$('#email').siblings("span").text('Email Address already taken');
+      	$('#email').siblings("span").text('Email Address already taken.');
       }else if (response == 'not_taken') {
          email_state = true;
          $('#email').css("border", "1px solid #ced4da");
@@ -350,13 +222,13 @@ $(document).ready(function(){
 
      // proceed with form submission
      $.ajax({
-        url: '<?php echo base_url();?>technicianlist/add_user',
+        url: '<?php echo base_url();?>userlist/add_user',
         type: 'post',
         data: form_data,
         success: function(response){
 
            Swal.fire({
-           title: 'New manufacturer has been added.',
+           title: 'New User has been added.',
            type: 'success',
            confirmButtonColor: '#3085d6',
            cancelButtonColor: '#d33',
@@ -373,7 +245,7 @@ $(document).ready(function(){
   var username = $('#edit_username').val();
   var id = $('#id_value_id').val();
   $.ajax({
-    url: '<?php echo base_url();?>technicianlist/verify_username',
+    url: '<?php echo base_url();?>userlist/verify_username',
     type: 'post',
     data: {'username' : username, 'id': id},
     success: function(response){
@@ -400,7 +272,7 @@ $(document).ready(function(){
   var email = $('#edit_email').val();
   var id = $('#id_value_id').val();
   $.ajax({
-    url: '<?php echo base_url();?>technicianlist/verify_email',
+    url: '<?php echo base_url();?>userlist/verify_email',
     type: 'post',
     data: {'email' : email, 'id' : id},
     success: function(response){
@@ -434,13 +306,13 @@ $(document).ready(function(){
 
      // proceed with form submission
      $.ajax({
-        url: '<?php echo base_url();?>technicianlist/update_user',
+        url: '<?php echo base_url();?>userlist/update_user',
         type: 'post',
         data: form_data,
         success: function(response){
 
            Swal.fire({
-           title: 'Manufacturer has been updated.',
+           title: 'User has been updated.',
            type: 'success',
            confirmButtonColor: '#3085d6',
            cancelButtonColor: '#d33',

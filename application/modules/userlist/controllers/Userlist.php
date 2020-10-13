@@ -3,6 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Userlist extends MY_Controller {
 
+
    public function index(){
 
          $data['technicianlist'] = 1;
@@ -87,7 +88,7 @@ class Userlist extends MY_Controller {
          // if($this->session->userdata('type') == 'manufacturer' ){
          //      $users = $this->db->
          //      select('*')->
-         //      from('sr_technician')->
+         //      from('ci_technician')->
          //      where('sr_technician.fk_manufacturer_id', $this->session->userdata('user_id'))->
          //      where('sr_users.delete_status', 'false')->
          //      join('sr_userdata', 'sr_userdata.fk_user_id = sr_technician.fk_user_id')->
@@ -115,6 +116,7 @@ class Userlist extends MY_Controller {
             select('*')->
             from('ci_users')->
             where('delete_status', '0')->
+            where('user_type !=', 'admin')->
             join('ci_userdata', 'ci_userdata.fk_user_id = ci_users.user_id')->
             get();
          // }
@@ -191,21 +193,8 @@ class Userlist extends MY_Controller {
       ->update('ci_users');
 
 		$this->session->set_userdata('swal','User deactivated successfully.');
-		redirect('technicianlist');
-	}
+      redirect('userlist');
 
-	public function view_establishments($id='')
-	{
-      $result = $this->db->
-      select('brand_establishment')->
-      from('sr_userdata')->
-      where('fk_user_id !=', '1')->
-      where('delete_status', 'false')->
-      join('sr_users', 'sr_users.user_id = sr_userdata.fk_user_id')->
-      get()->result_array();
-
-      echo json_encode($result);
-      exit();
 	}
 
    public function verify_username(){
@@ -213,7 +202,7 @@ class Userlist extends MY_Controller {
       if(!empty($_POST['id'])){
          $check_username = $this->db->
          select('*')->
-         from('sr_users')->
+         from('ci_users')->
          where('username', $_POST['username'])->
          where('user_id !=', $_POST['id'])->
          count_all_results();
@@ -227,7 +216,7 @@ class Userlist extends MY_Controller {
       }else{
          $check_username = $this->db->
          select('*')->
-         from('sr_users')->
+         from('ci_users')->
          where('username', $_POST['username'])->
          count_all_results();
 
@@ -244,7 +233,7 @@ class Userlist extends MY_Controller {
       if(!empty($_POST['id'])){
          $check_email = $this->db->
          select('*')->
-         from('sr_users')->
+         from('ci_users')->
          where('email', $_POST['email'])->
          where('user_id !=', $_POST['id'])->
          count_all_results();
@@ -259,7 +248,7 @@ class Userlist extends MY_Controller {
 
          $check_email = $this->db->
          select('*')->
-         from('sr_users')->
+         from('ci_users')->
          where('email', $_POST['email'])->
          count_all_results();
 
@@ -272,34 +261,6 @@ class Userlist extends MY_Controller {
       }
    }
 
-   public function assign_service_center($id=''){
-    if($this->session->userdata('type') == 'manufacturer'){
-      $result = $this->db->
-      select('*')->
-      from('sr_service_centers')->
-      where('activity_status', '0')->
-      where('delete_status', '0')->
-      where('fk_manufacturer', $this->session->userdata('user_id'))->
-      get()->result_array();
-    }else{
-      $manu_id = $this->db->
-      select('fk_manufacturer_id')->
-      from('sr_manager')->
-      where('fk_user_id', $this->session->userdata('user_id'))->
-      get()->result_array();
-
-      $result = $this->db->
-      select('*')->
-      from('sr_service_centers')->
-      where('activity_status', '0')->
-      where('delete_status', '0')->
-      where('fk_manufacturer', $manu_id[0]['fk_manufacturer_id'])->
-      get()->result_array();
-    }
-
-     echo json_encode($result);
-     exit();
-   }
 
 	public function add_user(){
 
@@ -308,24 +269,24 @@ class Userlist extends MY_Controller {
 
 		$result_un = $this->db->
 		select('*')->
-		from('sr_users')->
+		from('ci_users')->
 		where('username', $check_un)->
 		get()->
 		result();
 
 		$result_email = $this->db->
 		select('*')->
-		from('sr_users')->
+		from('ci_users')->
 		where('email', $check_email)->
 		get()->
 		result();
 
 		if($result_un){
 			$this->session->set_userdata('swal', 'Username already exists.');
-         redirect('technicianlist');
+         redirect('userlist');
 		}else if($result_email){
 			$this->session->set_userdata('swal', 'Email already exists.');
-         redirect('technicianlist');
+         redirect('userlist');
 		}else {
 			// $pw = password_hash($_POST['password'], PASSWORD_DEFAULT);
 
@@ -335,51 +296,23 @@ class Userlist extends MY_Controller {
 			// set('user_type', $_POST['user_type'])->
 			set('user_type', 'technician')->
 			set('email', $_POST['email'])->
-			set('status', 'active')->
+			set('activity_status', '1')->
          // set('other_password', $_POST['password'])->
-         set('delete_status', 'false')->
-			insert('sr_users');
+         set('delete_status', '0')->
+			insert('ci_users');
 			$uid = $this->db->insert_id();
-
-
-         if($this->session->userdata('type') == 'manufacturer'){
-            $this->db->
-            set('fk_manufacturer_id', $this->session->userdata('user_id'))->
-            set('fk_user_id', $uid)->
-            insert('sr_technician');
-
-         } else{
-            $manu_id = $this->db->
-            select('fk_manufacturer_id')->
-            from('sr_manager')->
-            where('fk_user_id', $this->session->userdata('user_id'))->
-            get()->result_array();
-
-            $this->db->
-            set('fk_manufacturer_id', $manu_id[0]['fk_manufacturer_id'])->
-            set('fk_user_id', $uid)->
-            insert('sr_technician');
-         }
-
-
 
 			$result2 = $this->db->
 			set('fk_user_id', $uid)->
 			set('first_name', $_POST['fname'])->
 			set('last_name', $_POST['lname'])->
-			set('brand_establishment', $_POST['brand_e'])->
 			set('contact_number', $_POST['contact'])->
 			set('address', $_POST['address'])->
 			set('profile_picture', 'user.png')->
-			insert('sr_userdata');
-
-      set('fk_manufacturer_id', $this->session->userdata('user_id'))->
-      set('fk_service_center_id', $_POST['assignment'])->
-      set('fk_user_id', $uid)->
-      insert('sr_technician');
+			insert('ci_userdata');
 
 			$this->session->set_userdata('swal', 'New User has been added on the list.');
-			redirect('technicianlist');
+			redirect('userlist');
 		}
 	}
 
@@ -387,10 +320,9 @@ class Userlist extends MY_Controller {
    {
       $result = $this->db->
       select('*')->
-      from('sr_userdata')->
-      where('sr_userdata.fk_user_id', $id)->
-      join('sr_users', 'sr_users.user_id = sr_userdata.fk_user_id')->
-      join('sr_technician', 'sr_technician.fk_user_id = sr_userdata.fk_user_id')->
+      from('ci_userdata')->
+      where('ci_userdata.fk_user_id', $id)->
+      join('ci_users', 'ci_users.user_id = ci_userdata.fk_user_id')->
       get()->result_array();
 
       echo json_encode($result);
@@ -405,7 +337,7 @@ class Userlist extends MY_Controller {
 
 		$result_un = $this->db->
 		select('*')->
-		from('sr_users')->
+		from('ci_users')->
 		where('username', $check_un)->
 		where('user_id !=', $_POST['id_value_id'])->
 		get()->
@@ -413,7 +345,7 @@ class Userlist extends MY_Controller {
 
 		$result_email = $this->db->
 		select('*')->
-		from('sr_users')->
+		from('ci_users')->
 		where('email', $check_email)->
       where('user_id !=', $_POST['id_value_id'])->
 		get()->
@@ -421,10 +353,10 @@ class Userlist extends MY_Controller {
 
 		if($result_un){
 			$this->session->set_userdata('swal', 'Username already exists.');
-         redirect('technicianlist');
+         redirect('userlist');
 		}else if($result_email){
 			$this->session->set_userdata('swal', 'Email already exists.');
-         redirect('technicianlist');
+         redirect('userlist');
 		}else {
 			// $pw = password_hash($_POST['edit_password'], PASSWORD_DEFAULT);
 
@@ -438,32 +370,31 @@ class Userlist extends MY_Controller {
          // set('other_password', $_POST['password'])->
          // set('program_type', $options)->
          where('user_id', $_POST['id_value_id'])->
-			update('sr_users');
+			update('ci_users');
 			$uid = $this->db->insert_id();
 
 			$result2 = $this->db->
 			set('first_name', $_POST['edit_fname'])->
 			set('last_name', $_POST['edit_lname'])->
-			set('brand_establishment', $_POST['edit_brand_e'])->
 			set('contact_number', $_POST['edit_contact'])->
 			set('address', $_POST['edit_address'])->
 			// set('profile_picture', 'user.png')->
          where('fk_user_id', $_POST['id_value_id'])->
-			update('sr_userdata');
+			update('ci_userdata');
 
-			$this->session->set_userdata('swal', 'Technician record has been updated.');
-			redirect('technicianlist');
+			$this->session->set_userdata('swal', 'User record has been updated.');
+			redirect('userlist');
 		}
 	}
 
 	public function delete_user($id=''){
 
 		$this->db->
-      set('delete_status', 'true')->
+      set('delete_status', '1')->
 		where('user_id',$id)->
-		update('sr_users');
+		update('ci_users');
 
 		$this->session->set_userdata('swal','User deleted successfully.');
-		redirect('technicianlist');
+		redirect('userlist');
 	}
 }
