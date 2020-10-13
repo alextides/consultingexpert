@@ -76,9 +76,8 @@
                      <span style="color: red; font-size: 13px;"></span>
                   </div>
                   <div class="form-group col-md-6">
-                     <label for="assignment">Service Center</label>
-                     <select id="assignment" name="assignment" class="form-control">
-                     </select>
+                     <label for="inputContact">Contact Number</label>
+                     <input type="text" class="form-control" name="contact" value="<?php if(isset($_POST['contact'])){echo $_POST['contact'];} ?>" id="inputContact" placeholder="Enter contact number" required>
                   </div>
                   <!-- <div class="form-group col-md-6">
                      <label for="usertype">User Type</label>
@@ -88,12 +87,6 @@
                      </select>
                   </div> -->
                </div>
-                  <div class="form-row">
-                     <div class="form-group col-md-6">
-                        <label for="inputContact">Contact Number</label>
-                        <input type="text" class="form-control" name="contact" value="<?php if(isset($_POST['contact'])){echo $_POST['contact'];} ?>" id="inputContact" placeholder="Enter contact number" required>
-                     </div>
-                  </div>
                <div class="form-row">
                  <div class="form-group col-md-6">
                     <label for="username">Username</label>
@@ -158,6 +151,10 @@
                      <input type="email" class="form-control" name="edit_email" id="edit_email" value="<?php if(isset($_POST['edit_email'])){echo $_POST['edit_email'];} ?>" required>
                      <span style="color: red; font-size: 13px;"></span>
                   </div>
+                  <div class="form-group col-md-6">
+                     <label for="edit_inputContact">Contact Number</label>
+                     <input type="text" class="form-control" name="edit_contact" value="<?php if(isset($_POST['edit_contact'])){echo $_POST['edit_contact'];} ?>" id="edit_inputContact" required>
+                  </div>
                   <!-- <div class="form-group col-md-6">
                      <label for="usertype">User Type</label>
                      <select id="usertype" name="user_type" class="form-control">
@@ -166,12 +163,6 @@
                      </select>
                   </div> -->
                </div>
-                  <div class="form-row">
-                     <div class="form-group col-md-6">
-                        <label for="edit_inputContact">Contact Number</label>
-                        <input type="text" class="form-control" name="edit_contact" value="<?php if(isset($_POST['edit_contact'])){echo $_POST['edit_contact'];} ?>" id="edit_inputContact" required>
-                     </div>
-                  </div>
                <div class="form-row">
                  <div class="form-group col-md-6">
                     <label for="edit_username">Username</label>
