@@ -18,10 +18,6 @@ class Admin extends MY_Controller
 		$this->load_page("index", $data, "admin_footer");
 	}
 
-	public function userlists()
-	{
-	}
-
 	public function managefiles()
 	{
 		$data["title"] = "Admin Manage Files";
@@ -32,10 +28,9 @@ class Admin extends MY_Controller
 
 	public function getfiles()
 	{
-		$param["select"] = "file_name, date_uploaded, ci_users.user_id, file_id, ci_users.first_name";
+		$param["select"] = "file_name, date_uploaded, file_id, ci_userdata.first_name";
 		$param["where"] = array("file_status" => 1);
-		// $param["where"] = array("file_id" => $file_id);
-		$param["join"] = array("ci_users" => "ci_users.user_id = ci_filelist.fk_user_id");
+		$param["join"] = array("ci_userdata" => "ci_userdata.userdata_id = ci_filelist.fk_user_id");
 		$res =  $this->MY_Model->getRows("ci_filelist", $param);
 		return $res;
 	}
@@ -53,9 +48,6 @@ class Admin extends MY_Controller
 		} else {
 			$config['upload_path'] = './assets/uploads/';
 			$config['allowed_types'] = 'gif|jpg|png|pdf|txt|docx|doc';
-			// $config['max_size'] = 2000;
-			// $config['max_width'] = 1500;
-			// $config['max_height'] = 1500;
 			$this->load->library('upload', $config);
 			if (!$this->upload->do_upload('file_upload')) {
 				$resmsg = array("err" => true, "msg" => $this->upload->display_errors());
