@@ -1,41 +1,6 @@
 <script src="<?= base_url()."assets"; ?>/js/jquery.dataTables.min.js"></script>
 <script src="<?= base_url()."assets"; ?>/js/responsive.dataTables.min.js"></script>
 <script type="text/javascript">
-// $(document).ready( function () {
-//     $('#userlist_datatable').DataTable();
-// } );
-
-// $(document).ready( function () {
-//     $('#userlist_datatable').DataTable({
-//       "ajax": {
-//             url : "</?php echo site_url("books/books_page") ?>",
-//             type : 'POST'
-//         },
-//    });
-// } );
-
-// var starCountRef = firebase.database().ref('online_technician');
-//   starCountRef.on('value', function(snapshot) {
-//     snapshot.forEach((child) => {
-//       console.log(child.key);
-//       console.log(child.val().user_id);
-//
-//     });
-//   });
-
-  // starCountRef.on('value', function(snapshot) {
-  //   console.log(snapshot.val());
-  //   console.log(snapshot.val().user_id);
-  // });
-
-
-// firebase.database().ref('online_technician').child("I would like to dine with").on('value', (snapshot) => {
-//   snapshot.forEach((child) => {
-//     console.log(child.key, child.val());
-//     this.intVal.push(child.val());
-//     console.log("intVal",this.intVal);
-//   });
-// });
 
 $(document).on('click', '.toggle-password', function(){
   if($('.ti-lock').length){
@@ -85,11 +50,6 @@ $(document).ready(function(e){
   });
 
   $(document).on('click','.add-technician',function(e){
-     // e.preventDefault();
-     // var data_id = $(this).attr('data-id');
-     // let new_array = [];
-     // let checker = '';
-
      $('#addUser').modal('show');
 
   });
@@ -125,33 +85,6 @@ $(document).ready(function(e){
      });
 
   });
-
-    // $(document).on('click','.select_shipper_btn',function(e){
-    //    e.preventDefault();
-    //       var status = $(this).attr('data-origin');
-    //       var data_id = $(this).attr('data-id');
-    //      $.ajax({
-    //          url     : </?php base_url(); ?>'/loadboard/loads/view_load/'+status,
-    //          type    : 'POST',
-    //          dataType: 'json',
-    //          success : function(data){
-    //             var txt = '';
-    //             $('.select_shipper').empty();
-    //             if(data != ''){
-    //                for (var i = 0; i < data.length; i++) {
-    //                   txt += `
-    //                      <option value="${data[i].user_id}">${data[i].username}</option>
-    //                     `;
-    //                }
-    //                $('input[name="load_id_row"]').val(data_id);
-    //                $('.select_shipper').html(txt);
-    //                $('.bs-example-modal-lg').modal('show');
-    //             }
-    //          }
-    //     });
-    // });
-
-// }); // End Document Ready Function
 
 $(document).ready(function(){
    let username_state = false;
@@ -324,33 +257,5 @@ $(document).ready(function(){
      });
   }
 });
-
- // $('#add_technician_form').on('submit', function(e){
- //   e.preventDefault();
- //   var form = $(this);
- // 	if (username_state == false || email_state == false) {
-	//   $('.error_msg').text('Replace input on highlighted field/s.');
-	// }
- //   else{
- //
- //      $.ajax({
- //         url: '</?php echo base_url();?>userlist/add_user',
- //      	type: 'post',
- //      	data: $('#add_technician_form').serialize(),
- //      	success: function(response){
- //            location.reload();
- //            Swal.fire({
- //             title: 'New user has been added.',
- //             type: 'success',
- //             confirmButtonColor: '#3085d6',
- //             cancelButtonColor: '#d33',
- //             confirmButtonText: 'OK'
- //           }).then((result) => {
- //
- //           })
- //      	}
- //      });
- // 	}
- // });
 });
 </script>
