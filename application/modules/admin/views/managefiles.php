@@ -30,7 +30,7 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table id="files_datatable" class="table table-striped jambo_table bulk_action dt-responsive" style="width: 100% !important;">
+                            <table id="filesListing" class="table table-bordered table-striped">
                                 <thead>
                                     <tr>
                                         <th>File Name</th>
@@ -40,7 +40,19 @@
                                     </tr>
                                 </thead>
                                 <tbody id="listFiles">
+                                    <?php foreach ($files as $row) {
+                                    ?>
+                                        <tr>
+                                            <td><?php echo $row['file_name']; ?></td>
+                                            <td><?php echo $row['date_uploaded']; ?></td>
+                                            <td><?php echo $row['first_name']; ?></td>
+                                            <td class="text-center actionsbtn">
+                                                <!-- Button trigger modal -->
+                                                <button type="button" class="btn btn-primary editFile" data-toggle="modal" data-target="#editFileModal" id="<?php echo $row['file_id']; ?>" name="<?php echo $row['file_id']; ?>">Edit</button>
+                                            </td>
+                                        </tr>
                                 </tbody>
+                            <?php } ?>
                             </table>
                         </div>
                     </div>
@@ -62,7 +74,7 @@
                                 <div class="form-group ">
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <input type="file" size="20" id="file_upload" name="file_upload" class="form-control" required="">
+                                            <input size="20" id="file_upload" class="form-control" type="file" required="" name="file_upload">
                                         </div>
                                     </div>
                                 </div>

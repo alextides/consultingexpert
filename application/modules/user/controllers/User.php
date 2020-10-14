@@ -24,8 +24,8 @@ class User extends MY_Controller {
 		$this->load_page("profile", $data, "footer_profile");
 	}
 	public function get_user_info() {
-		$param["select"] = "ci_users.first_name, ci_users.last_name, ci_users.username, ci_users.password, ci_users.email_address, ci_userdata.city, ci_userdata.state, ci_userdata.phone, ci_userdata.zip_code, ci_userdata.gender";
-		$param["where"] = array("user_status" => 2);
+		$param["select"] = "ci_userdata.first_name, ci_userdata.last_name, ci_users.username, ci_users.password, ci_users.email, ci_userdata.city, ci_userdata.state, ci_userdata.contact_number, ci_userdata.zip_code, ci_userdata.gender";
+		$param["where"] = array("user_id" => 3);
 		$param["join"] = array("ci_userdata" => "ci_userdata.fk_user_id = ci_users.user_id");
 		$res =  $this->MY_Model->getRows("ci_users", $param);
 		return $res;
@@ -36,11 +36,9 @@ class User extends MY_Controller {
 		if ($this->validated_user2($post, "update")) {
 			if (!empty($post)) {
 				$set = array(
-					'first_name' => $post["first_name"],
-					'last_name' => $post["last_name"],
 					'username' => $post["username"],
 					'password' => $post["password"],
-					"email_address" => $post["email_address"]
+					"email" => $post["email"]
 				);
 				$where = array("user_id" => $post["user_id"]);
 				$res = $this->MY_Model->update("ci_users", $set, $where);

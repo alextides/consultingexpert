@@ -69,12 +69,12 @@
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                        <form method="post" enctype="multipart/form-data" action="<?= base_url("admin/upload_file") ?>" id="addFileForm">
+                        <form method="post" enctype="multipart/form-data" action="<?= base_url("managefiles/upload_file") ?>" id="addFileForm">
                             <div class="modal-body">
                                 <div class="form-group ">
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <input type="file" size="20" id="file_upload" name="file_upload" class="form-control" required="">
+                                            <input size="20" id="file_upload" class="form-control" type="file" required="" name="file_upload">
                                         </div>
                                     </div>
                                 </div>

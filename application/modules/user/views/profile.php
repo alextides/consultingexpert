@@ -89,7 +89,6 @@
                         <form class="form-material m-t-40" method="post" id="profileform" action="<?= base_url("user/update_profile"); ?>">
                             <?php foreach ($user_info as $row) { ?>
                                 <div class="row">
-
                                     <div class="form-row">
                                         <div class="col-md-6">
                                             <div class="form-group">
@@ -118,7 +117,7 @@
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <label>Email Address </label>
-                                                <input name="email_address" value="<?php echo $row['email_address']; ?>" type="email" class="form-control form-control-line" required>
+                                                <input name="email" value="<?php echo $row['email']; ?>" type="email" class="form-control form-control-line" required>
                                                 <div class="public-private-profile">
                                                     <input type="radio" id="public_email" name="public_private" value="Public Account">
                                                     <label for="public_email" class="label-public">Public</label>
@@ -170,7 +169,7 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>Phone </label>
-                                                <input name="phone" value="<?php echo $row['phone']; ?>" type="number" class="form-control form-control-line" required>
+                                                <input name="contact_number" value="<?php echo $row['contact_number']; ?>" type="number" class="form-control form-control-line" required>
                                                 <div class="public-private-profile">
                                                     <input type="radio" id="public_phone" name="public_private" value="Public Account">
                                                     <label for="public_phone" class="label-public">Public</label>
@@ -221,7 +220,7 @@
                                             </div>
                                         </div>
                                         <div class="col-md-12">
-                                            <button type="submit" class="update-profile-btn btn"><i class="fa fa-check"></i> Update Profile</button>
+                                            <button type="submit" class="update-profile-btn btn"><i class="fa fa-check"></i> Update Profile<?php echo $row['email']; ?></button>
                                         </div>
                                     </div>
                                 <?php } ?>
@@ -233,16 +232,4 @@
         </div>
 
     </div>
-    <!-- ============================================================== -->
-    <!-- End Container fluid  -->
-    <!-- ============================================================== -->
-    <!-- ============================================================== -->
-    <!-- footer -->
-    <!-- ============================================================== -->
-    <footer class="footer">
-        Consulting Expert LCC
-    </footer>
-    <!-- ============================================================== -->
-    <!-- End footer -->
-    <!-- ============================================================== -->
 </div>
