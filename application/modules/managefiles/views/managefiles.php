@@ -75,7 +75,7 @@
    <!-- Modal End-->
 
    <!--Edit File Modal -->
-   <form id="editFilesForm" method="post">
+   <form id="editFilesForm" method="post" action="<?php echo base_url(); ?>managefiles/update_file">
       <div class="modal fade" id="editFileModal" tabindex="-1" aria-labelledby="editFileModalLabel" aria-hidden="true">
          <div class="modal-dialog">
             <div class="modal-content">
@@ -98,17 +98,17 @@
                         <input type="text" name="date_uploaded" id="date_uploaded" class="form-control" placeholder="date_uploaded" required>
                      </div>
                   </div>
-                  <div class="form-group row">
+                  <!-- <div class="form-group row">
                      <label class="col-md-2 col-form-label">Uploaded By*</label>
                      <div class="col-md-10">
                         <input type="text" name="uploaded_by" id="uploaded_by" class="form-control" placeholder="uploaded_by" required>
                      </div>
-                  </div>
+                  </div> -->
                </div>
                <div class="modal-footer">
                   <button type="submit" class="btn btn-secondary" data-dismiss="modal">Close</button>
                   <button type="submit" class="btn btn-primary">Update</button>
-                  <input type="hidden" name="file_id" id="file_id" class="form-control">
+                  <input type="hidden" name="file_id" id="file_id">
                </div>
             </div>
          </div>

@@ -17,7 +17,7 @@
       }
    });
 
-   $(document).on('click', '.delete_file', function(e) {
+   $(document).on('click', '.delete_file', function(e) { //delete file
       e.preventDefault();
       Swal.fire({
          title: 'Are you sure to delete this file?',
@@ -50,6 +50,32 @@
       });
    });
 
+   $('#editFilesForm').on('submit', function(e) { //edit file
+      e.preventDefault();
+      $('.error_msg').text('');
+      var form_data = $('#editFilesForm').serialize();
+
+      // proceed with form submission
+      $.ajax({
+         url: '<?php echo base_url(); ?>managefiles/update_file',
+         type: 'post',
+         data: form_data,
+         success: function(response) {
+
+            Swal.fire({
+               title: 'File has been updated.',
+               type: 'success',
+               confirmButtonColor: '#3085d6',
+               cancelButtonColor: '#d33',
+               confirmButtonText: 'OK'
+            }).then((result) => {
+               location.reload();
+            })
+         }
+      });
+
+   });
+
    $(document).on('click', '.add-technician', function(e) {
       $('#addUser').modal('show');
 
@@ -70,7 +96,8 @@
             let result = JSON.parse(data);
             $('[name="file_name"]').val(result[0].file_name);
             $('[name="date_uploaded"]').val(result[0].date_uploaded);
-            $('[name="uploaded_by"]').val(result[0].uploaded_by);
+            $('[name="file_id"]').val(result[0].file_id);
+            // $('[name="uploaded_by"]').val(result[0].uploaded_by);
 
             $('#editFileModal').modal('show');
          },
@@ -233,34 +260,6 @@
          });
       });
 
-      $('#edit_technician_form').on('submit', function(e) {
-         e.preventDefault();
-         if (e_username_state == false || e_email_state == false) {
-            $('.error_msg').text('Replace input on highlighted field/s.');
 
-         } else {
-            $('.error_msg').text('');
-            var form_data = $('#edit_technician_form').serialize();
-
-            // proceed with form submission
-            $.ajax({
-               url: '<?php echo base_url(); ?>userlist/update_user',
-               type: 'post',
-               data: form_data,
-               success: function(response) {
-
-                  Swal.fire({
-                     title: 'User has been updated.',
-                     type: 'success',
-                     confirmButtonColor: '#3085d6',
-                     cancelButtonColor: '#d33',
-                     confirmButtonText: 'OK'
-                  }).then((result) => {
-                     location.reload();
-                  })
-               }
-            });
-         }
-      });
    });
 </script>

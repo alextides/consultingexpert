@@ -296,60 +296,12 @@ class Managefiles extends MY_Controller {
       exit();
    }
 
-	public function update_user(){
-
-		$check_un = $_POST['edit_username'];
-		$check_email = $_POST['edit_email'];
-
-		$result_un = $this->db->
-		select('*')->
-		from('ci_users')->
-		where('username', $check_un)->
-		where('user_id !=', $_POST['id_value_id'])->
-		get()->
-		result();
-
-		$result_email = $this->db->
-		select('*')->
-		from('ci_users')->
-		where('email', $check_email)->
-      where('user_id !=', $_POST['id_value_id'])->
-		get()->
-		result();
-
-		if($result_un){
-			$this->session->set_userdata('swal', 'Username already exists.');
-         redirect('userlist');
-		}else if($result_email){
-			$this->session->set_userdata('swal', 'Email already exists.');
-         redirect('userlist');
-		}else {
-			// $pw = password_hash($_POST['edit_password'], PASSWORD_DEFAULT);
-
-			$result = $this->db->
-			set('username', $check_un)->
-			set('password', $_POST['edit_password'])->
-			// set('user_type', $_POST['user_type'])->
-			// set('user_type', 'technician')->
-			set('email', $_POST['edit_email'])->
-			// set('status', 'active')->
-         // set('other_password', $_POST['password'])->
-         // set('program_type', $options)->
-         where('user_id', $_POST['id_value_id'])->
-			update('ci_users');
-			$uid = $this->db->insert_id();
-
-			$result2 = $this->db->
-			set('first_name', $_POST['edit_fname'])->
-			set('last_name', $_POST['edit_lname'])->
-			set('contact_number', $_POST['edit_contact'])->
-			set('address', $_POST['edit_address'])->
-			// set('profile_picture', 'user.png')->
-         where('fk_user_id', $_POST['id_value_id'])->
-			update('ci_userdata');
-
-			$this->session->set_userdata('swal', 'User record has been updated.');
-			redirect('userlist');
-		}
+	public function update_file($id=''){
+      $this->db
+      ->set('file_name', $_POST['file_name'])
+      ->where('file_id', $id)
+      ->update('ci_filelist');
+      $uid = $this->db->insert_id();
+      redirect('managefiles');
 	}
 }
