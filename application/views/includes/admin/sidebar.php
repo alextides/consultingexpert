@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 <header class="topbar">
     <nav class="navbar top-navbar navbar-expand-md navbar-light">
         <!-- ============================================================== -->
@@ -81,11 +82,14 @@
 </header>
 
 
+=======
+>>>>>>> Stashed changes
 <aside class="left-sidebar">
     <!-- Sidebar scroll-->
     <div class="scroll-sidebar">
         <!-- Sidebar navigation-->
         <nav class="sidebar-nav">
+<<<<<<< Updated upstream
             <?php if ($this->session->userdata("user_type") != "2"):?>
             <ul id="sidebarnav">
                 <li class="<?= $pagename == "dashboard" ? "active" : "" ?>"> <a class="waves-effect " href="<?=base_url("admin")?>" aria-expanded="false"><i class="icon-Car-Wheel"></i><span class="hide-menu">Dashboard </span></a> </li>
@@ -114,6 +118,21 @@
                 </li> -->
             </ul>
         <?php endif;?>
+=======
+            <?php if ($this->session->userdata("user_type") == 2 ) { ?>
+                <ul id="sidebarnav">
+                    <li class="<?= $pagename == "dashboard" ? "active" : "" ?>"> <a class="waves-effect " href="<?= base_url("admin") ?>" aria-expanded="false"><i class="icon-Car-Wheel"></i><span class="hide-menu">Dashboard </span></a> </li>
+                    <li> <a class="waves-effect " href="<?= base_url("admin/userlists") ?>" aria-expanded="false"><i class="icon-User"></i><span class="hide-menu">User Lists</span></a></li>
+                    <li> <a class="waves-effect " href="<?= base_url("admin/managefiles") ?>" aria-expanded="false"><i class="icon-Files"></i><span class="hide-menu">Manage Files</span></a> </li>
+                </ul>
+            <?php } else { ?>
+                <ul id="sidebarnav">
+                    <li class="<?= $pagename == "dashboard" ? "active" : "" ?>"> <a class="waves-effect " href="<?= base_url("user") ?>" aria-expanded="false"><i class="icon-Car-Wheel"></i><span class="hide-menu">Dashboard </span></a> </li>
+                    <li> <a class="waves-effect " href="<?= base_url("user/manageusers") ?>" aria-expanded="false"><i class="icon-User"></i><span class="hide-menu">Manage Users</span></a></li>
+                    <li> <a class="waves-effect " href="<?= base_url("user/profile") ?>" aria-expanded="false"><i class="icon-User"></i><span class="hide-menu">Profile</span></a></li>
+                </ul>
+            <?php } ?>
+>>>>>>> Stashed changes
         </nav>
         <!-- End Sidebar navigation -->
     </div>

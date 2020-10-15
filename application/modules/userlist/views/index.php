@@ -79,13 +79,6 @@
                      <label for="inputContact">Contact Number</label>
                      <input type="text" class="form-control" name="contact" value="<?php if(isset($_POST['contact'])){echo $_POST['contact'];} ?>" id="inputContact" placeholder="Enter contact number" required>
                   </div>
-                  <!-- <div class="form-group col-md-6">
-                     <label for="usertype">User Type</label>
-                     <select id="usertype" name="user_type" class="form-control">
-                       <option value="manufacturer" selected>Manufacturer</option>
-                       <option value="technician">Technician</option>
-                     </select>
-                  </div> -->
                </div>
                <div class="form-row">
                  <div class="form-group col-md-6">
@@ -108,7 +101,7 @@
             </div>
             <div class="modal-footer">
                <span class="error_msg" style="color: red; font-size: 15px; margin-left: 0; width: 100%;"></span>
-               <button type="submit" name="add_user" class="btn btn-btn-mod">Submit</button>
+               <button type="submit" class="btn btn-btn-mod">Submit</button>
             </div>
          </form>
        </div>

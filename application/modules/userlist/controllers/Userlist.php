@@ -85,33 +85,6 @@ class Userlist extends MY_Controller {
    			$this->db->group_end();
    		}
 
-         // if($this->session->userdata('type') == 'manufacturer' ){
-         //      $users = $this->db->
-         //      select('*')->
-         //      from('ci_technician')->
-         //      where('sr_technician.fk_manufacturer_id', $this->session->userdata('user_id'))->
-         //      where('sr_users.delete_status', 'false')->
-         //      join('sr_userdata', 'sr_userdata.fk_user_id = sr_technician.fk_user_id')->
-         //      join('sr_users', 'sr_users.user_id = sr_technician.fk_user_id')->
-         //      join('sr_service_centers', 'sr_service_centers.service_center_id = sr_technician.fk_service_center_id')->
-         //      get();
-         // } else if($this->session->userdata('type') == 'admin' ){
-         //     $users = $this->db->
-         //     select('*')->
-         //     from('sr_technician')->
-         //     where('sr_users.delete_status', 'false')->
-         //     join('sr_userdata', 'sr_userdata.fk_user_id = sr_technician.fk_user_id')->
-         //     join('sr_users', 'sr_users.user_id = sr_technician.fk_user_id')->
-         //     join('sr_service_centers', 'sr_service_centers.service_center_id = sr_technician.fk_service_center_id')->
-         //     get();
-         //
-         // }else{
-         //    $manu_id = $this->db->
-         //    select('fk_manufacturer_id')->
-         //    from('sr_manager')->
-         //    where('fk_user_id', $this->session->userdata('user_id'))->
-         //    get()->result_array();
-
             $users = $this->db->
             select('*')->
             from('ci_users')->

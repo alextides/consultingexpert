@@ -44,7 +44,7 @@
           <div class="form-row">
             <div class="col-md-12 mb-3">
               <label for="email_address">Email Address</label>
-              <input type="email" class="form-control" id="email_address" name="email_address" required>
+              <input type="email" class="form-control" id="email" name="email" required>
             </div>
           </div>
           <div class="form-row">
@@ -58,20 +58,24 @@
             </div>
           </div>
           <div class="form-row">
-            <div class="col-md-6 mb-3">
+            <!-- <div class="col-md-6 mb-3">
               <label for="gender">Gender</label>
               <select class="custom-select" id="gender" name="gender" required>
                 <option selected disabled value="">Choose Gender</option>
                 <option id="gender" name="gender">Male</option>
                 <option id="gender" name="gender">Female</option>
               </select>
-            </div>
-            <div class="col-md-6 mb-3">
+            </div> -->
+            <div class="col-md-12 mb-3">
               <label for="city">Phone</label>
-              <input type="number" class="form-control" id="phone" name="phone" required>
+              <input type="number" class="form-control" id="contact_number" name="contact_number" required>
+            </div>
+            <div class="col-md-12 mb-3">
+              <label for="address">Address</label>
+              <input type="text" class="form-control" id="address" name="address" required>
             </div>
           </div>
-          <div class="form-row">
+          <!-- <div class="form-row">
             <div class="col-md-4 mb-3">
               <label for="state">State</label>
               <select class="custom-select" id="state" name="state" required>
@@ -87,7 +91,7 @@
               <label for="zip_code">Zip Code</label>
               <input type="text" class="form-control" id="zip_code" name="zip_code" value="" required>
             </div>
-          </div>
+          </div> -->
           <div class="form-group text-center ">
             <div class="col-xs-12 p-b-20 " style="margin-top:20px;">
               <button class="btn btn-block btn-lg btn-info btn-rounded" type="submit">Register</button>
