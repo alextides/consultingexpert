@@ -8,7 +8,7 @@
             <ul id="sidebarnav">
 
 
-                 <li> <a class="waves-effect " href="<?=base_url("employee")?>" aria-expanded="false"><i class="icon-Files"></i><span class="hide-menu">Dashboard</span></a> </li>
+                 <li> <a class="waves-effect " href="<?=base_url("user")?>" aria-expanded="false"><i class="icon-Files"></i><span class="hide-menu">Dashboard</span></a> </li>
 
                 <!-- <li> <a class="has-arrow waves-effect" href="javascript:;" aria-expanded="false"><i class="icon-El-Castillo"></i><span class="hide-menu">Multi level dd</span></a>
                     <ul aria-expanded="false" class="collapse">

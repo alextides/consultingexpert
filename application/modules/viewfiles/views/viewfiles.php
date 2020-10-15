@@ -14,11 +14,11 @@
    <div class="container-fluid">
       <div class="row page-titles">
          <div class="col-md-5 align-self-center">
-            <h3 class="text-themecolor page-title-text">Manage Files</h3>
+            <h3 class="text-themecolor page-title-text">View Files</h3>
          </div>
-         <div class="col-md-7 align-self-center text-right d-none d-md-block">
+         <!-- <div class="col-md-7 align-self-center text-right d-none d-md-block">
             <button type="button" class="btn btn-primary addfile-btn" data-toggle="modal" data-target="#addFileModal"><i class="fa fa-plus-circle"></i> Add File</button>
-         </div>
+         </div> -->
       </div>
       <div class="row">
          <div class="col-12 col-12-no-padding">
@@ -63,29 +63,7 @@
                         </div>
                      </div>
                   </div>
-                  <?php //$this->session->userdata('user_id') 
-                  ?>
-
-                  <div class="form-group ">
-                     <div class="row">
-                        <div class="col-md-12">
-                           <label for="assign_file">Assign to:</label>
-
-                           <select class="custom-select" id="assign_file" name="assign_file" required>
-
-                              <option selected disabled value="">Select User</option>
-                              <?php foreach ($users as $row) { ?>
-                                 <option id="assign_file" name="assign_file" value="<?php echo $row['user_id']; ?>"><?php echo $row['first_name']; ?> <?php echo $row['last_name']; ?></option>
-                              <?php } ?>
-
-                           </select>
-
-                        </div>
-                     </div>
-                  </div>
                </div>
-
-
                <div class="modal-footer">
                   <button type="submit" class="btn btn-primary uploadfile-btn">Upload File</button>
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

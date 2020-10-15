@@ -1,18 +1,16 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Managefiles extends MY_Controller {
+class Viewfiles extends MY_Controller {
 
 
    public function index(){
          // $data['technicianlist'] = 1;
          $data['title'] = 'Manage Files';
-         $data['users'] = $this->getusers();
-         $this->load_page2('managefiles',$data,'ul_footer.php','ul_header.php');
+         $this->load_page2('viewfiles',$data,'ul_footer.php','ul_header.php');
    }
 
    public function upload_file() {
-      $post = $this->input->post();
       $param = array(
          'select' => '*',
          'where' => array('file_name' => $_FILES['file_upload']['name']),
@@ -34,8 +32,7 @@ class Managefiles extends MY_Controller {
          } else {
             $file = array(
                'file_name' => $this->upload->data('file_name'),
-               'uploaded_by' => 1,
-               'fk_user_id' => $post["assign_file"],
+               'fk_user_id' => 1,
                'date_uploaded' => date("Y-m-d H:i:s"),
                'file_status' => 1,
             );
@@ -48,14 +45,6 @@ class Managefiles extends MY_Controller {
          }
       }
       redirect(base_url("managefiles"));
-   }
-
-   public function getusers() {
-      $param["select"] = "user_id, ci_userdata.first_name, ci_userdata.last_name";
-      // $userdata["where"] = array("user_id" => $this->session->userdata("user_id"));
-      $param["join"] = array("ci_userdata" => "ci_userdata.fk_user_id = ci_users.user_id");
-      $query = $this->MY_Model->getRows("ci_users", $param);
-      return $query;
    }
 
 	public function getfiles()
@@ -122,8 +111,8 @@ class Managefiles extends MY_Controller {
 
       foreach ($files->result() as $r) {
          $action_btn = false;
-         $action_btn .= "<a class='btn btn-success btn-xs edit_file' data-id=".$r->file_id." href='javascript:void(0)'>Edit</a>";
-         $action_btn .= "<a class='btn btn-danger btn-xs delete_file' href='".base_url('managefiles/delete_file/'.$r->file_id)."'>Delete</a>";
+         $action_btn .= "<a class='btn btn-success btn-xs' data-id=".$r->file_id." href='javascript:void(0)'>Button</a>";
+         $action_btn .= "<a class='btn btn-danger btn-xs' href='".base_url(''.$r->file_id)."'>Button</a>";
 
          $data[] = array(
             $r->file_name,

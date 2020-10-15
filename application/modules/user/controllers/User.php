@@ -25,7 +25,7 @@ class User extends MY_Controller {
 	}
 	public function get_user_info() {
 		$param["select"] = "ci_userdata.first_name, ci_userdata.last_name, ci_users.username, ci_users.password, ci_users.email, ci_userdata.city, ci_userdata.state, ci_userdata.contact_number, ci_userdata.zip_code, ci_userdata.gender";
-		$param["where"] = array("user_id" => 3);
+		$userdata["where"] = array("user_id" => $this->session->userdata('user_id'));
 		$param["join"] = array("ci_userdata" => "ci_userdata.fk_user_id = ci_users.user_id");
 		$res =  $this->MY_Model->getRows("ci_users", $param);
 		return $res;
