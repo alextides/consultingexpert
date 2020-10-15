@@ -51,7 +51,7 @@
              <span aria-hidden="true">&times;</span>
            </button>
          </div>
-         <form id="add_technician_form" action="<?php echo base_url(); ?>technicianlist/add_user" method="post">
+         <form id="add_technician_form" action="<?php echo base_url(); ?>userlist/add_user" method="post">
             <div class="modal-body">
                <div class="form-row">
                  <div class="form-group col-md-6">
@@ -126,7 +126,7 @@
              <span aria-hidden="true">&times;</span>
            </button>
          </div>
-         <form id="edit_technician_form" action="<?php echo base_url(); ?>technicianlist/update_user" method="post">
+         <form id="edit_technician_form" action="<?php echo base_url(); ?>userlist/update_user" method="post">
             <div class="modal-body">
                <div class="form-row">
                   <input id="id_value_id" type="hidden" name="id_value_id" value="">

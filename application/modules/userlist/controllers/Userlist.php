@@ -131,7 +131,7 @@ class Userlist extends MY_Controller {
            				$action_btn = "<a class='btn btn-primary btn-xs status_user' href='".base_url('userlist/activate_user/'.$r->user_id)."'>Activate</a>";
            			}
            			$action_btn .= "<a class='btn btn-success btn-xs edit_user' data-id=".$r->user_id." href='javascript:void(0)'>Edit</a>";
-           			$action_btn .= "<a class='btn btn-danger btn-xs delete_user' href='".base_url('technicianlist/delete_user/'.$r->user_id)."'>Delete</a>";
+           			$action_btn .= "<a class='btn btn-danger btn-xs delete_user' href='".base_url('userlist/delete_user/'.$r->user_id)."'>Delete</a>";
             // }
             // if($this->session->userdata('type') != 'admin'){
             //      $data[] = array(
@@ -334,22 +334,6 @@ class Userlist extends MY_Controller {
 
 		$check_un = $_POST['edit_username'];
 		$check_email = $_POST['edit_email'];
-
-		$result_un = $this->db->
-		select('*')->
-		from('ci_users')->
-		where('username', $check_un)->
-		where('user_id !=', $_POST['id_value_id'])->
-		get()->
-		result();
-
-		$result_email = $this->db->
-		select('*')->
-		from('ci_users')->
-		where('email', $check_email)->
-      where('user_id !=', $_POST['id_value_id'])->
-		get()->
-		result();
 
 		if($result_un){
 			$this->session->set_userdata('swal', 'Username already exists.');

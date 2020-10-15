@@ -109,6 +109,8 @@ $(document).ready(function(e){
             let result = JSON.parse(data);
             // alert(result[0].program_type);
 
+
+            $('#id_value_id').val(data_id);
             $('[name="edit_fname"]').val(result[0].first_name);
             $('[name="edit_lname"]').val(result[0].last_name);
             $('[name="edit_address"]').val(result[0].address);
@@ -241,89 +243,89 @@ $(document).ready(function(){
   }
 });
 // edit user validation
- $('#edit_username').on('blur', function(){
-  var username = $('#edit_username').val();
-  var id = $('#id_value_id').val();
-  $.ajax({
-    url: '<?php echo base_url();?>userlist/verify_username',
-    type: 'post',
-    data: {'username' : username, 'id': id},
-    success: function(response){
-      if (response == 'taken' ) {
-         e_username_state = false;
-      	$('#edit_username').css("border", "1px solid red");
-      	$('#edit_username').siblings("span").text('Username already taken');
-      }else if (response == 'not_taken') {
-         e_username_state = true;
-         $('#edit_username').css("border", "1px solid #ced4da");
-      	$('#edit_username').siblings("span").text('');
-      }
+ // $('#edit_username').on('blur', function(){
+ //  var username = $('#edit_username').val();
+ //  var id = $('#id_value_id').val();
+ //  $.ajax({
+ //    url: '</?php echo base_url();?>userlist/verify_username',
+ //    type: 'post',
+ //    data: {'username' : username, 'id': id},
+ //    success: function(response){
+ //      if (response == 'taken' ) {
+ //         e_username_state = false;
+ //      	$('#edit_username').css("border", "1px solid red");
+ //      	$('#edit_username').siblings("span").text('Username already taken');
+ //      }else if (response == 'not_taken') {
+ //         e_username_state = true;
+ //         $('#edit_username').css("border", "1px solid #ced4da");
+ //      	$('#edit_username').siblings("span").text('');
+ //      }
+ //
+ //      if(username = ''){
+ //         e_username_state = false;
+ //         $('#edit_username').css("border", "1px solid #ced4da");
+ //      	$('#edit_username').siblings("span").text('');
+ //      }
+ //    }
+ //  });
+ // });
+ //
+ // $('#edit_email').on('blur', function(){
+ //  var email = $('#edit_email').val();
+ //  var id = $('#id_value_id').val();
+ //  $.ajax({
+ //    url: '</?php echo base_url();?>userlist/verify_email',
+ //    type: 'post',
+ //    data: {'email' : email, 'id' : id},
+ //    success: function(response){
+ //      if (response == 'taken' ) {
+ //         e_email_state = false;
+ //      	$('#edit_email').css("border", "1px solid red");
+ //      	$('#edit_email').siblings("span").text('Email Address already taken');
+ //      }else if (response == 'not_taken') {
+ //         e_email_state = true;
+ //         $('#edit_email').css("border", "1px solid #ced4da");
+ //      	$('#edit_email').siblings("span").text('');
+ //      }
+ //
+ //      if(email = ''){
+ //         e_email_state = false;
+ //         $('#edit_email').css("border", "1px solid #ced4da");
+ //      	$('#edit_email').siblings("span").text('');
+ //      }
+ //    }
+ //  });
+ // });
 
-      if(username = ''){
-         e_username_state = false;
-         $('#edit_username').css("border", "1px solid #ced4da");
-      	$('#edit_username').siblings("span").text('');
-      }
-    }
-  });
- });
-
- $('#edit_email').on('blur', function(){
-  var email = $('#edit_email').val();
-  var id = $('#id_value_id').val();
-  $.ajax({
-    url: '<?php echo base_url();?>userlist/verify_email',
-    type: 'post',
-    data: {'email' : email, 'id' : id},
-    success: function(response){
-      if (response == 'taken' ) {
-         e_email_state = false;
-      	$('#edit_email').css("border", "1px solid red");
-      	$('#edit_email').siblings("span").text('Email Address already taken');
-      }else if (response == 'not_taken') {
-         e_email_state = true;
-         $('#edit_email').css("border", "1px solid #ced4da");
-      	$('#edit_email').siblings("span").text('');
-      }
-
-      if(email = ''){
-         e_email_state = false;
-         $('#edit_email').css("border", "1px solid #ced4da");
-      	$('#edit_email').siblings("span").text('');
-      }
-    }
-  });
- });
-
- $('#edit_technician_form').on('submit', function(e){
-  e.preventDefault();
-  if (e_username_state == false || e_email_state == false) {
-    $('.error_msg').text('Replace input on highlighted field/s.');
-
-  }else{
-     $('.error_msg').text('');
-     var form_data = $('#edit_technician_form').serialize();
-
-     // proceed with form submission
-     $.ajax({
-        url: '<?php echo base_url();?>userlist/update_user',
-        type: 'post',
-        data: form_data,
-        success: function(response){
-
-           Swal.fire({
-           title: 'User has been updated.',
-           type: 'success',
-           confirmButtonColor: '#3085d6',
-           cancelButtonColor: '#d33',
-           confirmButtonText: 'OK'
-          }).then((result) => {
-            location.reload();
-          })
-        }
-     });
-  }
-});
+//  $('#edit_technician_form').on('submit', function(e){
+//   e.preventDefault();
+//   if (e_username_state == false || e_email_state == false) {
+//     $('.error_msg').text('Replace input on highlighted field/s.');
+//
+//   }else{
+//      $('.error_msg').text('');
+//      var form_data = $('#edit_technician_form').serialize();
+//
+//      // proceed with form submission
+//      $.ajax({
+//         url: '</?php echo base_url();?>userlist/update_user',
+//         type: 'post',
+//         data: form_data,
+//         success: function(response){
+//
+//            Swal.fire({
+//            title: 'User has been updated.',
+//            type: 'success',
+//            confirmButtonColor: '#3085d6',
+//            cancelButtonColor: '#d33',
+//            confirmButtonText: 'OK'
+//           }).then((result) => {
+//             location.reload();
+//           })
+//         }
+//      });
+//   }
+// });
 
  // $('#add_technician_form').on('submit', function(e){
  //   e.preventDefault();
