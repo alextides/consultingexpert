@@ -2897,7 +2897,7 @@ Table-Layout
   color: #ffffff; }
 
 .table-striped tbody tr:nth-of-type(odd) {
-  background: #e9edf2; }
+  background: #ebf5ff; }
 
 .color-table.success-table thead th {
   background-color: #24d2b5;
@@ -4837,6 +4837,18 @@ a.status_user, a.status_file, a.edit_user, a.edit_file, a.delete_user, a.delete_
 
 button {
    cursor: pointer;
+}
+
+.blue-btn {
+   background: #0f66bd !important;
+}
+
+#addUserLabel, #editProductLabel {
+    margin: auto;
+}
+
+.modal-content .modal-header .close {
+    margin: -1rem -1rem -1rem -1rem;
 }
 
 /* media queries */

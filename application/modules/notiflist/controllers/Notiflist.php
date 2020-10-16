@@ -29,7 +29,7 @@ class Notiflist extends MY_Controller {
 		// echo "<pre>";
 		// print_r($data);
 		// exit();
-    $this->load_page2('index', $data, 'nl_footer.php');
+    $this->load_page2('index', $data, 'nl_footer.php', 'nl_header.php');
 	}
 	public function mark_all_as_read(){
 		$this->db->

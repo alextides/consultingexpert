@@ -47,7 +47,7 @@ $(document).ready(function(e){
               type : 'POST',
             },
       });
-  });
+
 
   $(document).on('click','.add-technician',function(e){
      $('#addUser').modal('show');
@@ -169,11 +169,13 @@ $(document).ready(function(){
            cancelButtonColor: '#d33',
            confirmButtonText: 'OK'
           }).then((result) => {
-            location.reload();
+            data_table.ajax.reload();
           })
         }
      });
   }
+});
+
 });
 // edit user validation
  // $('#edit_username').on('blur', function(){
