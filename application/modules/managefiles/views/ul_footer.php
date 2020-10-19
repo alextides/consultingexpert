@@ -50,7 +50,34 @@
       });
    });
 
-   $('#editFilesForm').on('submit', function(e) { //edit file
+   $(document).on('click', '.edit_file', function(e) { //edit button - view files by user_id
+      e.preventDefault();
+      var data_id = $(this).attr('data-id');
+      let new_array = [];
+      let checker = '';
+
+      var base_url = "<?php echo base_url(); ?>managefiles/edit_file/";
+      $.ajax({
+         type: "GET",
+         url: base_url + data_id,
+         success: function(data) {
+            let result = JSON.parse(data);
+            $('[name="file_title"]').val(result[0].file_title);
+            $('[name="file_name"]').val(result[0].file_name);
+            $('[name="fk_user_id"]').val(result[0].fk_user_id);
+            $('[name="file_id"]').val(result[0].file_id);
+            // $('[name="uploaded_by"]').val(result[0].uploaded_by);
+
+            $('#editFileModal').modal('show');
+         },
+         error: function(data) {
+            alert(data);
+         }
+      });
+
+   });
+
+   $('#editFilesForm').on('submit', function(e) { //update button - Manage Files
       e.preventDefault();
       $('.error_msg').text('');
       var form_data = $('#editFilesForm').serialize();
@@ -78,33 +105,6 @@
 
    $(document).on('click', '.add-technician', function(e) {
       $('#addUser').modal('show');
-
-   });
-
-
-   $(document).on('click', '.edit_file', function(e) {
-      e.preventDefault();
-      var data_id = $(this).attr('data-id');
-      let new_array = [];
-      let checker = '';
-
-      var base_url = "<?php echo base_url(); ?>managefiles/edit_file/";
-      $.ajax({
-         type: "GET",
-         url: base_url + data_id,
-         success: function(data) {
-            let result = JSON.parse(data);
-            $('[name="file_name"]').val(result[0].file_name);
-            $('[name="date_uploaded"]').val(result[0].date_uploaded);
-            $('[name="file_id"]').val(result[0].file_id);
-            // $('[name="uploaded_by"]').val(result[0].uploaded_by);
-
-            $('#editFileModal').modal('show');
-         },
-         error: function(data) {
-            alert(data);
-         }
-      });
 
    });
 
