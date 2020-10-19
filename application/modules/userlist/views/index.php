@@ -8,7 +8,7 @@
                <h3 class="text-themecolor page-title-text">User List</h3>
            </div>
            <div class="col-md-7 align-self-center text-right center-container">
-             <button type="button" class="btn btn-btn-mod add-technician" data-id="1"><i class="fa fa-plus-circle"></i> Create New User</button>
+             <button type="button" class="btn btn-primary blue-btn add-technician" data-id="1"><i class="fa fa-plus-circle"></i> Create New User</button>
              <!-- <button type="button" class="btn btn-btn-mod" data-toggle="modal" data-target="#addUser"><i class="fa fa-plus-circle"></i> Create New Technician</button> -->
          </div>
       </div>
@@ -101,7 +101,7 @@
             </div>
             <div class="modal-footer">
                <span class="error_msg" style="color: red; font-size: 15px; margin-left: 0; width: 100%;"></span>
-               <button type="submit" class="btn btn-btn-mod">Submit</button>
+               <button type="submit" class="btn btn-primary blue-btn">Submit</button>
             </div>
          </form>
        </div>
@@ -177,7 +177,7 @@
             </div>
             <div class="modal-footer">
                <span class="error_msg" style="color: red; font-size: 15px; margin-left: 0; width: 100%;"></span>
-               <button type="submit" name="edit_user" class="btn btn-btn-mod">Submit</button>
+               <button type="submit" name="edit_user" class="btn btn-primary blue-btn">Submit</button>
             </div>
          </form>
        </div>

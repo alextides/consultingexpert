@@ -60,6 +60,14 @@
                 <!-- ============================================================== -->
                 <!-- Profile -->
                 <!-- ============================================================== -->
+                <li class="nav-item dropdown">
+                   <a class="nav-link waves-effect waves-dark" href="<?= base_url("notiflist") ?>"> <i class="icon-Bell"></i>
+                        <div class="notify">
+                           <span class="heartbit"></span>
+                           <span class="point"></span>
+                        </div>
+                   </a>
+                </li>
                 <li class="nav-item dropdown u-pro">
                     <a class="nav-link dropdown-toggle waves-effect waves-dark profile-pic" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-sign-out-alt"></i><span class="hidden-md-down"> &nbsp;<i class="fa fa-angle-down"></i></span> </a>
                     <div class="dropdown-menu dropdown-menu-right animated flipInY">
