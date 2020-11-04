@@ -13,13 +13,13 @@ error_reporting(E_ALL);
 ////////////////////////////////////////////////////////
 
 define('TEST_MODE', true);
-define('COMPANY_NAME', 'COMPANY_NAME');
-define('FORM_NAME', 'Donation/Sponsorship/Payment');
+define('COMPANY_NAME', 'Renaissance Health Institute');
+define('FORM_NAME', 'Payment');
 
-define('DONATION', true);
+define('DONATION', false);
 
 // test if e-mail functionality is working. If TEST_EMAIL = true, make sure $gateways are false
-define('TEST_EMAIL', true);
+define('TEST_EMAIL', false);
 
 
 if(DONATION){

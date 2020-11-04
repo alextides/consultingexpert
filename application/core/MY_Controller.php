@@ -66,7 +66,7 @@ class MY_Controller extends MX_Controller {
 		$this->session->set_flashdata('swals', $load);
 	}
 
-	public function sendmail($to_email='prospteam@gmail.com',$from_name='Consulting Experts LLC',$subject='Email Notification',$message='Sample Message Here',$use_html_template=true){
+	public function sendmail1($to_email='prospteam@gmail.com',$from_name='Consulting Experts LLC',$subject='Email Notification',$message='Sample Message Here',$use_html_template=true){
 		$this->load->library('email');
 		$config = array(
 			'protocol' => 'smtp',
@@ -95,5 +95,37 @@ class MY_Controller extends MX_Controller {
 		}
 
 		return $this->email->send();
+   }
+	//send email
+	function sendmail($to_email = 'prospteam@gmail.com', $from_name = 'Consulting Experts LLC', $subject = 'Email Notification', $message = '', $use_html_template = false, $cc = "")
+	{
+
+		$config = array(
+			'protocol'    => 'SMTP',
+			'smtp_host'   => 'secure.emailsrvr.com',
+			'smtp_port'   => 587,
+			'smtp_user'   => 'onlineform6@proweaver.net',
+			'smtp_pass'   => '#@pPzT1mGw@F0',
+			'mailtype'    => 'html',
+			'charset'     => 'iso-8859-1',
+			'wordwrap'    => TRUE,
+			'set_newline' => "\r\n"
+		);
+		$this->load->library('email');
+		$this->email->initialize($config);
+		if ($use_html_template) {
+			$this->email->set_mailtype("html");
+		}
+		$this->email->set_newline("\r\n");
+		$this->email->to($to_email);
+		!empty($cc) ? $this->email->cc($cc) : "";
+		$this->email->from('prospteam@gmail.com', $from_name);
+		$this->email->subject($subject);
+		$this->email->message($message);
+		if ($this->email->send()) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 }

@@ -109,7 +109,8 @@
                     <li> <a class="waves-effect " href="<?= base_url("userlist") ?>" aria-expanded="false"><i class="icon-User"></i><span class="hide-menu">Manage Users</span></a></li>
                     <li> <a class="waves-effect " href="<?= base_url("managefiles") ?>" aria-expanded="false"><i class="icon-Files"></i><span class="hide-menu">Manage Files</span></a> </li>
                     <li> <a class="waves-effect " href="<?= base_url("formlist") ?>" aria-expanded="false"><i class="icon-Files"></i><span class="hide-menu">Form List</span></a> </li>
-                    <!-- <li> <a class="waves-effect " href="</?= base_url("tasklist") ?>" aria-expanded="false"><i class="icon-Files"></i><span class="hide-menu">Task List</span></a> </li> -->
+                    <li> <a class="waves-effect " href="<?= base_url("managesubscription") ?>" aria-expanded="false"><i class="icon-Files"></i><span class="hide-menu">Subscription</span></a> </li>
+                    <li> <a class="waves-effect " href="<?= base_url("manageorderawebsite") ?>" aria-expanded="false"><i class="icon-Files"></i><span class="hide-menu">Order Website</span></a> </li>
                     <!-- <li> <a class="has-arrow waves-effect" href="javascript:;" aria-expanded="false"><i class="icon-El-Castillo"></i><span class="hide-menu">Multi level dd</span></a>
                     <ul aria-expanded="false" class="collapse">
                         <li><a href="javascript:;">item 1.1</a></li>

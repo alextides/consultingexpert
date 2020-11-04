@@ -6,6 +6,20 @@
    .btn.btn-primary.uploadfile-btn {
       background: #0f66bd;
    }
+
+   .btn.btn-primary.update_file {
+      background: #0f66bd;
+   }
+
+   .btn.btn-danger.btn-xs.delete_file {
+      background: #0b4d8e;
+      border: none;
+   }
+
+   .btn.btn-success.btn-xs.edit_file {
+      background: #1380ec;
+      border: none;
+   }
 </style>
 <div class="page-wrapper" id="vueapp">
    <!-- ============================================================== -->
@@ -28,7 +42,8 @@
                      <table id="filelist_datatable" class="table table-striped jambo_table bulk_action dt-responsive" style="width: 100% !important;">
                         <thead>
                            <tr>
-                              <th>File Name</th>
+                              <th>File Title</th>
+                              <th>File</th>
                               <th>Date Uploaded</th>
                               <th>Assigned To</th>
                               <th>Action</th>
@@ -57,29 +72,31 @@
             <form method="post" enctype="multipart/form-data" action="<?= base_url("managefiles/upload_file") ?>" id="addFileForm">
                <div class="modal-body">
                   <div class="form-group ">
-                     <div class="row">
-                        <div class="col-md-12">
+                     <div class="form-group row">
+                        <label class="col-md-2 col-form-label">File Title: </label>
+                        <div class="col-md-10">
+                           <input type="text" id="add_file_title" name="add_file_title" class="form-control" placeholder="Input file title" required="">
+                        </div>
+                     </div>
+                  </div>
+                  <div class="form-group ">
+                     <div class="form-group row">
+                        <label class="col-md-2 col-form-label">Add File: </label>
+                        <div class="col-md-10">
                            <input type="file" size="20" id="file_upload" name="file_upload" class="form-control" required="">
                         </div>
                      </div>
                   </div>
-                  <?php //$this->session->userdata('user_id') 
-                  ?>
-
                   <div class="form-group ">
-                     <div class="row">
-                        <div class="col-md-12">
-                           <label for="assign_file">Assign to:</label>
-
+                     <div class="form-group row">
+                        <label class="col-md-2 col-form-label">Assign To: </label>
+                        <div class="col-md-10">
                            <select class="custom-select" id="assign_file" name="assign_file" required>
-
                               <option selected disabled value="">Select User</option>
                               <?php foreach ($users as $row) { ?>
                                  <option id="assign_file" name="assign_file" value="<?php echo $row['user_id']; ?>"><?php echo $row['first_name']; ?> <?php echo $row['last_name']; ?></option>
                               <?php } ?>
-
                            </select>
-
                         </div>
                      </div>
                   </div>
@@ -102,22 +119,35 @@
          <div class="modal-dialog">
             <div class="modal-content">
                <div class="modal-header">
-                  <h5 class="modal-title" id="editFileModalLabel">Modal title</h5>
+                  <h5 class="modal-title" id="editFileModalLabel"><i class="icon-File"></i> Edit File</h5>
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                      <span aria-hidden="true">&times;</span>
                   </button>
                </div>
                <div class="modal-body">
+                  <input id="file_id" type="hidden" name="file_id" value="">
                   <div class="form-group row">
-                     <label class="col-md-2 col-form-label">File Name*</label>
+                     <label class="col-md-2 col-form-label">File Title: </label>
                      <div class="col-md-10">
-                        <input type="text" name="file_name" id="file_name" class="form-control" placeholder="file_name" required>
+                        <input type="text" name="file_title" id="file_title" class="form-control" required>
                      </div>
                   </div>
                   <div class="form-group row">
-                     <label class="col-md-2 col-form-label">Date Uploaded*</label>
+                     <label class="col-md-2 col-form-label">File:</label>
                      <div class="col-md-10">
-                        <input type="text" name="date_uploaded" id="date_uploaded" class="form-control" placeholder="date_uploaded" required>
+                        <input type="text" name="file" id="file" class="form-control" disabled>
+                     </div>
+                  </div>
+                  <div class="form-group row">
+                     <label class="col-md-2 col-form-label">Update File:</label>
+                     <div class="col-md-10">
+                        <input type="file" name="file_upload" id="file_upload" class="form-control" placeholder="file_name">
+                     </div>
+                  </div>
+                  <div class="form-group row">
+                     <label class="col-md-2 col-form-label">Assigned To:</label>
+                     <div class="col-md-10">
+                        <input type="text" name="fk_user_id" id="fk_user_id" class="form-control" disabled>
                      </div>
                   </div>
                   <!-- <div class="form-group row">
@@ -129,7 +159,7 @@
                </div>
                <div class="modal-footer">
                   <button type="submit" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                  <button type="submit" class="btn btn-primary">Update</button>
+                  <button type="submit" class="btn btn-primary update_file">Update</button>
                   <input type="hidden" name="file_id" id="file_id">
                </div>
             </div>

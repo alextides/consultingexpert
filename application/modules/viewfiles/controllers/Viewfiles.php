@@ -6,7 +6,7 @@ class Viewfiles extends MY_Controller {
 
    public function index(){
          // $data['technicianlist'] = 1;
-         $data['title'] = 'Manage Files';
+         $data['title'] = 'View Files';
          $this->load_page2('viewfiles',$data,'ul_footer.php','ul_header.php');
    }
 
@@ -71,7 +71,7 @@ class Viewfiles extends MY_Controller {
       }
 
       $valid_columns = array(
-         1 => 'file_name',
+         1 => 'file',
          2 => 'date_uploaded',
          3 => 'first_name',
       );
@@ -100,24 +100,25 @@ class Viewfiles extends MY_Controller {
       }
 
       $files = $this->db
-      ->select('*')
-      ->from('ci_filelist')
-      ->where('file_status', '1')
-      ->where('delete_status', '0')
-      ->join('ci_userdata', 'ci_userdata.userdata_id = ci_filelist.fk_user_id')
-      ->get();
+         ->select('*')
+         ->from('ci_filelist')
+         ->where('file_status', '1')
+         ->where('delete_status', '0')
+         ->join('ci_userdata', 'ci_userdata.fk_user_id = ci_filelist.fk_user_id')
+         ->get();
 
       $data = array();
 
       foreach ($files->result() as $r) {
          $action_btn = false;
-         $action_btn .= "<a class='btn btn-success btn-xs' data-id=".$r->file_id." href='javascript:void(0)'>Button</a>";
-         $action_btn .= "<a class='btn btn-danger btn-xs' href='".base_url(''.$r->file_id)."'>Button</a>";
+         $action_btn .= "<a class='btn btn-success btn-xs edit_file' data-id=" . $r->file_id . " href='javascript:void(0)'>View</a>";
+         // $action_btn .= "<a class='btn btn-danger btn-xs delete_file' href='" . base_url('managefiles/delete_file/' . $r->file_id) . "'>Delete</a>";
 
-         $data[] = array(
-            $r->file_name,
+         $data[] = array( //display data from database on Manage Files datatable
+            $r->file_title,
+            $r->file,
             $r->date_uploaded,
-            $r->first_name,
+            // $r->first_name,
             $action_btn
          );
       }

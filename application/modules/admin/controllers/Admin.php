@@ -26,6 +26,15 @@ class Admin extends MY_Controller
 		$this->load_page('managefiles', $data, 'mf_footer.php', 'mf_header.php');
 	}
 
+
+	public function managesubscription()
+	{
+		$data["title"] = "Admin Manage Subscription";
+		$data["pagename"] = "Manage Subscription";
+		// $data['files'] = $this->getfiles();
+		$this->load_page('managesubscription', $data, 'mf_footer.php', 'mf_header.php');
+	}
+
 	public function getfiles() {
 		$param["select"] = "file_name, date_uploaded, file_id, ci_userdata.first_name";
 		$param["where"] = array("file_status" => 1);
