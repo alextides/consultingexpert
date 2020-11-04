@@ -8,11 +8,30 @@
      .Login-title {
          text-align: center;
          margin-bottom: 30px;
+         margin-top: -20px;
      }
 
      .login-box {
          width: 470px;
-        }
+     }
+
+     .form-control.login_input {
+         padding: 30px;
+         margin-bottom: 5px;
+         background: #f2f2f2;
+     }
+
+     .card-body {
+         border-radius: 27px !important;
+     }
+
+     .login-box.card {
+         border-radius: 27px;
+     }
+
+     .btn.btn-block.btn-lg.btn-info.btn-rounded {
+         height: 62px;
+     }
  </style>
  <div class="preloader">
      <div class="loader">
@@ -39,14 +58,14 @@
                      <div class="form-group ">
                          <div class="col-xs-12">
                              <input class="form-control login_input" type="text" required="" name="username" placeholder="Username"> </div>
-                     </div>
-                     <div class="form-group">
+                         <!-- </div>
+                     <div class="form-group"> -->
                          <div class="col-xs-12">
                              <input class="form-control login_input" type="password" required="" name="password" placeholder="Password"> </div>
                      </div>
 
                      <div class="form-group text-center ">
-                         <div class="col-xs-12 p-b-20 " style="margin-top:20px;">
+                         <div class="col-xs-12 p-b-20">
                              <button class="btn btn-block btn-lg btn-info btn-rounded" type="submit">Log In</button>
                              <div class="register-link">Doesn't have an account yet? <a href="register">Register</a></div>
                          </div>

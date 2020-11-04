@@ -37,14 +37,14 @@
    $(document).ready(function(e) { //view files uploaded
       var filter_user_type = "";
       var base_url = "<?php echo base_url(); ?>";
-      var data_table = $('#filelist_datatable').DataTable({
+      var data_table = $('#subscription_datatable').DataTable({
          "pageLength": 10,
          "serverSide": true,
          "order": [
             [0, "asc"]
          ],
          "ajax": {
-            url: base_url + 'managefiles/getfiles',
+            url: base_url + 'managesubscription/getsubscription',
             type: 'POST',
          },
       });

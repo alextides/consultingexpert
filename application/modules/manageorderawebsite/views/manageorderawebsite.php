@@ -28,10 +28,10 @@
    <div class="container-fluid">
       <div class="row page-titles">
          <div class="col-md-5 align-self-center">
-            <h3 class="text-themecolor page-title-text">Manage Files</h3>
+            <h3 class="text-themecolor page-title-text">Manage Order a Website</h3>
          </div>
          <div class="col-md-7 align-self-center text-right d-none d-md-block">
-            <button type="button" class="btn btn-primary addfile-btn" data-toggle="modal" data-target="#addFileModal"><i class="fa fa-plus-circle"></i> Add File</button>
+            <!-- <button type="button" class="btn btn-primary addfile-btn" data-toggle="modal" data-target="#addFileModal"><i class="fa fa-plus-circle"></i> Add File</button> -->
          </div>
       </div>
       <div class="row">
@@ -39,13 +39,17 @@
             <div class="card">
                <div class="card-body">
                   <div class="table-responsive">
-                     <table id="filelist_datatable" class="table table-striped jambo_table bulk_action dt-responsive" style="width: 100% !important;">
+                     <table id="orderawebsite_datatable" class="table table-striped jambo_table bulk_action dt-responsive" style="width: 100% !important;">
                         <thead>
                            <tr>
-                              <th>File Title</th>
-                              <th>File</th>
-                              <th>Date Uploaded</th>
-                              <th>Assigned To</th>
+                              <th>User ID</th>
+                              <th>Transaction ID</th>
+                              <th>Paid Amount</th>
+                              <th>Date Paid</th>
+                              <th>Company Name</th>
+                              <th>Website Link</th>
+                              <th>Company Info</th>
+                              <th>Status</th>
                               <th>Action</th>
                            </tr>
                         </thead>

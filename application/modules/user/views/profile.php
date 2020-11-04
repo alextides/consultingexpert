@@ -88,12 +88,13 @@
                         <?php $user = $this->session->userdata(); ?>
                         <form class="form-material m-t-40" method="post" id="profileform" action="<?= base_url("user/update_profile"); ?>">
                             <?php foreach ($user_info as $row) { ?>
+                                <input id="user_id" type="hidden" name="user_id" value="">
                                 <div class="row">
                                     <div class="form-row">
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>First Name </label>
-                                                <input name="first_name" value="<?php echo $row['first_name']; ?>" type="text" class="form-control form-control-line" required>
+                                                <input name="first_name" id="first_name" value="<?php echo $row['first_name']; ?>" type="text" class="form-control form-control-line" required>
                                                 <div class="public-private-profile">
                                                     <input type="radio" id="public_first_name" name="public_private" value="Public Account">
                                                     <label for="public_first_name" class="label-public">Public</label>
@@ -117,7 +118,7 @@
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <label>Email Address </label>
-                                                <input name="email" value="<?php echo $row['email']; ?>" type="email" class="form-control form-control-line" required>
+                                                <input name="email" id="email" value="<?php echo $row['email']; ?>" type="email" class="form-control form-control-line" required>
                                                 <div class="public-private-profile">
                                                     <input type="radio" id="public_email" name="public_private" value="Public Account">
                                                     <label for="public_email" class="label-public">Public</label>

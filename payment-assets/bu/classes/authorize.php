@@ -46,7 +46,7 @@ class Authorize
 		  foreach ($params as $key => $value)
 		    $postString .= $key.'='.urlencode($value).'&';
 		  $postString = trim($postString, '&');
-			
+
 		  //foreach( $line_items as $value )
 		    //{ $postString .= "&x_line_item=" . urlencode( $value ); }
 

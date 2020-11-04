@@ -1,57 +1,15 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Managefiles extends MY_Controller
+class Manageorderawebsite extends MY_Controller
 {
 
 
    public function index()
    {
-      // $data['technicianlist'] = 1;
-      $data['title'] = 'Manage Files';
+      $data['title'] = 'Manage Subscription';
       $data['users'] = $this->getusers();
-      $this->load_page2('managefiles', $data, 'ul_footer.php', 'ul_header.php');
-   }
-
-   public function upload_file()
-   {
-      $post = $this->input->post();
-      $param = array(
-         'select' => '*',
-         'where' => array('file' => $_FILES['file_upload']['name']),
-      );
-      $res =  $this->MY_Model->getRows("ci_filelist", $param);
-      if (!empty($res)) {
-         $resmsg = array("err" => true, "msg" => "This file is already uploaded!");
-         $this->session->set_flashdata('res_err', $resmsg);
-      } else {
-         $config['upload_path'] = './assets/uploads/';
-         $config['allowed_types'] = 'gif|jpg|png|pdf|txt|docx|doc';
-         // $config['max_size'] = 2000;
-         // $config['max_width'] = 1500;
-         // $config['max_height'] = 1500;
-         $this->load->library('upload', $config);
-         if (!$this->upload->do_upload('file_upload')) {
-            $resmsg = array("err" => true, "msg" => $this->upload->display_errors());
-            $this->session->set_flashdata('res_err', $resmsg);
-         } else {
-            $file = array(
-               'file_title' => $post["add_file_title"],
-               'file' => $this->upload->data('file_name'),
-               'uploaded_by' => 1,
-               'fk_user_id' => $post["assign_file"],
-               'date_uploaded' => date("Y-m-d H:i:s"),
-               'file_status' => 1,
-            );
-            $res = $this->MY_Model->insert('ci_filelist', $file);
-            if ($res) {
-               $this->errmsg = "";
-               $resmsg = array("err" => false, "msg" => "Uploaded Successfully!");
-               $this->session->set_flashdata('res_err', $resmsg);
-            }
-         }
-      }
-      redirect(base_url("managefiles"));
+      $this->load_page2('manageorderawebsite', $data, 'moaw_footer.php', 'moaw_header.php');
    }
 
    public function getusers()
@@ -64,33 +22,7 @@ class Managefiles extends MY_Controller
       return $query;
    }
 
-   public function edit_file($id = ''){
-      $result = $this->db
-      ->select('*')
-      ->from('ci_filelist')
-      ->where('file_id', $id)
-      ->join('ci_userdata', 'ci_userdata.fk_user_id = ci_filelist.fk_user_id')
-      ->get()
-      ->result_array();
-
-      echo json_encode($result);
-      exit();
-   }
-
-   public function update_file()
-   {
-      $this->db->
-      set('file_title', $_POST['file_title'])->
-      set('file', $_POST['update_file'])->
-      where('file_id', $_POST['file_id'])->
-      update('ci_filelist');
-      $uid = $this->db->insert_id();
-
-      $this->session->set_userdata('swal', 'File record has been updated.');
-      redirect('managefiles');
-   }
-
-   public function getfiles()
+   public function getorderawebsite()
    {
       $draw = intval($this->input->post("draw"));
       $start = intval($this->input->post("start"));
@@ -113,9 +45,14 @@ class Managefiles extends MY_Controller
       }
 
       $valid_columns = array(
-         1 => 'file',
-         2 => 'date_uploaded',
-         3 => 'first_name',
+         1 => 'fk_user_id',
+         2 => 'transaction_id',
+         3 => 'paid_amount',
+         4 => 'date_paid',
+         5 => 'company_name', 
+         6 => 'website_link', 
+         7 => 'company_info',
+         8 => 'orderawebsite_status',
       );
 
       if (!isset($valid_columns[$col])) {
@@ -141,34 +78,39 @@ class Managefiles extends MY_Controller
          $this->db->group_end();
       }
 
-      $files = $this->db
+      $oaw = $this->db
          ->select('*')
-         ->from('ci_filelist')
-         ->where('file_status', '1')
-         ->where('delete_status', '0')
-         ->join('ci_userdata', 'ci_userdata.fk_user_id = ci_filelist.fk_user_id')
+         ->from('ci_orderawebsite')
+         ->where('orderawebsite_status', '1')
+         // ->where('delete_status', '0')
+         ->join('ci_userdata', 'ci_userdata.fk_user_id = ci_orderawebsite.fk_user_id')
          ->get();
 
       $data = array();
 
-      foreach ($files->result() as $r) {
+      foreach ($oaw->result() as $r) {
          $action_btn = false;
-         $action_btn .= "<a class='btn btn-success btn-xs edit_file' data-id=" . $r->file_id . " href='javascript:void(0)'>Edit</a>";
-         $action_btn .= "<a class='btn btn-danger btn-xs delete_file' href='" . base_url('managefiles/delete_file/' . $r->file_id) . "'>Delete</a>";
+         $action_btn .= "<a class='btn btn-success btn-xs edit_file' data-id=" . $r->orderawebsite_id . " href='javascript:void(0)'>View Details</a>";
+         // $action_btn .= "<a class='btn btn-danger btn-xs delete_file' href='" . base_url('managefiles/delete_file/' . $r->orderawebsite_id) . "'>Delete</a>";
 
          $data[] = array( //display data from database on Manage Files datatable
-            $r->file_title,
-            $r->file,
-            $r->date_uploaded,
-            $r->first_name,
+            $r->fk_user_id,
+            $r->transaction_id,
+            $r->paid_amount, 
+            // $r->payment_for,
+            $r->date_paid, 
+            $r->company_name, 
+            $r->website_link,
+            $r->company_info,
+            $r->orderawebsite_status,
             $action_btn
          );
       }
 
       $output = array(
          "draw" => $draw,
-         "recordsTotal" => $files->num_rows(),
-         "recordsFiltered" => $files->num_rows(),
+         "recordsTotal" => $oaw->num_rows(),
+         "recordsFiltered" => $oaw->num_rows(),
          "data" => $data
       );
       echo json_encode($output);
