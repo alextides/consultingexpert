@@ -1,24 +1,24 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Userlist extends MY_Controller {
+class Tasklist extends MY_Controller {
 
 
    public function index(){
 
-         $data['userlist'] = 1;
-         $data['title'] = 'Manage Users';
+         $data['tasklist'] = 1;
+         $data['title'] = 'Manage Tasks';
 
          // echo "<pre>";
          // print_r($result);
          // exit;
 
 
-         $this->load_page2('index',$data,'ul_footer.php','ul_header.php');
+         $this->load_page2('index',$data,'tl_footer.php','tl_header.php');
       	// $this->load_page('index', $data);
    }
 
-	public function view_users()
+	public function view_tasks()
 	{
       // Datatables Variables
          $draw = intval($this->input->post("draw"));
@@ -99,12 +99,12 @@ class Userlist extends MY_Controller {
           foreach($users->result() as $r) {
             // if($this->session->userdata('type') != 'admin'){
                 if ($r->activity_status == "1") {
-      				   $action_btn = "<a class='btn btn-warning btn-xs status_user' href='".base_url('userlist/deactivate_user/'.$r->user_id)."'>Deactivate</a>";
+      				   $action_btn = "<a class='btn btn-warning btn-xs status_user' href='".base_url('tasklist/deactivate_user/'.$r->user_id)."'>Deactivate</a>";
            			}else{
-           				$action_btn = "<a class='btn btn-primary btn-xs status_user' href='".base_url('userlist/activate_user/'.$r->user_id)."'>Activate</a>";
+           				$action_btn = "<a class='btn btn-primary btn-xs status_user' href='".base_url('tasklistactivate_user/'.$r->user_id)."'>Activate</a>";
            			}
            			$action_btn .= "<a class='btn btn-success btn-xs edit_user' data-id=".$r->user_id." href='javascript:void(0)'>Edit</a>";
-           			$action_btn .= "<a class='btn btn-danger btn-xs delete_user' href='".base_url('userlist/delete_user/'.$r->user_id)."'>Delete</a>";
+           			$action_btn .= "<a class='btn btn-danger btn-xs delete_user' href='".base_url('tasklistdelete_user/'.$r->user_id)."'>Delete</a>";
             // }
             // if($this->session->userdata('type') != 'admin'){
             //      $data[] = array(
@@ -156,7 +156,7 @@ class Userlist extends MY_Controller {
 		->update('ci_users');
 
 		$this->session->set_userdata('swal','User activated successfully.');
-		redirect('userlist');
+		redirect('tasklist');
 	}
 	public function deactivate_user($id='')
 	{
@@ -166,7 +166,7 @@ class Userlist extends MY_Controller {
       ->update('ci_users');
 
 		$this->session->set_userdata('swal','User deactivated successfully.');
-      redirect('userlist');
+      redirect('tasklist');
 
 	}
 
@@ -256,10 +256,10 @@ class Userlist extends MY_Controller {
 
 		if($result_un){
 			$this->session->set_userdata('swal', 'Username already exists.');
-         redirect('userlist');
+         redirect('tasklist');
 		}else if($result_email){
 			$this->session->set_userdata('swal', 'Email already exists.');
-         redirect('userlist');
+         redirect('tasklist');
 		}else {
 			// $pw = password_hash($_POST['password'], PASSWORD_DEFAULT);
 
@@ -285,7 +285,7 @@ class Userlist extends MY_Controller {
 			insert('ci_userdata');
 
 			$this->session->set_userdata('swal', 'New User has been added on the list.');
-			redirect('userlist');
+			redirect('tasklist');
 		}
 	}
 
@@ -310,10 +310,10 @@ class Userlist extends MY_Controller {
 
 		if($result_un){
 			$this->session->set_userdata('swal', 'Username already exists.');
-         redirect('userlist');
+         redirect('tasklist');
 		}else if($result_email){
 			$this->session->set_userdata('swal', 'Email already exists.');
-         redirect('userlist');
+         redirect('tasklist');
 		}else {
 			// $pw = password_hash($_POST['edit_password'], PASSWORD_DEFAULT);
 
@@ -340,7 +340,7 @@ class Userlist extends MY_Controller {
 			update('ci_userdata');
 
 			$this->session->set_userdata('swal', 'User record has been updated.');
-			redirect('userlist');
+			redirect('tasklist');
 		}
 	}
 
@@ -352,6 +352,6 @@ class Userlist extends MY_Controller {
 		update('ci_users');
 
 		$this->session->set_userdata('swal','User deleted successfully.');
-		redirect('userlist');
+		redirect('tasklist');
 	}
 }
