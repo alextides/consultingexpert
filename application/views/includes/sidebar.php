@@ -108,7 +108,7 @@
                     <li class="<?php if (!empty($pagename)) { echo "active"; } else { echo "not-active"; }  ?>"> <a class="waves-effect " href="<?= base_url("admin") ?>" aria-expanded="false"><i class="icon-Car-Wheel"></i><span class="hide-menu">Dashboard </span></a> </li>
                     <li> <a class="waves-effect " href="<?= base_url("userlist") ?>" aria-expanded="false"><i class="icon-User"></i><span class="hide-menu">Manage Users</span></a></li>
                     <li> <a class="waves-effect " href="<?= base_url("managefiles") ?>" aria-expanded="false"><i class="icon-Files"></i><span class="hide-menu">Manage Files</span></a> </li>
-                    <li> <a class="waves-effect " href="<?= base_url("formlist") ?>" aria-expanded="false"><i class="icon-Files"></i><span class="hide-menu">Form List</span></a> </li>
+                    <li> <a class="waves-effect " href="<?= base_url("formlist") ?>" aria-expanded="false"><i class="icon-Files"></i><span class="hide-menu">DDD Forms</span></a> </li>
                     <li> <a class="waves-effect " href="<?= base_url("managesubscription") ?>" aria-expanded="false"><i class="icon-Files"></i><span class="hide-menu">Subscription</span></a> </li>
                     <li> <a class="waves-effect " href="<?= base_url("manageorderawebsite") ?>" aria-expanded="false"><i class="icon-Files"></i><span class="hide-menu">Order Website</span></a> </li>
                     <!-- <li> <a class="has-arrow waves-effect" href="javascript:;" aria-expanded="false"><i class="icon-El-Castillo"></i><span class="hide-menu">Multi level dd</span></a>

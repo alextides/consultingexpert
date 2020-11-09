@@ -7,7 +7,7 @@ class Formlist extends MY_Controller {
    public function index(){
 
          $data['formlist'] = 1;
-         $data['title'] = 'Manage Forms';
+         $data['title'] = 'DDD Application Form List';
 
          // echo "<pre>";
          // print_r($result);

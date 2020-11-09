@@ -5,7 +5,7 @@
    <div class="container-fluid">
       <div class="row page-titles">
            <div class="col-md-5 align-self-center">
-               <h3 class="text-themecolor page-title-text">Form List</h3>
+               <h3 class="text-themecolor page-title-text">DDD Application Form List</h3>
            </div>
            <div class="col-md-7 align-self-center text-right center-container">
              <!-- <button type="button" class="btn btn-btn-mod" data-toggle="modal" data-target="#addUser"><i class="fa fa-plus-circle"></i> Create New Technician</button> -->
@@ -123,6 +123,280 @@
                      <label for="uinvoice">Upload Paid Invoice</label>
                      <input type="file" id="uinvoice" name="uinvoice" class="form-control" required>
                  </div>
+               </div>
+            </div>
+            <div class="modal-footer">
+               <span class="error_msg" style="color: red; font-size: 15px; margin-left: 0; width: 100%;"></span>
+               <button type="submit" class="btn btn-primary blue-btn">Submit</button>
+            </div>
+         </form>
+       </div>
+     </div>
+   </div>
+
+   <!-- 3rd Step -->
+   <div class="modal fade" id="modal_step_3" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+     <div class="modal-dialog" role="document">
+       <div class="modal-content">
+         <div class="modal-header">
+           <h5 class="modal-title" id="addUserLabel" style="font-weight: bold;">Step 3 Form (With Agency)</h5>
+           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+             <span aria-hidden="true">&times;</span>
+           </button>
+         </div>
+         <form id="add_technician_form" action="<?php echo base_url(); ?>userlist/add_user" method="post">
+            <div class="modal-body">
+               <h2>Website:</h2>
+               <br>
+               <h4>URL Prototypes:</h4>
+               <br>
+               <div class="form-row">
+                 <div class="form-group col-md-12">
+                     <label for="url_1">Prototype 1:</label>
+                     <input type="text" id="url_1" name="url_1" class="form-control" required>
+                 </div>
+                 <div class="form-group col-md-12">
+                     <label for="url_2">Prototype 2:</label>
+                     <input type="text" id="url_2" name="url_2" class="form-control" required>
+                 </div>
+                 <div class="form-group col-md-12">
+                     <label for="url_3">Prototype 3</label>
+                     <input type="text" id="url_3" name="url_3" class="form-control" required>
+                 </div>
+               </div>
+               <h2>Agency:</h2>
+               <br>
+               <div class="form-row">
+                  <div class="form-group col-md-6">
+                      <label for="uinvoice">IRS EIN: </label>
+                      <input type="text" id="uinvoice" name="uinvoice" class="form-control" required>
+                  </div>
+                 <div class="form-group col-md-6" style="text-align: center; margin-top: 28px;">
+                    <button type="submit" class="btn btn-primary blue-btn" id="irs" name="irs" required>View IRS EIN</button>
+                 </div>
+                 <div class="form-group col-md-6">
+                     <label for="uinvoice">Submitted: </label>
+                     <input type="text" id="uinvoice" name="uinvoice" class="form-control" required>
+                 </div>
+                 <div class="form-group col-md-6">
+                     <label for="uinvoice">Mailed: </label>
+                     <input type="text" id="uinvoice" name="uinvoice" class="form-control" required>
+                 </div>
+                 <div class="form-group col-md-6">
+                     <label for="uinvoice">Date Received:</label>
+                     <input type="text" id="uinvoice" name="uinvoice" class="form-control" required>
+                 </div>
+                 <div class="form-group col-md-6">
+                     <label for="uinvoice">Contract Specialist</label>
+                     <input type="text" id="uinvoice" name="uinvoice" class="form-control" required>
+                 </div>
+              </div>
+               <div class="form-row">
+                 <div class="form-group col-md-12" style="text-align: center;">
+                    <button type="submit" class="btn btn-primary blue-btn" id="irs" name="irs" required>View Notice of Incomplete Application</button>
+                 </div>
+                 <div class="form-group col-md-6">
+                     <label for="uinvoice">Due Date: </label>
+                     <input type="text" id="uinvoice" name="uinvoice" class="form-control" required>
+                 </div>
+                 <div class="form-group col-md-6">
+                     <label for="uinvoice">Business Plan: </label>
+                     <input type="text" id="uinvoice" name="uinvoice" class="form-control" required>
+                 </div>
+                 <div class="form-group col-md-12">
+                     <label for="uinvoice">Contigency Plan:</label>
+                     <input type="text" id="uinvoice" name="uinvoice" class="form-control" required>
+                 </div>
+               </div>
+               <div class="form-row">
+                 <div class="form-group col-md-12" style="text-align: center;">
+                    <button type="submit" class="btn btn-primary blue-btn" id="irs" name="irs" required>View Application Denial </button>
+                 </div>
+                 <div class="form-group col-md-6">
+                     <label for="uinvoice">Revisions Date: </label>
+                     <input type="text" id="uinvoice" name="uinvoice" class="form-control" required>
+                 </div>
+                 <div class="form-group col-md-6">
+                     <label for="uinvoice">Resubmitted Focus: </label>
+                     <input type="text" id="uinvoice" name="uinvoice" class="form-control" required>
+                 </div>
+                 <div class="form-group col-md-12">
+                     <label for="uinvoice">Mailed Date:</label>
+                     <input type="text" id="uinvoice" name="uinvoice" class="form-control" required>
+                 </div>
+               </div>
+               <div class="form-row">
+                 <div class="form-group col-md-6" style="text-align: center;">
+                    <button type="submit" class="btn btn-primary blue-btn" id="irs" name="irs" required>View Notice of Complete Application </button>
+                 </div>
+                 <div class="form-group col-md-6" style="text-align: center;">
+                    <button type="submit" class="btn btn-primary blue-btn" id="irs" name="irs" required> View Notice of Pre Award </button>
+                 </div>
+                 <div class="form-group col-md-6">
+                     <label for="uinvoice">Pre Award Date: </label>
+                     <input type="text" id="uinvoice" name="uinvoice" class="form-control" required>
+                 </div>
+                 <div class="form-group col-md-6" style="text-align: center; margin-top: 28px;">
+                    <button type="submit" class="btn btn-primary blue-btn" id="irs" name="irs" required> View Notice of Award </button>
+                 </div>
+               </div>
+            </div>
+            <div class="modal-footer">
+               <span class="error_msg" style="color: red; font-size: 15px; margin-left: 0; width: 100%;"></span>
+               <button type="submit" class="btn btn-primary blue-btn">Submit</button>
+            </div>
+         </form>
+       </div>
+     </div>
+   </div>
+
+   <!-- 3rd Step NOA-->
+   <div class="modal fade" id="modal_step_3_noa" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+     <div class="modal-dialog" role="document">
+       <div class="modal-content">
+         <div class="modal-header">
+           <h5 class="modal-title" id="addUserLabel" style="font-weight: bold;">Step 3 Form (No Agency)</h5>
+           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+             <span aria-hidden="true">&times;</span>
+           </button>
+         </div>
+         <form id="add_technician_form" action="<?php echo base_url(); ?>userlist/add_user" method="post">
+            <div class="modal-body">
+               <h2>Website:</h2>
+               <br>
+               <h4>URL Prototypes:</h4>
+               <br>
+               <div class="form-row">
+                 <div class="form-group col-md-12">
+                     <label for="url_1">Prototype 1:</label>
+                     <input type="text" id="url_1" name="url_1" class="form-control" required>
+                 </div>
+                 <div class="form-group col-md-12">
+                     <label for="url_2">Prototype 2:</label>
+                     <input type="text" id="url_2" name="url_2" class="form-control" required>
+                 </div>
+                 <div class="form-group col-md-12">
+                     <label for="url_3">Prototype 3</label>
+                     <input type="text" id="url_3" name="url_3" class="form-control" required>
+                 </div>
+               </div>
+               <h2>Agency:</h2>
+               <br>
+               <div class="form-row">
+                 <div class="form-group col-md-6">
+                     <label for="uinvoice">Submitted: </label>
+                     <input type="text" id="uinvoice" name="uinvoice" class="form-control" required>
+                 </div>
+                 <div class="form-group col-md-6">
+                     <label for="uinvoice">Mailed: </label>
+                     <input type="text" id="uinvoice" name="uinvoice" class="form-control" required>
+                 </div>
+                 <div class="form-group col-md-6">
+                     <label for="uinvoice">Date Received:</label>
+                     <input type="text" id="uinvoice" name="uinvoice" class="form-control" required>
+                 </div>
+                 <div class="form-group col-md-6">
+                     <label for="uinvoice">Contract Specialist</label>
+                     <input type="text" id="uinvoice" name="uinvoice" class="form-control" required>
+                 </div>
+              </div>
+               <div class="form-row">
+                 <div class="form-group col-md-12" style="text-align: center;">
+                    <button type="submit" class="btn btn-primary blue-btn" id="irs" name="irs" required>View Notice of Incomplete Application</button>
+                 </div>
+                 <div class="form-group col-md-6">
+                     <label for="uinvoice">Due Date: </label>
+                     <input type="text" id="uinvoice" name="uinvoice" class="form-control" required>
+                 </div>
+                 <div class="form-group col-md-6">
+                     <label for="uinvoice">Business Plan: </label>
+                     <input type="text" id="uinvoice" name="uinvoice" class="form-control" required>
+                 </div>
+                 <div class="form-group col-md-12">
+                     <label for="uinvoice">Contigency Plan:</label>
+                     <input type="text" id="uinvoice" name="uinvoice" class="form-control" required>
+                 </div>
+               </div>
+               <div class="form-row">
+                 <div class="form-group col-md-12" style="text-align: center;">
+                    <button type="submit" class="btn btn-primary blue-btn" id="irs" name="irs" required>View Application Denial </button>
+                 </div>
+                 <div class="form-group col-md-6">
+                     <label for="uinvoice">Revisions Date: </label>
+                     <input type="text" id="uinvoice" name="uinvoice" class="form-control" required>
+                 </div>
+                 <div class="form-group col-md-6">
+                     <label for="uinvoice">Resubmitted Focus: </label>
+                     <input type="text" id="uinvoice" name="uinvoice" class="form-control" required>
+                 </div>
+                 <div class="form-group col-md-12">
+                     <label for="uinvoice">Mailed Date:</label>
+                     <input type="text" id="uinvoice" name="uinvoice" class="form-control" required>
+                 </div>
+               </div>
+               <div class="form-row">
+                 <div class="form-group col-md-6" style="text-align: center;">
+                    <button type="submit" class="btn btn-primary blue-btn" id="irs" name="irs" required>View Notice of Complete Application </button>
+                 </div>
+                 <div class="form-group col-md-6" style="text-align: center;">
+                    <button type="submit" class="btn btn-primary blue-btn" id="irs" name="irs" required> View Notice of Pre Award </button>
+                 </div>
+                 <div class="form-group col-md-6">
+                     <label for="uinvoice">Pre Award Date: </label>
+                     <input type="text" id="uinvoice" name="uinvoice" class="form-control" required>
+                 </div>
+                 <div class="form-group col-md-6" style="text-align: center; margin-top: 28px;">
+                    <button type="submit" class="btn btn-primary blue-btn" id="irs" name="irs" required> View Notice of Award </button>
+                 </div>
+               </div>
+            </div>
+            <div class="modal-footer">
+               <span class="error_msg" style="color: red; font-size: 15px; margin-left: 0; width: 100%;"></span>
+               <button type="submit" class="btn btn-primary blue-btn">Submit</button>
+            </div>
+         </form>
+       </div>
+     </div>
+   </div>
+
+   <!-- 4th Step NOA-->
+   <div class="modal fade" id="modal_step_4" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+     <div class="modal-dialog" role="document">
+       <div class="modal-content">
+         <div class="modal-header">
+           <h5 class="modal-title" id="addUserLabel" style="font-weight: bold;">Step 4 Form</h5>
+           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+             <span aria-hidden="true">&times;</span>
+           </button>
+         </div>
+         <form id="add_technician_form" action="<?php echo base_url(); ?>userlist/add_user" method="post">
+            <div class="modal-body">
+               <h2>Agency:</h2>
+               <br>
+               <div class="form-row">
+                 <div class="form-group col-md-6">
+                     <label for="uinvoice">District: </label>
+                     <input type="text" id="uinvoice" name="uinvoice" class="form-control" required>
+                 </div>
+                 <div class="form-group col-md-6">
+                     <label for="uinvoice">AHCCCS Submitted: </label>
+                     <input type="text" id="uinvoice" name="uinvoice" class="form-control" required>
+                 </div>
+                 <div class="form-group col-md-6">
+                     <label for="uinvoice">AHCCCS Approved:</label>
+                     <input type="text" id="uinvoice" name="uinvoice" class="form-control" required>
+                 </div>
+                 <div class="form-group col-md-6" style="text-align: center; margin-top: 28px;">
+                   <button type="submit" class="btn btn-primary blue-btn" id="irs" name="irs" required>View OLCR Submitted</button>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="uinvoice">OLCR:</label>
+                    <input type="text" id="uinvoice" name="uinvoice" class="form-control" required>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="uinvoice">Contact:</label>
+                    <input type="text" id="uinvoice" name="uinvoice" class="form-control" required>
+                </div>
                </div>
             </div>
             <div class="modal-footer">

@@ -62,6 +62,19 @@ $(document).ready(function(e){
      $('#modal_step_2').modal('show');
 
   });
+  $(document).on('click','.step_3',function(e){
+     $('#modal_step_3').modal('show');
+
+  });
+  $(document).on('click','.step_3',function(e){
+     $('#modal_step_3_noa').modal('show');
+
+  });
+
+  $(document).on('click','.step_4',function(e){
+     $('#modal_step_4').modal('show');
+
+  });
 
 
   $(document).on('click','.edit_user',function(e){
