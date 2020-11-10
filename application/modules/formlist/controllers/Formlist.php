@@ -1,24 +1,24 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Userlist extends MY_Controller {
+class Formlist extends MY_Controller {
 
 
    public function index(){
 
-         $data['userlist'] = 1;
-         $data['title'] = 'Manage Users';
+         $data['formlist'] = 1;
+         $data['title'] = 'DDD Application Form List';
 
          // echo "<pre>";
          // print_r($result);
          // exit;
 
 
-         $this->load_page2('index',$data,'ul_footer.php','ul_header.php');
+         $this->load_page2('index',$data,'fl_footer.php','fl_header.php');
       	// $this->load_page('index', $data);
    }
 
-	public function view_users()
+	public function view_forms()
 	{
       // Datatables Variables
          $draw = intval($this->input->post("draw"));
@@ -47,10 +47,8 @@ class Userlist extends MY_Controller {
          $valid_columns = array(
    			1=>'first_name',
    			2=>'last_name',
-   			3=>'address',
-   			4=>'contact_number',
-   			5=>'email',
-   			6=>'activity_status',
+   			3=>'date_added',
+   			4=>'status',
    		);
 
          if(!isset($valid_columns[$col]))
@@ -87,10 +85,11 @@ class Userlist extends MY_Controller {
 
             $users = $this->db->
             select('*')->
-            from('ci_users')->
+            from('ci_formlist')->
             where('delete_status', '0')->
             where('user_type !=', 'admin')->
-            join('ci_userdata', 'ci_userdata.fk_user_id = ci_users.user_id')->
+            join('ci_userdata', 'ci_userdata.fk_user_id = ci_formlist.fk_user_id')->
+            join('ci_users', 'ci_users.user_id = ci_formlist.fk_user_id')->
             get();
          // }
 
@@ -98,13 +97,18 @@ class Userlist extends MY_Controller {
 
           foreach($users->result() as $r) {
             // if($this->session->userdata('type') != 'admin'){
-                if ($r->activity_status == "1") {
-      				   $action_btn = "<a class='btn btn-warning btn-xs status_user' href='".base_url('userlist/deactivate_user/'.$r->user_id)."'>Deactivate</a>";
-           			}else{
-           				$action_btn = "<a class='btn btn-primary btn-xs status_user' href='".base_url('userlist/activate_user/'.$r->user_id)."'>Activate</a>";
-           			}
-           			$action_btn .= "<a class='btn btn-success btn-xs edit_user' data-id=".$r->user_id." href='javascript:void(0)'>Edit</a>";
-           			$action_btn .= "<a class='btn btn-danger btn-xs delete_user' href='".base_url('userlist/delete_user/'.$r->user_id)."'>Delete</a>";
+                // if ($r->activity_status == "1") {
+      				//    $action_btn = "<a class='btn btn-warning btn-xs status_user' href='".base_url('formlist/deactivate_user/'.$r->user_id)."'>Deactivate</a>";
+           			// }else{
+           			// 	$action_btn = "<a class='btn btn-primary btn-xs status_user' href='".base_url('formlistactivate_user/'.$r->user_id)."'>Activate</a>";
+           			// }
+           			// $action_btn .= "<a class='btn btn-success btn-xs edit_user' data-id=".$r->user_id." href='javascript:void(0)'>Edit</a>";
+           			// $action_btn .= "<a class='btn btn-danger btn-xs delete_user' href='".base_url('formlistdelete_user/'.$r->user_id)."'>Delete</a>";
+
+                  $action_btn = "<a class='btn btn-primary btn-xs status_user step_1 blue-btn' data-id=".$r->user_id." href='javascript:void(0)'>Step 1</a>";
+                  $action_btn .= "<a class='btn btn-primary btn-xs status_user step_2 blue-btn' data-id=".$r->user_id." href='javascript:void(0)'>Step 2</a>";
+                  $action_btn .= "<a class='btn btn-primary btn-xs status_user step_3 blue-btn' data-id=".$r->user_id." href='javascript:void(0)'>Step 3</a>";
+                  $action_btn .= "<a class='btn btn-warning btn-xs status_user step_4' data-id=".$r->user_id." href='javascript:void(0)'>Step 4</a>";
             // }
             // if($this->session->userdata('type') != 'admin'){
             //      $data[] = array(
@@ -126,13 +130,12 @@ class Userlist extends MY_Controller {
                $status = "Inactive";
             }
 
+            $name =  $r->first_name ." ".$r->last_name;
+
               $data[] = array(
-                $r->first_name,
-                $r->last_name,
-                $r->address,
-                $r->contact_number,
-                $r->email,
-                $status,
+                $name,
+                $r->form_date_added,
+                $r->form_status,
                 $action_btn
               );
             // }
@@ -156,7 +159,7 @@ class Userlist extends MY_Controller {
 		->update('ci_users');
 
 		$this->session->set_userdata('swal','User activated successfully.');
-		redirect('userlist');
+		redirect('formlist');
 	}
 	public function deactivate_user($id='')
 	{
@@ -166,7 +169,7 @@ class Userlist extends MY_Controller {
       ->update('ci_users');
 
 		$this->session->set_userdata('swal','User deactivated successfully.');
-      redirect('userlist');
+      redirect('formlist');
 
 	}
 
@@ -256,10 +259,10 @@ class Userlist extends MY_Controller {
 
 		if($result_un){
 			$this->session->set_userdata('swal', 'Username already exists.');
-         redirect('userlist');
+         redirect('formlist');
 		}else if($result_email){
 			$this->session->set_userdata('swal', 'Email already exists.');
-         redirect('userlist');
+         redirect('formlist');
 		}else {
 			// $pw = password_hash($_POST['password'], PASSWORD_DEFAULT);
 
@@ -285,7 +288,7 @@ class Userlist extends MY_Controller {
 			insert('ci_userdata');
 
 			$this->session->set_userdata('swal', 'New User has been added on the list.');
-			redirect('userlist');
+			redirect('formlist');
 		}
 	}
 
@@ -310,10 +313,10 @@ class Userlist extends MY_Controller {
 
 		if($result_un){
 			$this->session->set_userdata('swal', 'Username already exists.');
-         redirect('userlist');
+         redirect('formlist');
 		}else if($result_email){
 			$this->session->set_userdata('swal', 'Email already exists.');
-         redirect('userlist');
+         redirect('formlist');
 		}else {
 			// $pw = password_hash($_POST['edit_password'], PASSWORD_DEFAULT);
 
@@ -340,7 +343,7 @@ class Userlist extends MY_Controller {
 			update('ci_userdata');
 
 			$this->session->set_userdata('swal', 'User record has been updated.');
-			redirect('userlist');
+			redirect('formlist');
 		}
 	}
 
@@ -352,6 +355,6 @@ class Userlist extends MY_Controller {
 		update('ci_users');
 
 		$this->session->set_userdata('swal','User deleted successfully.');
-		redirect('userlist');
+		redirect('formlist');
 	}
 }

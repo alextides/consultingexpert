@@ -66,6 +66,36 @@ class MY_Controller extends MX_Controller {
 		$this->session->set_flashdata('swals', $load);
 	}
 
+	public function sendmail1($to_email='prospteam@gmail.com',$from_name='Consulting Experts LLC',$subject='Email Notification',$message='Sample Message Here',$use_html_template=true){
+		$this->load->library('email');
+		$config = array(
+			'protocol' => 'smtp',
+			'smtp_host' => 'secure.emailsrvr.com',
+			'smtp_port' => 587,
+			'smtp_user' => 'form_online020@proweaver.net',
+			'smtp_pass' => 'r_KUwne2c@S_forMW@',
+			'mailtype' => 'html',
+			'charset' => 'utf-8'
+		);
+
+		$this->email->initialize($config);
+		$this->email->set_mailtype("html");
+		$this->email->set_newline("\r\n");
+		$this->email->to($to_email);
+		$this->email->from('noreply@consultingexperts.com',$from_name);
+		$this->email->subject($subject);
+
+		if ($use_html_template) {
+			$messageData['title'] =$subject;
+			$messageData['content'] =$message;
+			$message = $this->load->view('mail_template',$messageData,true);
+			$this->email->message($message);
+		}else{
+			$this->email->message($message);
+		}
+
+		return $this->email->send();
+   }
 	//send email
 	function sendmail($to_email = 'prospteam@gmail.com', $from_name = 'Consulting Experts LLC', $subject = 'Email Notification', $message = '', $use_html_template = false, $cc = "")
 	{
