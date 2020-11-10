@@ -37,14 +37,14 @@
    $(document).ready(function(e) { //view files uploaded
       var filter_user_type = "";
       var base_url = "<?php echo base_url(); ?>";
-      var data_table = $('#filelist_datatable').DataTable({
+      var data_table = $('#orderawebsite_datatable').DataTable({
          "pageLength": 10,
          "serverSide": true,
          "order": [
             [0, "asc"]
          ],
          "ajax": {
-            url: base_url + 'managefiles/getfiles',
+            url: base_url + 'myorderawebsite/getmyorderawebsite',
             type: 'POST',
          },
       });
@@ -75,31 +75,31 @@
       });
    });
 
-   // $('#editFilesForm').on('submit', function(e) { //update button - Manage Files
-   //    e.preventDefault();
-   //    $('.error_msg').text('');
-   //    var form_data = $('#editFilesForm').serialize();
+   $('#editFilesForm').on('submit', function(e) { //update button - Manage Files
+      e.preventDefault();
+      $('.error_msg').text('');
+      var form_data = $('#editFilesForm').serialize();
 
-   //    // proceed with form submission
-   //    $.ajax({
-   //       url: '<?php echo base_url(); ?>managefiles/update_file',
-   //       type: 'post',
-   //       data: form_data,
-   //       success: function(response) {
+      // proceed with form submission
+      $.ajax({
+         url: '<?php echo base_url(); ?>managefiles/update_file',
+         type: 'post',
+         data: form_data,
+         success: function(response) {
 
-   //          Swal.fire({
-   //             title: 'File has been updated.',
-   //             type: 'success',
-   //             confirmButtonColor: '#3085d6',
-   //             cancelButtonColor: '#d33',
-   //             confirmButtonText: 'OK'
-   //          }).then((result) => {
-   //             location.reload();
-   //          })
-   //       }
-   //    });
+            Swal.fire({
+               title: 'File has been updated.',
+               type: 'success',
+               confirmButtonColor: '#3085d6',
+               cancelButtonColor: '#d33',
+               confirmButtonText: 'OK'
+            }).then((result) => {
+               location.reload();
+            })
+         }
+      });
 
-   // });
+   });
 
    $(document).on('click', '.add-technician', function(e) {
       $('#addUser').modal('show');

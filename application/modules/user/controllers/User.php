@@ -38,66 +38,80 @@ class User extends MY_Controller
 		$res =  $this->MY_Model->getRows("ci_users", $param);
 		return $res;
 	}
+
 	public function update_profile()
 	{
-		$post = $this->input->post();
+		$fk_user_id = $this->session->userdata('user_details')[0]['fk_user_id'];
+		$this->db->
+		set('username', $_POST['username'])->
+		// set('file', $file_update)->
+		where('user_id', $fk_user_id)->
+		update('ci_users');
+		$uid = $this->db->insert_id();
 
-		if ($this->validated_user2($post, "update")) {
-			if (!empty($post)) {
-				$set = array(
-					'username' => $post["username"],
-					'password' => $post["password"],
-					"email" => $post["email"]
-				);
-				$where = array("user_id" => $post["user_id"]);
-				$res = $this->MY_Model->update("ci_users", $set, $where);
-				if ($res) {
-					$set = array(
-						'first_name' => $post["first_name"],
-						'last_name' => $post["last_name"],
-						"city" => $post["city"],
-						"state" => $post["state"],
-						"phone" => $post["phone"],
-						"zip_code" => $post["zip_code"],
-						"gender" => $post["gender"]
-					);
-					$res = $this->MY_Model->update("ci_userdata", $set, $where);
-					if ($res) {
-						$this->errmsg = "";
-						$resmsg = array("err" => false, "msg" => "Updated Successfully!");
-						$this->session->set_flashdata('res_err', $resmsg);
-
-						if (!empty($post["is_admin"])) {
-							$userdata = array(
-								"user_id" => $post["user_id"],
-								"username" => $post["username"],
-								"first_name" => $post["first_name"],
-								"last_name" => $post["last_name"],
-								"gender" => $post["gender"],
-								"user_type" => 1,
-								"user_status" => 1,
-								"password" => $post["password"],
-								"email" => $post["email"],
-								"city" => $post["city"],
-								"state" => $post["state"],
-								"phone" => $post["phone"],
-								"zip_code" => $post["zip_code"],
-								"logged_in" => 1
-							);
-							$this->session->set_userdata($userdata);
-						}
-					} else {
-						$resmsg = array("err" => true, "msg" => "Updating user failed!");
-						$this->session->set_flashdata('res_err', $resmsg);
-					}
-				}
-			}
-		} else {
-			$resmsg = array("err" => true, "msg" => $this->errmsg);
-			$this->session->set_flashdata('res_err', $resmsg);
-		}
-		redirect(base_url("user/profile"));
+		$this->session->set_userdata('swal', 'Profile record has been updated.');
+		redirect('user/profile');
 	}
+	// public function update_profile()
+	// {
+	// 	$post = $this->input->post();
+
+	// 	if ($this->validated_user2($post, "update")) {
+	// 		if (!empty($post)) {
+	// 			$set = array(
+	// 				'username' => $post["username"],
+	// 				'password' => $post["password"],
+	// 				"email" => $post["email"]
+	// 			);
+	// 			$where = array("user_id" => $post["user_id"]);
+	// 			$res = $this->MY_Model->update("ci_users", $set, $where);
+	// 			if ($res) {
+	// 				$set = array(
+	// 					'first_name' => $post["first_name"],
+	// 					'last_name' => $post["last_name"],
+	// 					"city" => $post["city"],
+	// 					"state" => $post["state"],
+	// 					"phone" => $post["phone"],
+	// 					"zip_code" => $post["zip_code"],
+	// 					"gender" => $post["gender"]
+	// 				);
+	// 				$res = $this->MY_Model->update("ci_userdata", $set, $where);
+	// 				if ($res) {
+	// 					$this->errmsg = "";
+	// 					$resmsg = array("err" => false, "msg" => "Updated Successfully!");
+	// 					$this->session->set_flashdata('res_err', $resmsg);
+
+	// 					if (!empty($post["is_admin"])) {
+	// 						$userdata = array(
+	// 							"user_id" => $post["user_id"],
+	// 							"username" => $post["username"],
+	// 							"first_name" => $post["first_name"],
+	// 							"last_name" => $post["last_name"],
+	// 							"gender" => $post["gender"],
+	// 							"user_type" => 1,
+	// 							"user_status" => 1,
+	// 							"password" => $post["password"],
+	// 							"email" => $post["email"],
+	// 							"city" => $post["city"],
+	// 							"state" => $post["state"],
+	// 							"phone" => $post["phone"],
+	// 							"zip_code" => $post["zip_code"],
+	// 							"logged_in" => 1
+	// 						);
+	// 						$this->session->set_userdata($userdata);
+	// 					}
+	// 				} else {
+	// 					$resmsg = array("err" => true, "msg" => "Updating user failed!");
+	// 					$this->session->set_flashdata('res_err', $resmsg);
+	// 				}
+	// 			}
+	// 		}
+	// 	} else {
+	// 		$resmsg = array("err" => true, "msg" => $this->errmsg);
+	// 		$this->session->set_flashdata('res_err', $resmsg);
+	// 	}
+	// 	redirect(base_url("user/profile"));
+	// }
 
 	private function validated_user2($user, $opt = "")
 	{

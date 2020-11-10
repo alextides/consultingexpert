@@ -98,13 +98,15 @@ class Viewfiles extends MY_Controller {
          }
          $this->db->group_end();
       }
+      
+      $fk_user_id = $this->session->userdata('user_details')[0]['fk_user_id'];
 
       $files = $this->db
          ->select('*')
          ->from('ci_filelist')
          ->where('file_status', '1')
          ->where('delete_status', '0')
-         ->join('ci_userdata', 'ci_userdata.fk_user_id = ci_filelist.fk_user_id')
+         ->where('fk_user_id', $fk_user_id)
          ->get();
 
       $data = array();

@@ -28,10 +28,10 @@
    <div class="container-fluid">
       <div class="row page-titles">
          <div class="col-md-5 align-self-center">
-            <h3 class="text-themecolor page-title-text">Manage Files</h3>
+            <h3 class="text-themecolor page-title-text">Manage Subscription</h3>
          </div>
          <div class="col-md-7 align-self-center text-right d-none d-md-block">
-            <button type="button" class="btn btn-primary addfile-btn" data-toggle="modal" data-target="#addFileModal"><i class="fa fa-plus-circle"></i> Add File</button>
+            <!-- <button type="button" class="btn btn-primary addfile-btn" data-toggle="modal" data-target="#addFileModal"><i class="fa fa-plus-circle"></i> Add File</button> -->
          </div>
       </div>
       <div class="row">
@@ -39,13 +39,15 @@
             <div class="card">
                <div class="card-body">
                   <div class="table-responsive">
-                     <table id="filelist_datatable" class="table table-striped jambo_table bulk_action dt-responsive" style="width: 100% !important;">
+                     <table id="subscription_datatable" class="table table-striped jambo_table bulk_action dt-responsive" style="width: 100% !important;">
                         <thead>
                            <tr>
-                              <th>File Title</th>
-                              <th>File</th>
-                              <th>Date Uploaded</th>
-                              <th>Assigned To</th>
+                              <th>User ID</th>
+                              <th>Transaction ID</th>
+                              <!-- <th>Services</th> -->
+                              <th>Paid Amount</th>
+                              <th>Date Paid</th>
+                              <th>Status</th>
                               <th>Action</th>
                            </tr>
                         </thead>
@@ -114,7 +116,7 @@
    <!-- Modal End-->
 
    <!--Edit File Modal -->
-   <form id="editFilesForm" method="post" enctype="multipart/form-data" action="<?php echo base_url(); ?>managefiles/update_file">
+   <form id="editFilesForm" method="post" action="<?php echo base_url(); ?>managefiles/update_file">
       <div class="modal fade" id="editFileModal" tabindex="-1" aria-labelledby="editFileModalLabel" aria-hidden="true">
          <div class="modal-dialog">
             <div class="modal-content">
@@ -141,8 +143,7 @@
                   <div class="form-group row">
                      <label class="col-md-2 col-form-label">Update File:</label>
                      <div class="col-md-10">
-                        <!-- <input type="file" name="file_upload" id="file_upload" class="form-control" placeholder="file_name"> -->
-                        <input type="file" size="20" id="file_upload" name="file_upload" class="form-control" required="">
+                        <input type="file" name="file_upload" id="file_upload" class="form-control" placeholder="file_name">
                      </div>
                   </div>
                   <div class="form-group row">
