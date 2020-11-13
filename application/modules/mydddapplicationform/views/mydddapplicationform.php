@@ -33,7 +33,7 @@
          </div>
          <div class="col-md-7 align-self-center text-right d-none d-md-block">
             <button type="button" class="btn btn-primary step1-btn" data-toggle="modal" data-target="#step1Modal">Step 1 <i class="fa fa-arrow-right"></i> </button>
-            <button type="button" class="btn btn-primary addfile-btn" data-toggle="modal" data-target="#addFileModal">Step 2 <i class="fa fa-arrow-right"></i> </button>
+            <button type="button" class="btn btn-primary step2-btn" data-toggle="modal" data-target="#step2Modal">Step 2 <i class="fa fa-arrow-right"></i> </button>
             <button type="button" class="btn btn-primary addfile-btn" data-toggle="modal" data-target="#addFileModal">Step 3 <i class="fa fa-arrow-right"></i> </button>
             <button type="button" class="btn btn-primary addfile-btn" data-toggle="modal" data-target="#addFileModal">Step 4 <i class="fa fa-arrow-right"></i> </button>
          </div>
@@ -43,7 +43,7 @@
             <div class="card">
                <div class="card-body">
                   <div class="table-responsive">
-                     <table id="filelist_datatable" class="table table-striped jambo_table bulk_action dt-responsive" style="width: 100% !important;">
+                     <table id="dddapplication_datatable" class="table table-striped jambo_table bulk_action dt-responsive" style="width: 100% !important;">
                         <thead>
                            <tr>
                               <th>Full Name</th>
@@ -62,7 +62,7 @@
       </div>
    </div>
 
-   <!--Add File Modal -->
+   <!--step1Modal Modal -->
    <div class="modal fade" id="step1Modal" tabindex="-1" aria-labelledby="step1ModalLabel" aria-hidden="true">
       <div class="modal-dialog">
          <div class="modal-content">
@@ -72,7 +72,7 @@
                   <span aria-hidden="true">&times;</span>
                </button>
             </div>
-            <form method="post" enctype="multipart/form-data" action="<?= base_url("mydddapplicationform/submit_step1") ?>" id="addFileForm">
+            <form method="post" enctype="multipart/form-data" action="<?= base_url("mydddapplicationform/submit_step1") ?>" id="step1Form">
                <div class="modal-body">
                   <div class="form-group ">
                      <div class="form-group row">
@@ -82,21 +82,21 @@
                            <label for="service1"> Attendant Care</label><br>
                            <input type="checkbox" id="service2" name="services[]" value="Career Preparation Readiness">
                            <label for="service2"> Career Preparation Readiness</label><br>
-                           <input type="checkbox" id="service3" name="service3" value="Center-Based Employment">
+                           <input type="checkbox" id="service3" name="services[]" value="Center-Based Employment">
                            <label for="service3"> Center-Based Employment</label><br>
-                           <input type="checkbox" id="service4" name="service4" value="Day Treatment and Training, Adult">
+                           <input type="checkbox" id="service4" name="services[]" value="Day Treatment and Training, Adult">
                            <label for="service4"> Day Treatment and Training, Adult</label><br>
-                           <input type="checkbox" id="service5" name="service5" value="Day Treatment and Training, Child (After School)">
+                           <input type="checkbox" id="service5" name="services[]" value="Day Treatment and Training, Child (After School)">
                            <label for="service5"> Day Treatment and Training, Child (After School)</label><br>
-                           <input type="checkbox" id="service6" name="service6" value="Day Treatment and Training, Child (Summer)">
+                           <input type="checkbox" id="service6" name="services[]" value="Day Treatment and Training, Child (Summer)">
                            <label for="service6"> Day Treatment and Training, Child (Summer)</label><br>
-                           <input type="checkbox" id="service7" name="service7" value="Employment Support Aid">
+                           <input type="checkbox" id="service7" name="services[]" value="Employment Support Aid">
                            <label for="service7"> Employment Support Aid</label><br>
-                           <input type="checkbox" id="service8" name="service8" value="Group Supported Employment">
+                           <input type="checkbox" id="service8" name="services[]" value="Group Supported Employment">
                            <label for="service8"> Group Supported Employment</label><br>
-                           <input type="checkbox" id="service9" name="service9" value="Habilitation, Consultation">
+                           <input type="checkbox" id="service9" name="services[]" value="Habilitation, Consultation">
                            <label for="service9"> Habilitation, Consultation</label><br>
-                           <input type="checkbox" id="service10" name="service10" value="Habilitation, Early Childhood Autism Specialized">
+                           <input type="checkbox" id="service10" name="services[]" value="Habilitation, Early Childhood Autism Specialized">
                            <label for="service10"> Habilitation, Early Childhood Autism Specialized</label><br>
                            <!--<input type="checkbox" id="service11" name="service11" value="Habilitation, Group Home">
                            <label for="service11"> Habilitation, Group Home</label><br>
@@ -167,15 +167,92 @@
          </div>
       </div>
    </div>
-   <!-- Modal End-->
+   <!--step1Modal End-->
+
+   <!--step2Modal Modal -->
+   <div class="modal fade" id="step2Modal" tabindex="-1" aria-labelledby="step2ModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+         <div class="modal-content">
+            <div class="modal-header">
+               <h5 class="modal-title" id="step2ModalLabel"><i class="icon-File"></i> DDD Application Form Step 2</h5>
+               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+               </button>
+            </div>
+            <form method="post" enctype="multipart/form-data" action="<?= base_url("mydddapplicationform/submit_step2") ?>" id="step2Form">
+               <div class="modal-body">
+                  <div class="form-group ">
+                     <div class="form-group row">
+                        <label class="col-md-3 col-form-label">Website Quote: </label>
+                        <div class="col-md-9">
+                           <?php foreach ($quote as $row) {  ?>
+                              <input type="text" class="form-control" disabled id="website_quote" name="website_quote" value="<?php echo $row['website_quote']; ?>">
+                           <?php } ?>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="form-group ">
+                     <div class="form-group row">
+                        <label class="col-md-3 col-form-label">Agency Quote</label>
+                        <div class="col-md-9">
+                           <?php foreach ($quote as $row) {  ?>
+                              <input type="text" class="form-control" disabled id="website_quote" name="website_quote" value="<?php echo $row['agency_quote']; ?>">
+                           <?php } ?>
+                        </div>
+                     </div>
+                  </div>
+
+                  <div class="form-group ">
+                     <div class="form-group row">
+                        <label class="col-md-3 col-form-label">Website Invoice</label>
+                        <div class="col-md-9">
+                           <?php foreach ($quote as $row) {  ?>
+                              <input type="text" class="form-control" disabled id="website_quote" name="website_quote" value="<?php echo $row['website_invoice']; ?>">
+                           <?php } ?>
+                           <button type="submit" class="btn btn-primary update_file">Download Invoice</button>
+                        </div>
+                     </div>
+                  </div>
+
+                  <div class="form-group ">
+                     <div class="form-group row">
+                        <label class="col-md-3 col-form-label">Agency Invoice</label>
+                        <div class="col-md-9">
+                           <?php foreach ($quote as $row) {  ?>
+                              <input type="text" class="form-control" disabled id="website_quote" name="website_quote" value="<?php echo $row['agency_invoice']; ?>">
+                           <?php } ?>
+                           <button type="submit" class="btn btn-primary update_file">Download Invoice</button>
+                        </div>
+                     </div>
+                  </div>
+
+                  <div class="form-group ">
+                     <div class="form-group row">
+                        <label class="col-md-3 col-form-label"></label>
+                        <div class="col-md-9">
+                           <a class='btn btn-success' href='http://localhost/Projects/ConsultingExperts/consultingexpert/paymentinvoice' target='_blank' style="float: right">Click here to Pay!</a>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div class="modal-footer">
+                  <button type="submit" class="btn btn-primary submit-step1-btn">Done</button>
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+               </div>
+
+            </form>
+         </div>
+      </div>
+   </div>
+   <!--step2Modal End-->
 
    <!--Edit File Modal -->
-   <form id="editFilesForm" method="post" enctype="multipart/form-data" action="<?php echo base_url(); ?>managefiles/update_file">
-      <div class="modal fade" id="editFileModal" tabindex="-1" aria-labelledby="editFileModalLabel" aria-hidden="true">
+   <form id="editFilesForm" method="post" enctype="multipart/form-data" action="<?php echo base_url(); ?>mydddapplicationform/update_file">
+      <div class="modal fade" id="step1_details_modal" tabindex="-1" aria-labelledby="step1_details_modalLabel" aria-hidden="true">
          <div class="modal-dialog">
             <div class="modal-content">
                <div class="modal-header">
-                  <h5 class="modal-title" id="editFileModalLabel"><i class="icon-File"></i> Edit File</h5>
+                  <h5 class="modal-title" id="step1_details_modalLabel"><i class="icon-File"></i> DDD Application Form Step 1 Details</h5>
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                      <span aria-hidden="true">&times;</span>
                   </button>
@@ -183,40 +260,27 @@
                <div class="modal-body">
                   <input id="file_id" type="hidden" name="file_id" value="">
                   <div class="form-group row">
-                     <label class="col-md-2 col-form-label">File Title: </label>
+                     <label class="col-md-2 col-form-label">Selected Services: </label>
                      <div class="col-md-10">
-                        <input type="text" name="file_title" id="file_title" class="form-control" required>
+                        <input type="text" name="services" id="services" class="form-control" required disabled>
                      </div>
                   </div>
                   <div class="form-group row">
-                     <label class="col-md-2 col-form-label">File:</label>
+                     <label class="col-md-2 col-form-label">Website:</label>
                      <div class="col-md-10">
-                        <input type="text" name="file" id="file" class="form-control" disabled>
+                        <input type="text" name="website" id="website" class="form-control" disabled>
                      </div>
                   </div>
                   <div class="form-group row">
-                     <label class="col-md-2 col-form-label">Update File:</label>
+                     <label class="col-md-2 col-form-label">Agency</label>
                      <div class="col-md-10">
-                        <!-- <input type="file" name="file_upload" id="file_upload" class="form-control" placeholder="file_name"> -->
-                        <input type="file" size="20" id="file_upload" name="file_upload" class="form-control" required="">
+                        <input type="text" id="agency" name="agency" class="form-control" required="" disabled>
                      </div>
                   </div>
-                  <div class="form-group row">
-                     <label class="col-md-2 col-form-label">Assigned To:</label>
-                     <div class="col-md-10">
-                        <input type="text" name="fk_user_id" id="fk_user_id" class="form-control" disabled>
-                     </div>
-                  </div>
-                  <!-- <div class="form-group row">
-                     <label class="col-md-2 col-form-label">Uploaded By*</label>
-                     <div class="col-md-10">
-                        <input type="text" name="uploaded_by" id="uploaded_by" class="form-control" placeholder="uploaded_by" required>
-                     </div>
-                  </div> -->
                </div>
                <div class="modal-footer">
-                  <button type="submit" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                  <button type="submit" class="btn btn-primary update_file">Update</button>
+                  <!-- <button type="submit" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
+                  <button type="submit" class="btn btn-primary update_file">Close</button>
                   <input type="hidden" name="file_id" id="file_id">
                </div>
             </div>

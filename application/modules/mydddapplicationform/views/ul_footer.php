@@ -37,37 +37,37 @@
    $(document).ready(function(e) { //view files uploaded
       var filter_user_type = "";
       var base_url = "<?php echo base_url(); ?>";
-      var data_table = $('#filelist_datatable').DataTable({
+      var data_table = $('#dddapplication_datatable').DataTable({
          "pageLength": 10,
          "serverSide": true,
          "order": [
             [0, "asc"]
          ],
          "ajax": {
-            url: base_url + 'mydddapplicationform/getfiles',
+            url: base_url + 'mydddapplicationform/get_dddapplication',
             type: 'POST',
          },
       });
    });
 
-   $(document).on('click', '.edit_file', function(e) { //edit button - view files details by user_id on modal
+   $(document).on('click', '.step1_details', function(e) { //step1_details button - view step1_details details by user_id on modal
       e.preventDefault();
       var data_id = $(this).attr('data-id');
       let new_array = [];
       let checker = '';
 
-      var base_url = "<?php echo base_url(); ?>managefiles/edit_file/";
+      var base_url = "<?php echo base_url(); ?>mydddapplicationform/get_step1_details/";
       $.ajax({
          type: "GET",
          url: base_url + data_id,
          success: function(data) {
             let result = JSON.parse(data);
-            $('[name="file_title"]').val(result[0].file_title);
-            $('[name="file"]').val(result[0].file);
-            $('[name="fk_user_id"]').val(result[0].fk_user_id);
-            $('[name="file_id"]').val(result[0].file_id);
-            // $('[name="uploaded_by"]').val(result[0].uploaded_by);
-            $('#editFileModal').modal('show');
+            $('[name="services"]').val(result[0].services);
+            $('[name="website"]').val(result[0].website);
+            $('[name="agency"]').val(result[0].agency);
+            $('[name="website_invoice"]').val(result[0].website_invoice);
+            $('[name="agency_invoice"]').val(result[0].agency_invoice);
+            $('#step1_details_modal').modal('show');
          },
          error: function(data) {
             alert(data);

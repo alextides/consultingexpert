@@ -2,7 +2,7 @@
 $isProduction = false;
 $base_url = (isset($_SERVER['HTTPS']) ? 'https' : 'http').'://'.$_SERVER['HTTP_HOST'].'/'.(explode("/",$_SERVER['REQUEST_URI'])[1]).'/';
 define('TEST_MODE', true);
-define('COMPANY_NAME', 'NAPACUSA');
+define('COMPANY_NAME', 'Consulting Experts LLC');
 define('FORM_NAME', 'Payment');
 
 define('DONATION', false);
@@ -19,11 +19,11 @@ if(DONATION){
 }
 
 $gateways = array(
-  	'paypal'    => true,
+  	'paypal'    => false,
   	'authorize' => false,
   	'payeezy'   => false,
   	'stripe'    => false,
-  	'square'    => false
+  	'square'    => true
 );
 
 $required = array('First_Name','Last_Name','Email');

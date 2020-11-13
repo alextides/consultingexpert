@@ -9,7 +9,7 @@ class Mydddapplicationform extends MY_Controller
    {
       // $data['technicianlist'] = 1;
       $data['title'] = 'Manage Files';
-      $data['users'] = $this->getusers();
+      $data['quote'] = $this->getquote();
       $this->load_page2('mydddapplicationform', $data, 'ul_footer.php', 'ul_header.php');
    }
 
@@ -19,41 +19,45 @@ class Mydddapplicationform extends MY_Controller
       $fk_user_id = $this->session->userdata('user_details')[0]['fk_user_id'];
       $select_services = $_POST['services'];
       for ($i = 0; $i < count($select_services); $i++) {
-            $step1 = array(
-               'fk_user_id' => $fk_user_id, 
-               'services' => $select_services[$i],
-               'website' => $post["website"],
-               'agency' => $post["agency"],
-               'date_added' => date("Y-m-d H:i:s"),
-               'step1_status' => 1,
-            );
-            $res = $this->MY_Model->insert('ci_formlist_step1', $step1);
-            if ($res) {
+         $step1 = array(
+            'fk_user_id' => $fk_user_id,
+            'services' => $select_services[$i],
+            'website' => $post["website"],
+            'agency' => $post["agency"],
+            'date_added' => date("Y-m-d H:i:s"),
+            'step1_status' => 1,
+         );
+         $res = $this->MY_Model->insert('ci_formlist_step1', $step1);
+         if ($res) {
             $this->session->set_userdata('swal', 'Step 1 Successfully Submitted.');
-            }
+         }
       }
-      
+
       redirect(base_url("mydddapplicationform"));
    }
 
-   public function getusers()
+   public function getquote()
    {
-      $param["select"] = "user_id, ci_userdata.first_name, ci_userdata.last_name";
-      // $userdata["where"] = array("user_id" => $this->session->userdata("user_id"));
-      $param["where"] = array("user_type" => 2);
-      $param["join"] = array("ci_userdata" => "ci_userdata.fk_user_id = ci_users.user_id");
-      $query = $this->MY_Model->getRows("ci_users", $param);
+      $fk_user_id = $this->session->userdata('user_details')[0]['fk_user_id'];
+      $param["select"] = "website_quote, agency_quote, agency_invoice, website_invoice";
+      $param["where"] = array("fk_user_id" => $fk_user_id);
+      // $param["where"] = array("step1_status" => 1);
+      $query = $this->MY_Model->getRows("ci_formlist_step1", $param);
+      // echo '<pre>';
+      // print_r($query);
+      //  exit;
       return $query;
    }
 
-   public function edit_file($id = ''){
+   public function step1_details($id = '')
+   {
       $result = $this->db
-      ->select('*')
-      ->from('ci_filelist')
-      ->where('file_id', $id)
-      ->join('ci_userdata', 'ci_userdata.fk_user_id = ci_filelist.fk_user_id')
-      ->get()
-      ->result_array();
+         ->select('*')
+         ->from('ci_filelist')
+         ->where('file_id', $id)
+         ->join('ci_userdata', 'ci_userdata.fk_user_id = ci_filelist.fk_user_id')
+         ->get()
+         ->result_array();
 
       echo json_encode($result);
       exit();
@@ -65,110 +69,121 @@ class Mydddapplicationform extends MY_Controller
          $config['upload_path'] = './assets/uploads/';
          $config['allowed_types'] = 'gif|jpg|png|pdf|txt|docx|doc';
          $this->load->library('upload', $config);
-         if ( !$this->upload->do_upload('file')) {
+         if (!$this->upload->do_upload('file')) {
             $error = array('error' => $this->upload->display_errors());
          } else {
-            $upload_data=$this->upload->data();
-            $file_update=$upload_data['file_name'];
+            $upload_data = $this->upload->data();
+            $file_update = $upload_data['file_name'];
          }
-      } else{
-         $file_update=$this->input->post('file_upload');
+      } else {
+         $file_update = $this->input->post('file_upload');
       }
 
-      $this->db->
-      set('file_title', $_POST['file_title'])->
-      set('file', $file_update)->
-      where('file_id', $_POST['file_id'])->
-      update('ci_filelist');
+      $this->db->set('file_title', $_POST['file_title'])->set('file', $file_update)->where('file_id', $_POST['file_id'])->update('ci_filelist');
       $uid = $this->db->insert_id();
 
       $this->session->set_userdata('swal', 'File record has been updated.');
       redirect('managefiles');
    }
 
-   public function getfiles()
+   public function get_dddapplication()
    {
-      // $draw = intval($this->input->post("draw"));
-      // $start = intval($this->input->post("start"));
-      // $length = intval($this->input->post("length"));
-      // $order = $this->input->post("order");
-      // $search = $this->input->post("search");
-      // $search = $search['value'];
+      $draw = intval($this->input->post("draw"));
+      $start = intval($this->input->post("start"));
+      $length = intval($this->input->post("length"));
+      $order = $this->input->post("order");
+      $search = $this->input->post("search");
+      $search = $search['value'];
 
-      // $col = 0;
-      // $dir = "";
-      // if (!empty($order)) {
-      //    foreach ($order as $o) {
-      //       $col = $o['column'];
-      //       $dir = $o['dir'];
-      //    }
-      // }
+      $col = 0;
+      $dir = "";
+      if (!empty($order)) {
+         foreach ($order as $o) {
+            $col = $o['column'];
+            $dir = $o['dir'];
+         }
+      }
 
-      // if ($dir != "asc" && $dir != "desc") {
-      //    $dir = "desc";
-      // }
+      if ($dir != "asc" && $dir != "desc") {
+         $dir = "desc";
+      }
 
-      // $valid_columns = array(
-      //    1 => 'file',
-      //    2 => 'date_uploaded',
-      //    3 => 'first_name',
-      // );
+      $valid_columns = array(
+         1 => 'file',
+         2 => 'date_uploaded',
+         3 => 'first_name',
+      );
 
-      // if (!isset($valid_columns[$col])) {
-      //    $order = null;
-      // } else {
-      //    $order = $valid_columns[$col];
-      // }
-      // if ($order != null) {
-      //    $this->db->order_by($order, $dir);
-      // }
+      if (!isset($valid_columns[$col])) {
+         $order = null;
+      } else {
+         $order = $valid_columns[$col];
+      }
+      if ($order != null) {
+         $this->db->order_by($order, $dir);
+      }
 
-      // $x = 0;
-      // if (!empty($search)) {
-      //    $this->db->group_start();
-      //    foreach ($valid_columns as $sterm) {
-      //       if ($x == 0) {
-      //          $this->db->like($sterm, $search);
-      //       } else {
-      //          $this->db->or_like($sterm, $search);
-      //       }
-      //       $x++;
-      //    }
-      //    $this->db->group_end();
-      // }
+      $x = 0;
+      if (!empty($search)) {
+         $this->db->group_start();
+         foreach ($valid_columns as $sterm) {
+            if ($x == 0) {
+               $this->db->like($sterm, $search);
+            } else {
+               $this->db->or_like($sterm, $search);
+            }
+            $x++;
+         }
+         $this->db->group_end();
+      }
 
-      // $files = $this->db
-      //    ->select('*')
-      //    ->from('ci_filelist')
-      //    ->where('file_status', '1')
-      //    ->where('delete_status', '0')
-      //    ->join('ci_userdata', 'ci_userdata.fk_user_id = ci_filelist.fk_user_id')
-      //    ->get();
+      $fk_user_id = $this->session->userdata('user_details')[0]['fk_user_id'];
 
-      // $data = array();
+      $files = $this->db
+         ->select('*')
+         ->from('ci_formlist_step1')
+         ->where('step1_status', '1')
+         ->where('fk_user_id', $fk_user_id)
+         // ->join('ci_userdata', 'ci_userdata.fk_user_id = ci_formlist_step1.fk_user_id')
+         ->get();
 
-      // foreach ($files->result() as $r) {
-      //    $action_btn = false;
-      //    $action_btn .= "<a class='btn btn-success btn-xs edit_file' data-id=" . $r->file_id . " href='javascript:void(0)'>Edit</a>";
-      //    $action_btn .= "<a class='btn btn-danger btn-xs delete_file' href='" . base_url('managefiles/delete_file/' . $r->file_id) . "'>Delete</a>";
+      $data = array();
 
-      //    $data[] = array( //display data from database on Manage Files datatable
-      //       $r->file_title,
-      //       $r->file,
-      //       $r->date_uploaded,
-      //       $r->first_name,
-      //       $action_btn
-      //    );
-      // }
+      foreach ($files->result() as $r) {
+         $action_btn = false;
+         $action_btn .= "<a class='btn btn-success btn-xs step1_details' data-id=" . $r->step1_id . " href='javascript:void(0)'>Step 1 Details</a>";
+         $action_btn .= "<a class='btn btn-danger btn-xs delete_file' href='" . base_url('managefiles/delete_file/' . $r->step1_id) . "'>Delete</a>";
 
-      // $output = array(
-      //    "draw" => $draw,
-      //    "recordsTotal" => $files->num_rows(),
-      //    "recordsFiltered" => $files->num_rows(),
-      //    "data" => $data
-      // );
-      // echo json_encode($output);
-      // exit();
+         $data[] = array( //display data from database on Manage Files datatable
+            $r->fk_user_id,
+            $r->date_added,
+            $r->step1_status,
+            $action_btn
+         );
+      }
+
+      $output = array(
+         "draw" => $draw,
+         "recordsTotal" => $files->num_rows(),
+         "recordsFiltered" => $files->num_rows(),
+         "data" => $data
+      );
+      echo json_encode($output);
+      exit();
+   }
+
+   public function get_step1_details($id = '') // get step1 details query
+   {
+      $result = $this->db
+         ->select('*')
+         ->from('ci_formlist_step1')
+         ->where('step1_id', $id)
+         // ->join('ci_userdata', 'ci_userdata.fk_user_id = ci_formlist_step1.fk_user_id')
+         ->get()
+         ->result_array();
+
+      echo json_encode($result);
+      exit();
    }
 
    public function delete_file($id = '')

@@ -105,7 +105,7 @@
         <nav class="sidebar-nav">
             <?php //if ($this->session->userdata("user_type") != "user") { ?>
                 <ul id="sidebarnav">
-                    <li class="<?php if (!empty($pagename)) {
+                    <!-- <li class="<?php if (!empty($pagename)) {
                                     echo "active";
                                 } else {
                                     echo "not-active";
@@ -114,7 +114,7 @@
                     <li> <a class="waves-effect " href="<?= base_url("managefiles") ?>" aria-expanded="false"><i class="icon-Files"></i><span class="hide-menu">Manage Files</span></a> </li>
                     <li> <a class="waves-effect " href="<?= base_url("formlist") ?>" aria-expanded="false"><i class="icon-Files"></i><span class="hide-menu">DDD Forms</span></a> </li>
                     <li> <a class="waves-effect " href="<?= base_url("managesubscription") ?>" aria-expanded="false"><i class="icon-Files"></i><span class="hide-menu">Manage Subscription</span></a> </li>
-                    <li> <a class="waves-effect " href="<?= base_url("manageorderawebsite") ?>" aria-expanded="false"><i class="icon-Files"></i><span class="hide-menu">Manage Order a Website</span></a> </li>
+                    <li> <a class="waves-effect " href="<?= base_url("manageorderawebsite") ?>" aria-expanded="false"><i class="icon-Files"></i><span class="hide-menu">Manage Order a Website</span></a> </li> -->
                     <!-- <li> <a class="has-arrow waves-effect" href="javascript:;" aria-expanded="false"><i class="icon-El-Castillo"></i><span class="hide-menu">Multi level dd</span></a>
                     <ul aria-expanded="false" class="collapse">
                         <li><a href="javascript:;">item 1.1</a></li>
@@ -140,9 +140,9 @@
                                 }  ?>"><a class="waves-effect " href="<?= base_url("user") ?>" aria-expanded="false"><i class="icon-Car-Wheel"></i><span class="hide-menu">Dashboard </span></a> </li>
                     <li> <a class="waves-effect " href="<?= base_url("user/profile") ?>" aria-expanded="false"><i class="icon-User"></i><span class="hide-menu">Profile</span></a></li>
                     <li> <a class="waves-effect " href="<?= base_url("viewfiles") ?>" aria-expanded="false"><i class="icon-Files"></i><span class="hide-menu">View Files</span></a></li>
-                    <li> <a class="waves-effect " href="<?= base_url("mysubscription") ?>" aria-expanded="false"><i class="icon-Dollar"></i><span class="hide-menu">My Subscription</span></a></li>
-                    <li> <a class="waves-effect " href="<?= base_url("myorderawebsite") ?>" aria-expanded="false"><i class="icon-Globe"></i><span class="hide-menu">My Order a Website</span></a></li>
-                    <li> <a class="waves-effect " href="<?= base_url("mydddapplicationform") ?>" aria-expanded="false"><i class="icon-Files"></i><span class="hide-menu">DDD Application Form</span></a></li>
+                    <li> <a class="waves-effect " href="<?= base_url("mysubscription") ?>" aria-expanded="false"><i class="icon-Dollar"></i><span class="hide-menu">Subscription</span></a></li>
+                    <li> <a class="waves-effect " href="<?= base_url("myorderawebsite") ?>" aria-expanded="false"><i class="icon-Globe"></i><span class="hide-menu">Order Website</span></a></li>
+                    <li> <a class="waves-effect " href="<?= base_url("mydddapplicationform") ?>" aria-expanded="false"><i class="icon-Files"></i><span class="hide-menu">Application</span></a></li>
                 <?php //} ?>
         </nav>
         <!-- End Sidebar navigation -->
