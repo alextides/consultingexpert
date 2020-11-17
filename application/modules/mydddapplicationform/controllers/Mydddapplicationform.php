@@ -10,6 +10,8 @@ class Mydddapplicationform extends MY_Controller
       // $data['technicianlist'] = 1;
       $data['title'] = 'Manage Files';
       $data['quote'] = $this->getquote();
+      $data['paid_invoice'] = $this->get_paid_invoice();
+      $data['step3_files'] = $this->get_step3_files();
       $this->load_page2('mydddapplicationform', $data, 'ul_footer.php', 'ul_header.php');
    }
 
@@ -49,6 +51,24 @@ class Mydddapplicationform extends MY_Controller
       return $query;
    }
 
+   public function get_paid_invoice()
+   {
+      $fk_user_id = $this->session->userdata('user_details')[0]['fk_user_id'];
+      $param["select"] = "upload_paid_invoice";
+      $param["where"] = array("fk_user_id" => $fk_user_id);
+      $query = $this->MY_Model->getRows("ci_formlist_step2", $param);
+      return $query;
+   }
+
+   public function get_step3_files()
+   {
+      $fk_user_id = $this->session->userdata('user_details')[0]['fk_user_id'];
+      $param["select"] = "website_questionnaire, website_logo, agency_tax_year1, agency_tax_year2, agency_tax_year3, agency_resume, agency_bank_statement ";
+      $param["where"] = array("fk_user_id" => $fk_user_id);
+      $query = $this->MY_Model->getRows("ci_formlist_step3", $param);
+      return $query;
+   }
+
    public function step1_details($id = '')
    {
       $result = $this->db
@@ -63,29 +83,69 @@ class Mydddapplicationform extends MY_Controller
       exit();
    }
 
-   public function update_file()
+   public function submit_step3()
    {
-      if ($_FILES['file_upload']['name'] != "") {
+      $post = $this->input->post();
+      $param = array(
+         'select' => '*',
+         'where' => array(
+            'website_questionnaire' => $_FILES['website_questionnaire']['name'],
+            'website_logo'          => $_FILES['website_logo']['name'],
+            'agency_tax_year1'      => $_FILES['agency_tax_year1']['name'],
+            'agency_tax_year2'      => $_FILES['agency_tax_year2']['name'],
+            'agency_tax_year3'      => $_FILES['agency_tax_year3']['name'],
+            'agency_resume'         => $_FILES['agency_resume']['name'],
+            'agency_bank_statement' => $_FILES['agency_bank_statement']['name']
+         ),
+      );
+      $res =  $this->MY_Model->getRows("ci_formlist_step3", $param);
+      if (!empty($res)) {
+         $resmsg = array("err" => true, "msg" => "This file is already uploaded!");
+         $this->session->set_flashdata('res_err', $resmsg);
+      } else {
          $config['upload_path'] = './assets/uploads/';
          $config['allowed_types'] = 'gif|jpg|png|pdf|txt|docx|doc';
          $this->load->library('upload', $config);
-         if (!$this->upload->do_upload('file')) {
-            $error = array('error' => $this->upload->display_errors());
+         if (!$this->upload->do_upload('website_questionnaire', 'website_logo', 'agency_tax_year1', 'agency_tax_year2', 'agency_tax_year3', 'agency_resume', 'agency_bank_statement')) {
+            $resmsg = array("err" => true, "msg" => $this->upload->display_errors());
+            $this->session->set_flashdata('res_err', $resmsg);
          } else {
-            $upload_data = $this->upload->data();
-            $file_update = $upload_data['file_name'];
+            $fk_user_id = $this->session->userdata('user_details')[0]['fk_user_id'];
+            $step3 = array(
+               'agency_first_name1'    => $post["agency_first_name1"],
+               'agency_last_name1'     => $post["agency_last_name1"],
+               'agency_first_name2'    => $post["agency_first_name2"],
+               'agency_last_name2'     => $post["agency_last_name2"],
+               'agency_name1'          => $post["agency_name1"],
+               'agency_name2'          => $post["agency_name2"],
+               'agency_name3'          => $post["agency_name3"],
+               'agency_address1'       => $post["agency_address1"],
+               'agency_address2'       => $post["agency_address2"],
+               'agency_city'           => $post["agency_city"],
+               'agency_state'          => $post["agency_state"],
+               'agency_zip'            => $post["agency_zip"],
+               'website_questionnaire' => $this->upload->data('file_name'),
+               'website_logo'          => $this->upload->data('website_logo'),
+               'agency_tax_year1'      => $this->upload->data('file_name2'),
+               'agency_tax_year2'      => $this->upload->data('file_name3'),
+               'agency_tax_year3'      => $this->upload->data('file_name4'),
+               'agency_resume'         => $this->upload->data('file_name5'),
+               'agency_bank_statement' => $this->upload->data('file_name6'),
+               'fk_user_id'            => $fk_user_id,
+               'date_added'            => date("Y-m-d H:i:s"),
+               'step3_status'          => 1,
+            );
+            $res = $this->MY_Model->insert('ci_formlist_step3', $step3);
+            if ($res) {
+               $this->errmsg = "";
+               $resmsg = array("err" => false, "msg" => "Uploaded Successfully!");
+               $this->session->set_flashdata('res_err', $resmsg);
+            }
          }
-      } else {
-         $file_update = $this->input->post('file_upload');
       }
-
-      $this->db->set('file_title', $_POST['file_title'])->set('file', $file_update)->where('file_id', $_POST['file_id'])->update('ci_filelist');
-      $uid = $this->db->insert_id();
-
-      $this->session->set_userdata('swal', 'File record has been updated.');
-      redirect('managefiles');
+      redirect(base_url("mydddapplicationform"));
    }
-
+   
    public function get_dddapplication()
    {
       $draw = intval($this->input->post("draw"));
@@ -140,19 +200,24 @@ class Mydddapplicationform extends MY_Controller
       $fk_user_id = $this->session->userdata('user_details')[0]['fk_user_id'];
 
       $files = $this->db
-         ->select('*')
+         ->select('ci_formlist_step1.*, ci_formlist_step2.*, ci_formlist_step3.*')
          ->from('ci_formlist_step1')
          ->where('step1_status', '1')
-         ->where('fk_user_id', $fk_user_id)
-         // ->join('ci_userdata', 'ci_userdata.fk_user_id = ci_formlist_step1.fk_user_id')
+         ->where('ci_formlist_step1.fk_user_id', $fk_user_id)
+         ->join('ci_formlist_step2', 'ci_formlist_step2.fk_user_id = ci_formlist_step1.fk_user_id')
+         ->join('ci_formlist_step3', 'ci_formlist_step3.fk_user_id = ci_formlist_step1.fk_user_id')
+         // ->join('ci_formlist_step4', 'ci_formlist_step4.fk_user_id = ci_formlist_step1.fk_user_id')
          ->get();
 
       $data = array();
 
       foreach ($files->result() as $r) {
          $action_btn = false;
-         $action_btn .= "<a class='btn btn-success btn-xs step1_details' data-id=" . $r->step1_id . " href='javascript:void(0)'>Step 1 Details</a>";
-         $action_btn .= "<a class='btn btn-danger btn-xs delete_file' href='" . base_url('managefiles/delete_file/' . $r->step1_id) . "'>Delete</a>";
+         $action_btn .= "<a class='btn btn-info btn-xs step1_details' data-id=" . $r->step1_id . " href='javascript:void(0)'>Step 1 Details</a>";
+         $action_btn .= "<a class='btn btn-warning btn-xs step2_details' data-id=" . $r->payment_id . " href='javascript:void(0)'>Step 2 Details</a>";
+         $action_btn .= "<a class='btn btn-info btn-xs step3_details' data-id=" . $r->step3_id . " href='javascript:void(0)'>Step 3 Details</a>";
+         // $action_btn .= "<a class='btn btn-info btn-xs step4_details' data-id=" . $r->step1_id . " href='javascript:void(0)'>Step 4 Details</a>";
+         // $action_btn .= "<a class='btn btn-info btn-xs delete_file' href='" . base_url('managefiles/delete_file/' . $r->step1_id) . "'>Delete</a>";
 
          $data[] = array( //display data from database on Manage Files datatable
             $r->fk_user_id,
@@ -181,7 +246,32 @@ class Mydddapplicationform extends MY_Controller
          // ->join('ci_userdata', 'ci_userdata.fk_user_id = ci_formlist_step1.fk_user_id')
          ->get()
          ->result_array();
+      echo json_encode($result);
+      exit();
+   }
 
+   public function get_step2_details($id='') // get step1 details query
+   {
+      $result = $this->db
+         ->select('*')
+         ->from('ci_formlist_step2')
+         ->where('payment_id', $id)
+         // ->join('ci_userdata', 'ci_userdata.fk_user_id = ci_formlist_step1.fk_user_id')
+         ->get()
+         ->result_array();
+      echo json_encode($result);
+      exit();
+   }
+
+   public function get_step3_details($id = '') // get step1 details query
+   {
+      $result = $this->db
+         ->select('*')
+         ->from('ci_formlist_step3')
+         ->where('step3_id', $id)
+         // ->join('ci_userdata', 'ci_userdata.fk_user_id = ci_formlist_step1.fk_user_id')
+         ->get()
+         ->result_array();
       echo json_encode($result);
       exit();
    }

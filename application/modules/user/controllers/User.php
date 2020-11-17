@@ -42,104 +42,24 @@ class User extends MY_Controller
 	public function update_profile()
 	{
 		$fk_user_id = $this->session->userdata('user_details')[0]['fk_user_id'];
-		$this->db->
-		set('username', $_POST['username'])->
-		// set('file', $file_update)->
-		where('user_id', $fk_user_id)->
-		update('ci_users');
-		$uid = $this->db->insert_id();
-
+		$users = $this->db
+			->set('email', $_POST['email'])
+			->set('username', $_POST['username'])
+			->set('password', $_POST['password'])
+			->where('user_id', $fk_user_id)
+			->update('ci_users');
+		if($users){
+			$fk_user_id = $this->session->userdata('user_details')[0]['fk_user_id'];
+			$this->db
+			->set('first_name', $_POST['first_name']) 
+			->set('last_name', $_POST['last_name'])
+			->set('contact_number', $_POST['contact_number'])
+			->set('address', $_POST['address'])
+			->set('profile_picture', $_POST['profile_picture'])
+			->where('fk_user_id', $fk_user_id)
+			->update('ci_userdata');
+		}
 		$this->session->set_userdata('swal', 'Profile record has been updated.');
 		redirect('user/profile');
-	}
-	// public function update_profile()
-	// {
-	// 	$post = $this->input->post();
-
-	// 	if ($this->validated_user2($post, "update")) {
-	// 		if (!empty($post)) {
-	// 			$set = array(
-	// 				'username' => $post["username"],
-	// 				'password' => $post["password"],
-	// 				"email" => $post["email"]
-	// 			);
-	// 			$where = array("user_id" => $post["user_id"]);
-	// 			$res = $this->MY_Model->update("ci_users", $set, $where);
-	// 			if ($res) {
-	// 				$set = array(
-	// 					'first_name' => $post["first_name"],
-	// 					'last_name' => $post["last_name"],
-	// 					"city" => $post["city"],
-	// 					"state" => $post["state"],
-	// 					"phone" => $post["phone"],
-	// 					"zip_code" => $post["zip_code"],
-	// 					"gender" => $post["gender"]
-	// 				);
-	// 				$res = $this->MY_Model->update("ci_userdata", $set, $where);
-	// 				if ($res) {
-	// 					$this->errmsg = "";
-	// 					$resmsg = array("err" => false, "msg" => "Updated Successfully!");
-	// 					$this->session->set_flashdata('res_err', $resmsg);
-
-	// 					if (!empty($post["is_admin"])) {
-	// 						$userdata = array(
-	// 							"user_id" => $post["user_id"],
-	// 							"username" => $post["username"],
-	// 							"first_name" => $post["first_name"],
-	// 							"last_name" => $post["last_name"],
-	// 							"gender" => $post["gender"],
-	// 							"user_type" => 1,
-	// 							"user_status" => 1,
-	// 							"password" => $post["password"],
-	// 							"email" => $post["email"],
-	// 							"city" => $post["city"],
-	// 							"state" => $post["state"],
-	// 							"phone" => $post["phone"],
-	// 							"zip_code" => $post["zip_code"],
-	// 							"logged_in" => 1
-	// 						);
-	// 						$this->session->set_userdata($userdata);
-	// 					}
-	// 				} else {
-	// 					$resmsg = array("err" => true, "msg" => "Updating user failed!");
-	// 					$this->session->set_flashdata('res_err', $resmsg);
-	// 				}
-	// 			}
-	// 		}
-	// 	} else {
-	// 		$resmsg = array("err" => true, "msg" => $this->errmsg);
-	// 		$this->session->set_flashdata('res_err', $resmsg);
-	// 	}
-	// 	redirect(base_url("user/profile"));
-	// }
-
-	private function validated_user2($user, $opt = "")
-	{
-		$param["select"] = "ci_users.user_id";
-		if (empty($opt)) {
-			$param["where"] = array("first_name" => $user["first_name"], "last_name" => $user["last_name"]);
-			$res =  $this->MY_Model->getRows("ci_users", $param);
-			if ($res) {
-				$this->errmsg = "This fullname is already exists!";
-				return false;
-			}
-			$param["where"] = array("username" => $user["username"], "password" => $user["password"]);
-			$param["or_where"] = array("email_address" => $user["email_address"]);
-		} else {
-			$param["where"] = array("username" => $user["username"], "password" => $user["password"], "ci_users.user_id !=" => $user["user_id"]);
-			$res =  $this->MY_Model->getRows("ci_users", $param);
-			if ($res) {
-				$this->errmsg = "username and password is already exists;";
-				return false;
-			}
-			$param["where"] = array("email_address" => $user["email_address"],  "ci_users.user_id !=" => $user["user_id"]);
-		}
-		$param["join"] = array("ci_userdata" => "ci_users.user_id = ci_userdata.fk_user_id");
-		$res =  $this->MY_Model->getRows("ci_users", $param);
-		if ($res) {
-			$this->errmsg = "Email / username and password is already exists;";
-			return false;
-		}
-		return true;
 	}
 }

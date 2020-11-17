@@ -276,9 +276,9 @@ class Paymentinvoice extends MY_Controller
 		$data = array(
 			'fk_user_id'			=> $fk_user_id,
 			'transaction_id'		=> $trans,
-			'paid_website_quote' 	=> $_SESSION['formdata']['Website_Quote'],
-			'paid_agency_quote' 	=> $_SESSION['formdata']['Agency_Quote'],
-			'total_paid' 			=> $_SESSION['formdata']['Amount'],
+			'paid_website_quote' 	=> '1',
+			'paid_agency_quote' 	=> '1',
+			'total_paid' 			=> '2',
 			'date_paid' 			=> $date_paid,
 			'payment_status'   		=> 1 //paid
 		);
