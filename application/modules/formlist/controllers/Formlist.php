@@ -105,10 +105,31 @@ class Formlist extends MY_Controller {
            			// $action_btn .= "<a class='btn btn-success btn-xs edit_user' data-id=".$r->user_id." href='javascript:void(0)'>Edit</a>";
            			// $action_btn .= "<a class='btn btn-danger btn-xs delete_user' href='".base_url('formlistdelete_user/'.$r->user_id)."'>Delete</a>";
 
-                  $action_btn = "<a class='btn btn-primary btn-xs status_user step_1 blue-btn' data-id=".$r->user_id." href='javascript:void(0)'>Step 1</a>";
-                  $action_btn .= "<a class='btn btn-primary btn-xs status_user step_2 blue-btn' data-id=".$r->user_id." href='javascript:void(0)'>Step 2</a>";
-                  $action_btn .= "<a class='btn btn-primary btn-xs status_user step_3 blue-btn' data-id=".$r->user_id." href='javascript:void(0)'>Step 3</a>";
-                  $action_btn .= "<a class='btn btn-warning btn-xs status_user step_4' data-id=".$r->user_id." href='javascript:void(0)'>Step 4</a>";
+                  $explode_steps = explode(",", $r->form_array);
+
+
+
+                  $payment_id = $this->db->
+                  select('payment_id')->
+                  where('step1_id', $explode_steps[0])->
+                  from('ci_formlist_step1')->
+                  get()->result();
+
+                  $action_btn = "<a class='btn btn-primary btn-xs status_user step_1 blue-btn' data-id=".$r->user_id." data-sid=".$explode_steps[0]." href='javascript:void(0)'>Step 1</a>";
+                  if(!empty($payment_id[0]->payment_id)){
+                     $action_btn .= "<a class='btn btn-primary btn-xs status_user step_2 blue-btn' data-id=".$r->user_id." data-sid=".$explode_steps[0]." href='javascript:void(0)'>Step 2</a>";
+                  }
+                  if (!empty($explode_steps[1])) {
+                     $action_btn .= "<a class='btn btn-primary btn-xs status_user step_3 blue-btn' data-id=".$r->user_id." data-sid=".$explode_steps[1]." href='javascript:void(0)'>Step 3</a>";
+                  }
+                  if (!empty($explode_steps[2])) {
+                     $action_btn .= "<a class='btn btn-warning btn-xs status_user step_4' data-id=".$r->user_id." data-sid=".$explode_steps[2]." href='javascript:void(0)'>Step 4</a>";
+                  }
+
+                  // $action_btn = "<a class='btn btn-primary btn-xs status_user step_1 blue-btn' data-id=".$r->user_id." data-sid=".$r->user_id." href='javascript:void(0)'>Step 1</a>";
+                  // $action_btn .= "<a class='btn btn-primary btn-xs status_user step_2 blue-btn' data-id=".$r->user_id." href='javascript:void(0)'>Step 2</a>";
+                  // $action_btn .= "<a class='btn btn-primary btn-xs status_user step_3 blue-btn' data-id=".$r->user_id." href='javascript:void(0)'>Step 3</a>";
+                  // $action_btn .= "<a class='btn btn-warning btn-xs status_user step_4' data-id=".$r->user_id." href='javascript:void(0)'>Step 4</a>";
             // }
             // if($this->session->userdata('type') != 'admin'){
             //      $data[] = array(
@@ -151,210 +172,317 @@ class Formlist extends MY_Controller {
           exit();
 	}
 
-	public function activate_user($id='')
-	{
-		$res=$this->db
-		->set('activity_status','1')
-		->where('user_id',$id)
-		->update('ci_users');
+   public function view_stepform($form_type=""){
 
-		$this->session->set_userdata('swal','User activated successfully.');
-		redirect('formlist');
-	}
-	public function deactivate_user($id='')
-	{
-      $res=$this->db
-      ->set('activity_status','0')
-      ->where('user_id',$id)
-      ->update('ci_users');
-
-		$this->session->set_userdata('swal','User deactivated successfully.');
-      redirect('formlist');
-
-	}
-
-   public function verify_username(){
-
-      if(!empty($_POST['id'])){
-         $check_username = $this->db->
-         select('*')->
-         from('ci_users')->
-         where('username', $_POST['username'])->
-         where('user_id !=', $_POST['id'])->
-         count_all_results();
-
-         if ( $check_username > 0 ) {
-            echo "taken";
-         }else{
-            echo 'not_taken';
-         }
-         exit();
-      }else{
-         $check_username = $this->db->
-         select('*')->
-         from('ci_users')->
-         where('username', $_POST['username'])->
-         count_all_results();
-
-         if ( $check_username > 0 ) {
-            echo "taken";
-         }else{
-            echo 'not_taken';
-         }
-         exit();
+      if($form_type == '1'){
+         $form_id = 'step1_id';
+         $table = 'ci_formlist_step1';
+      }else if($form_type == '2'){
+         $form_id = 'step1_id';
+         $table = 'ci_formlist_step1';
+      }else if($form_type == '3'){
+         $form_id = 'step3_id';
+         $table = 'ci_formlist_step3';
+      }else if($form_type == '4'){
+         $form_id = 'step4_id';
+         $table = 'ci_formlist_step4';
       }
-   }
-
-   public function verify_email(){
-      if(!empty($_POST['id'])){
-         $check_email = $this->db->
-         select('*')->
-         from('ci_users')->
-         where('email', $_POST['email'])->
-         where('user_id !=', $_POST['id'])->
-         count_all_results();
-
-         if ( $check_email > 0 ) {
-            echo "taken";
-         }else{
-            echo 'not_taken';
-         }
-         exit();
-      }else{
-
-         $check_email = $this->db->
-         select('*')->
-         from('ci_users')->
-         where('email', $_POST['email'])->
-         count_all_results();
-
-         if ( $check_email > 0 ) {
-            echo "taken";
-         }else{
-            echo 'not_taken';
-         }
-         exit();
-      }
-   }
-
-
-	public function add_user(){
-
-		$check_un = $_POST['username'];
-		$check_email = $_POST['email'];
-
-		$result_un = $this->db->
-		select('*')->
-		from('ci_users')->
-		where('username', $check_un)->
-		get()->
-		result();
-
-		$result_email = $this->db->
-		select('*')->
-		from('ci_users')->
-		where('email', $check_email)->
-		get()->
-		result();
-
-		if($result_un){
-			$this->session->set_userdata('swal', 'Username already exists.');
-         redirect('formlist');
-		}else if($result_email){
-			$this->session->set_userdata('swal', 'Email already exists.');
-         redirect('formlist');
-		}else {
-			// $pw = password_hash($_POST['password'], PASSWORD_DEFAULT);
-
-			$result = $this->db->
-			set('username', $_POST['username'])->
-			set('password', $_POST['password'])->
-			// set('user_type', $_POST['user_type'])->
-			set('user_type', 'user')->
-			set('email', $_POST['email'])->
-			set('activity_status', '1')->
-         // set('other_password', $_POST['password'])->
-         set('delete_status', '0')->
-			insert('ci_users');
-			$uid = $this->db->insert_id();
-
-			$result2 = $this->db->
-			set('fk_user_id', $uid)->
-			set('first_name', $_POST['fname'])->
-			set('last_name', $_POST['lname'])->
-			set('contact_number', $_POST['contact'])->
-			set('address', $_POST['address'])->
-			set('profile_picture', 'user.png')->
-			insert('ci_userdata');
-
-			$this->session->set_userdata('swal', 'New User has been added on the list.');
-			redirect('formlist');
-		}
-	}
-
-   public function edit_user($id='')
-   {
       $result = $this->db->
       select('*')->
-      from('ci_userdata')->
-      where('ci_userdata.fk_user_id', $id)->
-      join('ci_users', 'ci_users.user_id = ci_userdata.fk_user_id')->
-      get()->result_array();
+      where('fk_user_id', $_POST['user_id'])->
+      where($form_id, $_POST['form_id'])->
+      from($table)->
+      get()->result();
 
       echo json_encode($result);
-      exit();
+      exit;
    }
 
+   public function admin_step1(){
 
-	public function update_user(){
+      $files1 = $_FILES['ws_invoice']['name'];
 
-		$check_un = $_POST['edit_username'];
-		$check_email = $_POST['edit_email'];
+      $folder1 = 'assets/uploads/documents/';
+      $name1 = $_FILES['ws_invoice']['tmp_name'];
+      $othername1 = $_FILES['ws_invoice']['name'];
+      move_uploaded_file($name1, $folder1.time().'_'.$othername1);
 
-		if($result_un){
-			$this->session->set_userdata('swal', 'Username already exists.');
-         redirect('formlist');
-		}else if($result_email){
-			$this->session->set_userdata('swal', 'Email already exists.');
-         redirect('formlist');
-		}else {
-			// $pw = password_hash($_POST['edit_password'], PASSWORD_DEFAULT);
+      $files1 = $_FILES['ws_invoice']['name'];
+      $filename1 = time().'_'.$files1;
 
-			$result = $this->db->
-			set('username', $check_un)->
-			set('password', $_POST['edit_password'])->
-			// set('user_type', $_POST['user_type'])->
-			// set('user_type', 'technician')->
-			set('email', $_POST['edit_email'])->
-			// set('status', 'active')->
-         // set('other_password', $_POST['password'])->
-         // set('program_type', $options)->
-         where('user_id', $_POST['id_value_id'])->
-			update('ci_users');
-			$uid = $this->db->insert_id();
+      $files2 = $_FILES['a_invoice']['name'];
 
-			$result2 = $this->db->
-			set('first_name', $_POST['edit_fname'])->
-			set('last_name', $_POST['edit_lname'])->
-			set('contact_number', $_POST['edit_contact'])->
-			set('address', $_POST['edit_address'])->
-			// set('profile_picture', 'user.png')->
-         where('fk_user_id', $_POST['id_value_id'])->
-			update('ci_userdata');
+      $folder2 = 'assets/uploads/documents/';
+      $name2 = $_FILES['a_invoice']['tmp_name'];
+      $othername2 = $_FILES['a_invoice']['name'];
+      move_uploaded_file($name2, $folder2.time().'_'.$othername2);
 
-			$this->session->set_userdata('swal', 'User record has been updated.');
-			redirect('formlist');
-		}
-	}
+      $files2 = $_FILES['a_invoice']['name'];
+      $filename2 = time().'_'.$files2;
 
-	public function delete_user($id=''){
+		$result2 = $this->db->
+		set('website_quote', $_POST['ws_qprice'])->
+		set('agency_quote', $_POST['a_qprice'])->
+		set('step1_status', '1')->
+		set('website_invoice', $filename1)->
+		set('agency_invoice', $filename2)->
+		where('fk_user_id', $_POST['user_id'])->
+      update('ci_formlist_step1');
 
-		$this->db->
-      set('delete_status', '1')->
-		where('user_id',$id)->
-		update('ci_users');
-
-		$this->session->set_userdata('swal','User deleted successfully.');
+		$this->session->set_userdata('swal', 'Step 1 has been updated.');
 		redirect('formlist');
 	}
+
+
+   public function admin_step2(){
+
+      $files1 = $_FILES['upwinvoice']['name'];
+
+      $folder1 = 'assets/uploads/documents/';
+      $name1 = $_FILES['upwinvoice']['tmp_name'];
+      $othername1 = $_FILES['upwinvoice']['name'];
+      move_uploaded_file($name1, $folder1.time().'_'.$othername1);
+
+      $files1 = $_FILES['upwinvoice']['name'];
+      $filename1 = time().'_'.$files1;
+
+      $files2 = $_FILES['upainvoice']['name'];
+
+      $folder2 = 'assets/uploads/documents/';
+      $name2 = $_FILES['upainvoice']['tmp_name'];
+      $othername2 = $_FILES['upainvoice']['name'];
+      move_uploaded_file($name2, $folder2.time().'_'.$othername2);
+
+      $files2 = $_FILES['upainvoice']['name'];
+      $filename2 = time().'_'.$files2;
+
+		$result2 = $this->db->
+		set('website_uinvoice', $filename1)->
+		set('agency_uinvoice', $filename2)->
+		where('fk_user_id', $_POST['user_id'])->
+      update('ci_formlist_step1');
+
+		$this->session->set_userdata('swal', 'Step 2 has been updated.');
+		redirect('formlist');
+	}
+
+
+   public function admin_step3_wa(){
+
+      $files1 = $_FILES['irs-ein-file']['name'];
+
+      $folder1 = 'assets/uploads/documents/';
+      $name1 = $_FILES['irs-ein-file']['tmp_name'];
+      $othername1 = $_FILES['irs-ein-file']['name'];
+      move_uploaded_file($name1, $folder1.time().'_'.$othername1);
+
+      $files1 = $_FILES['irs-ein-file']['name'];
+      $irseinfile = time().'_'.$files1;
+
+      $files2 = $_FILES['nia-file']['name'];
+
+      $folder2 = 'assets/uploads/documents/';
+      $name2 = $_FILES['nia-file']['tmp_name'];
+      $othername2 = $_FILES['nia-file']['name'];
+      move_uploaded_file($name2, $folder2.time().'_'.$othername2);
+
+      $files2 = $_FILES['nia-file']['name'];
+      $niafile = time().'_'.$files2;
+
+      $files3 = $_FILES['nia-app-denial']['name'];
+
+      $folder3 = 'assets/uploads/documents/';
+      $name3 = $_FILES['nia-app-denial']['tmp_name'];
+      $othername3 = $_FILES['nia-app-denial']['name'];
+      move_uploaded_file($name3, $folder3.time().'_'.$othername3);
+
+      $files3 = $_FILES['nia-app-denial']['name'];
+      $appdenialfile = time().'_'.$files3;
+
+      $files4 = $_FILES['nca-file']['name'];
+
+      $folder4 = 'assets/uploads/documents/';
+      $name4 = $_FILES['nca-file']['tmp_name'];
+      $othername4 = $_FILES['nca-file']['name'];
+      move_uploaded_file($name4, $folder4.time().'_'.$othername4);
+
+      $files4 = $_FILES['nca-file']['name'];
+      $ncafile = time().'_'.$files4;
+
+      $files5 = $_FILES['npa-file']['name'];
+
+      $folder5 = 'assets/uploads/documents/';
+      $name5 = $_FILES['npa-file']['tmp_name'];
+      $othername5 = $_FILES['npa-file']['name'];
+      move_uploaded_file($name5, $folder5.time().'_'.$othername5);
+
+      $files5 = $_FILES['npa-file']['name'];
+      $npafile = time().'_'.$files5;
+
+      $files6 = $_FILES['na-file']['name'];
+
+      $folder6 = 'assets/uploads/documents/';
+      $name6 = $_FILES['na-file']['tmp_name'];
+      $othername6 = $_FILES['na-file']['name'];
+      move_uploaded_file($name6, $folder6.time().'_'.$othername6);
+
+      $files6 = $_FILES['na-file']['name'];
+      $nafile = time().'_'.$files6;
+
+		$result = $this->db->
+		set('step3_status', '0')->
+		set('ws_url1', $_POST['prototype1'])->
+		set('ws_url2', $_POST['prototype2'])->
+		set('ws_url3', $_POST['prototype3'])->
+		set('irs_ein', $_POST['irs-ein'])->
+		set('irs_ein_file', $irseinfile)->
+		set('irs_submitted', $_POST['irs-submitted'])->
+		set('irs_mailed', $_POST['irs-mailed'])->
+		set('irs_rdate', $_POST['irs-rdate'])->
+		set('irs_cspecialist', $_POST['irs-cspecialist'])->
+		set('nia_file', $niafile)->
+		set('nia_ddate', $_POST['nia-ddate'])->
+		set('nia_bplan', $_POST['nia-bplan'])->
+		set('nia_cplan', $_POST['nia-cplan'])->
+      set('app_denial_file', $appdenialfile)->
+		set('ad_rdate', $_POST['ad-rdate'])->
+		set('ad_rfocus', $_POST['ad-rfocus'])->
+		set('ad_mdate', $_POST['ad-mdate'])->
+      set('nca_file', $ncafile)->
+      set('npa_file', $npafile)->
+		set('padate', $_POST['padate'])->
+		set('na_file', $nafile)->
+		where('fk_user_id', $_POST['user_id_step3'])->
+      update('ci_formlist_step3');
+
+		$this->session->set_userdata('swal', 'Step 2 has been updated.');
+		redirect('formlist');
+	}
+
+   public function admin_step3_na(){
+
+      $files2 = $_FILES['nia-file']['name'];
+
+      $folder2 = 'assets/uploads/documents/';
+      $name2 = $_FILES['nia-file']['tmp_name'];
+      $othername2 = $_FILES['nia-file']['name'];
+      move_uploaded_file($name2, $folder2.time().'_'.$othername2);
+
+      $files2 = $_FILES['nia-file']['name'];
+      $niafile = time().'_'.$files2;
+
+      $files3 = $_FILES['nia-app-denial']['name'];
+
+      $folder3 = 'assets/uploads/documents/';
+      $name3 = $_FILES['nia-app-denial']['tmp_name'];
+      $othername3 = $_FILES['nia-app-denial']['name'];
+      move_uploaded_file($name3, $folder3.time().'_'.$othername3);
+
+      $files3 = $_FILES['nia-app-denial']['name'];
+      $appdenialfile = time().'_'.$files3;
+
+      $files4 = $_FILES['nca-file']['name'];
+
+      $folder4 = 'assets/uploads/documents/';
+      $name4 = $_FILES['nca-file']['tmp_name'];
+      $othername4 = $_FILES['nca-file']['name'];
+      move_uploaded_file($name4, $folder4.time().'_'.$othername4);
+
+      $files4 = $_FILES['nca-file']['name'];
+      $ncafile = time().'_'.$files4;
+
+      $files5 = $_FILES['npa-file']['name'];
+
+      $folder5 = 'assets/uploads/documents/';
+      $name5 = $_FILES['npa-file']['tmp_name'];
+      $othername5 = $_FILES['npa-file']['name'];
+      move_uploaded_file($name5, $folder5.time().'_'.$othername5);
+
+      $files5 = $_FILES['npa-file']['name'];
+      $npafile = time().'_'.$files5;
+
+      $files6 = $_FILES['na-file']['name'];
+
+      $folder6 = 'assets/uploads/documents/';
+      $name6 = $_FILES['na-file']['tmp_name'];
+      $othername6 = $_FILES['na-file']['name'];
+      move_uploaded_file($name6, $folder6.time().'_'.$othername6);
+
+      $files6 = $_FILES['na-file']['name'];
+      $nafile = time().'_'.$files6;
+
+		$result = $this->db->
+		set('step3_status', '0')->
+		set('ws_url1', $_POST['prototype1'])->
+		set('ws_url2', $_POST['prototype2'])->
+		set('ws_url3', $_POST['prototype3'])->
+      set('irs_submitted', $_POST['irs-submitted'])->
+		set('irs_mailed', $_POST['irs-mailed'])->
+		set('irs_rdate', $_POST['irs-rdate'])->
+		set('irs_cspecialist', $_POST['irs-cspecialist'])->
+		set('nia_file', $niafile)->
+		set('nia_ddate', $_POST['nia-ddate'])->
+		set('nia_bplan', $_POST['nia-bplan'])->
+		set('nia_cplan', $_POST['nia-cplan'])->
+      set('app_denial_file', $appdenialfile)->
+		set('ad_rdate', $_POST['ad-rdate'])->
+		set('ad_rfocus', $_POST['ad-rfocus'])->
+		set('ad_mdate', $_POST['ad-mdate'])->
+      set('nca_file', $ncafile)->
+      set('npa_file', $npafile)->
+		set('padate', $_POST['padate'])->
+		set('na_file', $nafile)->
+		where('fk_user_id', $_POST['user_id_step3'])->
+      update('ci_formlist_step3');
+
+		$this->session->set_userdata('swal', 'Step 3 has been updated.');
+		redirect('formlist');
+	}
+
+   public function admin_step4(){
+
+      // echo "<pre>";
+      // print_r($_FILES);
+      // echo "<br>";
+      // print_r($_POST);
+      // exit;
+
+      $files1 = $_FILES['olcr-file']['name'];
+
+      $folder1 = 'assets/uploads/documents/';
+      $name1 = $_FILES['olcr-file']['tmp_name'];
+      $othername1 = $_FILES['olcr-file']['name'];
+      move_uploaded_file($name1, $folder1.time().'_'.$othername1);
+
+      $files1 = $_FILES['olcr-file']['name'];
+      $olcrfile = time().'_'.$files1;
+
+
+      $files2 = $_FILES['pm-file']['name'];
+
+      $folder2 = 'assets/uploads/documents/';
+      $name2 = $_FILES['pm-file']['tmp_name'];
+      $othername2 = $_FILES['pm-file']['name'];
+      move_uploaded_file($name2, $folder2.time().'_'.$othername2);
+
+      $files2 = $_FILES['pm-file']['name'];
+      $pmfile = time().'_'.$files2;
+
+		$result = $this->db->
+		set('step4_status', '0')->
+		set('district', $_POST['district'])->
+		set('ahcccs-submitted', $_POST['ahcccs-submitted'])->
+		set('ahcccs-approved', $_POST['ahcccs-approved'])->
+		set('olcr-file', $olcrfile)->
+		set('olcr-date', $_POST['olcr'])->
+		set('olcr-contact', $_POST['olcr-contact'])->
+      set('pm-file', $pmfile)->
+		set('pm-submitted', $_POST['pm-submitted'])->
+		where('fk_user_id', $_POST['user_id_step4'])->
+      update('ci_formlist_step4');
+
+		$this->session->set_userdata('swal', 'Step 4 has been updated.');
+		redirect('formlist');
+	}
+
 }
