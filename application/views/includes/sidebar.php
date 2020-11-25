@@ -61,12 +61,12 @@
                 <!-- Profile -->
                 <!-- ============================================================== -->
                 <li class="nav-item dropdown">
-                   <a class="nav-link waves-effect waves-dark" href="<?= base_url("notiflist") ?>"> <i class="icon-Bell"></i>
+                    <a class="nav-link waves-effect waves-dark" href="<?= base_url("notiflist") ?>"> <i class="icon-Bell"></i>
                         <div class="notify">
-                           <span class="heartbit"></span>
-                           <span class="point"></span>
+                            <span class="heartbit"></span>
+                            <span class="point"></span>
                         </div>
-                   </a>
+                    </a>
                 </li>
                 <li class="nav-item dropdown u-pro">
                     <a class="nav-link dropdown-toggle waves-effect waves-dark profile-pic" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-sign-out-alt"></i><span class="hidden-md-down"> &nbsp;<i class="fa fa-angle-down"></i></span> </a>
@@ -103,14 +103,18 @@
     <div class="scroll-sidebar">
         <!-- Sidebar navigation-->
         <nav class="sidebar-nav">
-            <?php if ($this->session->userdata("user_type") != "user") { ?>
+            <?php //if ($this->session->userdata("user_type") != "user") { ?>
                 <ul id="sidebarnav">
-                    <li class="<?php if (!empty($pagename)) { echo "active"; } else { echo "not-active"; }  ?>"> <a class="waves-effect " href="<?= base_url("admin") ?>" aria-expanded="false"><i class="icon-Car-Wheel"></i><span class="hide-menu">Dashboard </span></a> </li>
+                    <!-- <li class="<?php if (!empty($pagename)) {
+                                    echo "active";
+                                } else {
+                                    echo "not-active";
+                                }  ?>"> <a class="waves-effect " href="<?= base_url("admin") ?>" aria-expanded="false"><i class="icon-Car-Wheel"></i><span class="hide-menu">Dashboard </span></a> </li>
                     <li> <a class="waves-effect " href="<?= base_url("userlist") ?>" aria-expanded="false"><i class="icon-User"></i><span class="hide-menu">Manage Users</span></a></li>
                     <li> <a class="waves-effect " href="<?= base_url("managefiles") ?>" aria-expanded="false"><i class="icon-Files"></i><span class="hide-menu">Manage Files</span></a> </li>
                     <li> <a class="waves-effect " href="<?= base_url("formlist") ?>" aria-expanded="false"><i class="icon-Files"></i><span class="hide-menu">DDD Forms</span></a> </li>
-                    <li> <a class="waves-effect " href="<?= base_url("managesubscription") ?>" aria-expanded="false"><i class="icon-Files"></i><span class="hide-menu">Subscription</span></a> </li>
-                    <li> <a class="waves-effect " href="<?= base_url("manageorderawebsite") ?>" aria-expanded="false"><i class="icon-Files"></i><span class="hide-menu">Order Website</span></a> </li>
+                    <li> <a class="waves-effect " href="<?= base_url("managesubscription") ?>" aria-expanded="false"><i class="icon-Files"></i><span class="hide-menu">Manage Subscription</span></a> </li>
+                    <li> <a class="waves-effect " href="<?= base_url("manageorderawebsite") ?>" aria-expanded="false"><i class="icon-Files"></i><span class="hide-menu">Manage Order a Website</span></a> </li> -->
                     <!-- <li> <a class="has-arrow waves-effect" href="javascript:;" aria-expanded="false"><i class="icon-El-Castillo"></i><span class="hide-menu">Multi level dd</span></a>
                     <ul aria-expanded="false" class="collapse">
                         <li><a href="javascript:;">item 1.1</a></li>
@@ -127,12 +131,19 @@
                     </ul>
                 </li> -->
                 </ul>
-            <?php } else { ?>
+            <?php //} else { ?>
                 <ul id="sidebarnav">
-                    <li class="<?php if (!empty($pagename)) { echo "active"; } else { echo "not-active";}  ?>"><a class="waves-effect " href="<?= base_url("user") ?>" aria-expanded="false"><i class="icon-Car-Wheel"></i><span class="hide-menu">Dashboard </span></a> </li>
+                    <li class="<?php if (!empty($pagename)) {
+                                    echo "active";
+                                } else {
+                                    echo "not-active";
+                                }  ?>"><a class="waves-effect " href="<?= base_url("user") ?>" aria-expanded="false"><i class="icon-Car-Wheel"></i><span class="hide-menu">Dashboard </span></a> </li>
                     <li> <a class="waves-effect " href="<?= base_url("user/profile") ?>" aria-expanded="false"><i class="icon-User"></i><span class="hide-menu">Profile</span></a></li>
                     <li> <a class="waves-effect " href="<?= base_url("viewfiles") ?>" aria-expanded="false"><i class="icon-Files"></i><span class="hide-menu">View Files</span></a></li>
-                <?php } ?>
+                    <li> <a class="waves-effect " href="<?= base_url("mysubscription") ?>" aria-expanded="false"><i class="icon-Dollar"></i><span class="hide-menu">Subscription</span></a></li>
+                    <li> <a class="waves-effect " href="<?= base_url("myorderawebsite") ?>" aria-expanded="false"><i class="icon-Globe"></i><span class="hide-menu">Order Website</span></a></li>
+                    <li> <a class="waves-effect " href="<?= base_url("mydddapplicationform") ?>" aria-expanded="false"><i class="icon-Files"></i><span class="hide-menu">Application</span></a></li>
+                <?php //} ?>
         </nav>
         <!-- End Sidebar navigation -->
     </div>

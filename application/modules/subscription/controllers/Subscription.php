@@ -257,12 +257,10 @@ class Subscription extends MY_Controller
 		$initials = $data['First_Name'][0] . $data['Last_Name'][0];
 		$trans = strtoupper(uniqid($initials));
 		$date_subscribed = date('Y-m-d');
-		$user = $this->session->userdata('user_id');
-		// echo '<pre>';
-		// print_r($user);
-		//  exit;
+		$fk_user_id = $this->session->userdata('user_details')[0]['fk_user_id'];
+
 		$data = array(
-			'fk_user_id'		=> 11,
+			'fk_user_id'		=> $fk_user_id,
 			'transaction_id'	=> $trans,
 			'paid_amount' 		=> $_SESSION['formdata']['Amount'],
 			'payment_for' 		=> $_SESSION['formdata']['Payment_For'],

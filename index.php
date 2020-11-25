@@ -2,7 +2,7 @@
 $isProduction = false;
 $base_url = (isset($_SERVER['HTTPS']) ? 'https' : 'http').'://'.$_SERVER['HTTP_HOST'].'/'.(explode("/",$_SERVER['REQUEST_URI'])[1]).'/';
 define('TEST_MODE', true);
-define('COMPANY_NAME', 'NAPACUSA');
+define('COMPANY_NAME', 'Consulting Experts LLC');
 define('FORM_NAME', 'Payment');
 
 define('DONATION', false);
@@ -19,11 +19,11 @@ if(DONATION){
 }
 
 $gateways = array(
-  	'paypal'    => true,
+  	'paypal'    => false,
   	'authorize' => false,
   	'payeezy'   => false,
   	'stripe'    => false,
-  	'square'    => false
+  	'square'    => true
 );
 
 $required = array('First_Name','Last_Name','Email');
@@ -48,10 +48,13 @@ if(TEST_MODE){
   define('STRIPE_PUBLISHABLE_KEY','pk_test_Y2XsAOSNSABe2aOW2Y4s1B0x');
   define('STRIPE_SECRET_KEY','sk_test_O2dUx2u1rnMoIEAbjo1fxhzJ');
 
-  //NOTE: SQUARE
-  define('SQUARE_APPLICATION_ID','sandbox-sq0idp-Cv-UCD-d58VKczDvd8PXog');
-  define('SQUARE_ACCESS_TOKEN','sandbox-sq0atb-s3f9nBf4GmWjTLcRoEm9aw');
-  define('SQUARE_LOCATION_ID','CBASEICWWAw5k2TCC_Ez-1bJueUgAQ');
+	//NOTE: SQUARE
+	//   define('SQUARE_APPLICATION_ID','sandbox-sq0idp-Cv-UCD-d58VKczDvd8PXog');
+	//   define('SQUARE_ACCESS_TOKEN','sandbox-sq0atb-s3f9nBf4GmWjTLcRoEm9aw');
+	//   define('SQUARE_LOCATION_ID','CBASEICWWAw5k2TCC_Ez-1bJueUgAQ');
+	define('SQUARE_APPLICATION_ID', 'sandbox-sq0idb-K8zNYb-vAxSgEd7obKjwHw');
+	define('SQUARE_ACCESS_TOKEN', 'EAAAEEz93JojYdioVzkPIp_g3c-TwibkA4MrZPqKyQdlwJCh0bK-V2iJqRX7n3hY');
+	define('SQUARE_LOCATION_ID', 'LCX65EX6Q46H2');
 
 }else {
 

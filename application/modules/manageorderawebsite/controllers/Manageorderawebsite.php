@@ -100,7 +100,7 @@ class Manageorderawebsite extends MY_Controller
             // $r->payment_for,
             $r->date_paid, 
             $r->company_name, 
-            $r->website_link,
+            "<a class='btn btn-danger btn-xs' href='$r->website_link' target='_blank'>$r->website_link</a>",
             $r->company_info,
             $r->orderawebsite_status,
             $action_btn

@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Orderawebsite extends MY_Controller
+class Paymentinvoice extends MY_Controller
 {
 
 	public function __construct()
@@ -13,7 +13,21 @@ class Orderawebsite extends MY_Controller
 	public function index()
 	{
 		$data["title"] = "Register Account";
-		$this->load->view("orderawebsite", $data);
+		$data['quote'] = $this->getquote();
+		$this->load->view("paymentinvoice", $data);
+	}
+
+	public function getquote()
+	{
+		$fk_user_id = $this->session->userdata('user_details')[0]['fk_user_id'];
+		$param["select"] = "website_quote, agency_quote, agency_invoice, website_invoice";
+		$param["where"] = array("fk_user_id" => $fk_user_id);
+		// $param["where"] = array("step1_status" => 1);
+		$query = $this->MY_Model->getRows("ci_formlist_step1", $param);
+		// echo '<pre>';
+		// print_r($query);
+		//  exit;
+		return $query;
 	}
 
 	public function ajax_payment($paypal = '')
@@ -256,28 +270,25 @@ class Orderawebsite extends MY_Controller
 	{
 		$initials = $data['First_Name'][0] . $data['Last_Name'][0];
 		$trans = strtoupper(uniqid($initials));
-		$date = date('Y-m-d');
+		$date_paid = date('Y-m-d');
 		$fk_user_id = $this->session->userdata('user_details')[0]['fk_user_id'];
-		
+
 		$data = array(
 			'fk_user_id'			=> $fk_user_id,
 			'transaction_id'		=> $trans,
-			'paid_amount' 			=> $_SESSION['formdata']['Amount'],
-			'payment_for' 			=> $_SESSION['formdata']['Payment_For'],
-			'gateway' 				=> $_SESSION['formdata']['gateway'],
-			'company_name' 			=> $_SESSION['formdata']['Company_Name'],
-			'website_link' 			=> $_SESSION['formdata']['Website_Link'],
-			'company_info' 			=> $_SESSION['formdata']['Additional_Information'],
-			'date_paid'   			=> $date,
-			'orderawebsite_status' 	=> 1 //paid
+			'paid_website_quote' 	=> '1',
+			'paid_agency_quote' 	=> '1',
+			'total_paid' 			=> '2',
+			'date_paid' 			=> $date_paid,
+			'payment_status'   		=> 1 //paid
 		);
-		$this->MY_Model->insert('ci_orderawebsite', $data);
+		$this->MY_Model->insert('ci_formlist_step2', $data);
 
 		if ($status = 'SUCCESS') {
-			$name = $_SESSION['formdata']['First_Name'] . " " . $_SESSION['formdata']['Last_Name'];
+			$name = $this->session->userdata('user_details')[0]['first_name'] . " " . $this->session->userdata('user_details')[0]['last_name'];
 			$email_address = $_SESSION['formdata']['Email'];
 			$email_from = 'Consulting Experts LLC';
-			$email_subject = 'Order a Website';
+			$email_subject = 'Payment Invoice';
 
 			$message = '<html><head>'; //customer email notification
 			$message .= '<style>
@@ -287,12 +298,12 @@ class Orderawebsite extends MY_Controller
 			$message .= "<table border='0' width='600' cellspacing='0' cellpadding='0' align='center'>
 							<tbody>
 								<tr>
-									<td style='padding: 40px 0 30px 0; color: #fff; font-family: Verdana; font-size: 30px; font-weight: bold;' align='center' bgcolor='#0b593c'>Order a Website</td>
+									<td style='padding: 40px 0 30px 0; color: #fff; font-family: Verdana; font-size: 30px; font-weight: bold;' align='center' bgcolor='#0b593c'>Subscription</td>
 								</tr>
 								<tr>
 									<td class='content_con'>
 										<p><span style='font-size: small;'><span lang='en-US' style='white-space: pre-line;'>Hi, " . $name . ".</span></span></p>
-										<p><span style='font-size: small;'><span lang='en-US' style='white-space: pre-line;'> Thank you for subscribing Consulting Experts LLC. This is to inform you that you are now subscribed (reference#:" . $trans . "). Thank You!</span></span></p>
+										<p><span style='font-size: small;'><span lang='en-US' style='white-space: pre-line;'> Thank you for paying Consulting Experts LLC. This is to inform you that you are now paid the invoice (reference#:" . $trans . "). Thank You!</span></span></p>
 										<p style='padding-top:20px'><span style='color: #00000a;'><span style='font-size: small;'><span lang='en-US'>Sincerely,</span></span></span></p>
 										<p><span style='color: #000000;'><span style='font-size: small;'><span lang='en-US'>Consulting Experts LLC</span></span></span></p>
 									</td>
@@ -310,14 +321,13 @@ class Orderawebsite extends MY_Controller
 			$message_client .= "<table border='0' width='600' cellspacing='0' cellpadding='0' align='center'>
 							<tbody>
 								<tr>
-									<td style='padding: 40px 0 30px 0; color: #fff; font-family: Verdana; font-size: 30px; font-weight: bold;' align='center' bgcolor='#0b593c'>New Order a Website</td>
+									<td style='padding: 40px 0 30px 0; color: #fff; font-family: Verdana; font-size: 30px; font-weight: bold;' align='center' bgcolor='#0b593c'>New Paid Invoice</td>
 								</tr>
 								<tr>
 									<td class='content_con'>
 										<p><span style='font-size: small;'><span lang='en-US' style='white-space: pre-line;'>Transaction Status: " . $status . "</span></span></p>
 										<p><span style='font-size: small;'><span lang='en-US' style='white-space: pre-line;'>Transaction ID: " . $trans . "</span></span></p>
 										<p><span style='font-size: small;'><span lang='en-US' style='white-space: pre-line;'>Amount: " . $_SESSION['formdata']['Amount'] . "</span></span></p>
-										<p><span style='font-size: small;'><span lang='en-US' style='white-space: pre-line;'>Payment For: " . $_SESSION['formdata']['Payment_For'] . "</span></span></p>
 									</td>
 									<td>&nbsp;</td>
 								</tr>
