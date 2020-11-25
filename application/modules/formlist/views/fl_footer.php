@@ -220,12 +220,12 @@ $(document).ready(function(e){
                   $("a#ncafile_done").attr("href", `assets/uploads/documents/${result[0].nca_file}`);
                }
                if(result[0].npa_file != ''){
-                  $('.ncafile_empty').hide();
+                  $('.npafile_empty').hide();
                   $("a#npafile_done").attr("href", `assets/uploads/documents/${result[0].npa_file}`);
                }
                if(result[0].npa_file != ''){
-                  $('.ncafile_empty').hide();
-                  $("a#npafile_done").attr("href", `assets/uploads/documents/${result[0].npa_file}`);
+                  $('.nafile_empty').hide();
+                  $("a#nafile_done").attr("href", `assets/uploads/documents/${result[0].npa_file}`);
                }
 
 
@@ -251,9 +251,51 @@ $(document).ready(function(e){
 
   $(document).on('click','.step_4',function(e){
      var user_id = $(this).attr('data-id');
+     var form_id = $(this).attr('data-sid');
      $('#user_id_step4').val(user_id);
-     $('#modal_step_4').modal('show');
 
+     $.ajax({
+        url: '<?php echo base_url();?>formlist/view_stepform/4',
+        type: 'post',
+        data: {'user_id' : user_id, 'form_id' : form_id},
+        success: function(response){
+           if (response != "") {
+             let result = JSON.parse(response);
+            if(result[0].district != ''){
+              $('input#district').val(result[0].district).attr('readonly', true);
+            }
+            if(result[0].ahcccs_submitted != ''){
+              $('input#submitted').val(result[0].ahcccs_submitted).attr('readonly', true);
+            }
+            if(result[0].ahcccs_approved != ''){
+              $('input#approved').val(result[0].ahcccs_approved).attr('readonly', true);
+            }
+            if(result[0].olcr_file != ''){
+               $('.olcr_empty').hide();
+               $("a#olcr_done").attr("href", `assets/uploads/documents/${result[0].olcr_file}`);
+            }
+            if(result[0].olcr_date != ''){
+              $('input#olcr-date').val(result[0].olcr_date).attr('readonly', true);
+            }
+            if(result[0].olcr_contact != ''){
+              $('input#olcr-contact').val(result[0].olcr_contact).attr('readonly', true);
+            }
+            if(result[0].pm_file != ''){
+               $('.policy_empty').hide();
+               $("a#policy_done").attr("href", `assets/uploads/documents/${result[0].pm_file}`);
+            }
+            if(result[0].pm_submitted != ''){
+              $('input#pm-submitted').val(result[0].pm_submitted).attr('readonly', true);
+            }
+
+
+
+           }else{
+              alert(response);
+           }
+        }
+     });
+     $('#modal_step_4').modal('show');
   });
 
   $(document).on('click','.edit_user',function(e){

@@ -6,6 +6,8 @@ class Formlist extends MY_Controller {
 
    public function index(){
 
+      // echo "<pre>"; print_r($this->session->userdata('user_details')[0]['user_type']); exit;
+
          $data['formlist'] = 1;
          $data['title'] = 'DDD Application Form List';
 
@@ -110,13 +112,13 @@ class Formlist extends MY_Controller {
 
 
                   $payment_id = $this->db->
-                  select('payment_id')->
+                  select('fk_payment_id')->
                   where('step1_id', $explode_steps[0])->
                   from('ci_formlist_step1')->
                   get()->result();
 
                   $action_btn = "<a class='btn btn-primary btn-xs status_user step_1 blue-btn' data-id=".$r->user_id." data-sid=".$explode_steps[0]." href='javascript:void(0)'>Step 1</a>";
-                  if(!empty($payment_id[0]->payment_id)){
+                  if(!empty($payment_id[0]->fk_payment_id)){
                      $action_btn .= "<a class='btn btn-primary btn-xs status_user step_2 blue-btn' data-id=".$r->user_id." data-sid=".$explode_steps[0]." href='javascript:void(0)'>Step 2</a>";
                   }
                   if (!empty($explode_steps[1])) {
@@ -471,13 +473,13 @@ class Formlist extends MY_Controller {
 		$result = $this->db->
 		set('step4_status', '0')->
 		set('district', $_POST['district'])->
-		set('ahcccs-submitted', $_POST['ahcccs-submitted'])->
-		set('ahcccs-approved', $_POST['ahcccs-approved'])->
-		set('olcr-file', $olcrfile)->
-		set('olcr-date', $_POST['olcr'])->
-		set('olcr-contact', $_POST['olcr-contact'])->
-      set('pm-file', $pmfile)->
-		set('pm-submitted', $_POST['pm-submitted'])->
+		set('ahcccs_submitted', $_POST['ahcccs-submitted'])->
+		set('ahcccs_approved', $_POST['ahcccs-approved'])->
+		set('olcr_file', $olcrfile)->
+		set('olcr_date', $_POST['olcr-date'])->
+		set('olcr_contact', $_POST['olcr-contact'])->
+      set('pm_file', $pmfile)->
+		set('pm_submitted', $_POST['pm-submitted'])->
 		where('fk_user_id', $_POST['user_id_step4'])->
       update('ci_formlist_step4');
 

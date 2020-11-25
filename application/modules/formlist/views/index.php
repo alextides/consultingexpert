@@ -325,9 +325,12 @@
                      <label for="approved">AHCCCS Approved:</label>
                      <input type="date" id="approved" name="ahcccs-approved" class="form-control" required>
                  </div>
-                 <div class="form-group col-md-6">
+                 <div class="form-group col-md-6 olcr_empty">
                     <label for="olcr-file">Upload OLCR</label>
                     <input type="file" id="olcr-file" name="olcr-file" class="form-control" accept=".pdf, .doc, .docx" required>
+                 </div>
+                 <div class="form-group col-md-6 olcr_done" style="text-align: center;">
+                  <a id="olcr_done" class="btn btn-primary blue-btn center_modalbutton"  href="" target="_blank" download>View OLCR</a>
                  </div>
                  <div class="form-group col-md-6">
                     <label for="olcr-date">OLCR Submitted:</label>
@@ -337,9 +340,12 @@
                     <label for="olcr-contact">Contact:</label>
                     <input type="text" id="olcr-contact" name="olcr-contact" class="form-control" required>
                  </div>
-                 <div class="form-group col-md-6">
+                 <div class="form-group col-md-6 policy_empty">
                     <label for="pm-file">Upload Policy Manual</label>
                     <input type="file" id="pm-file" name="pm-file" class="form-control" accept=".pdf, .doc, .docx" required>
+                 </div>
+                 <div class="form-group col-md-6 policy_done" style="text-align: center;">
+                  <a id="olcr_done" class="btn btn-primary blue-btn center_modalbutton"  href="" target="_blank" download>View Policy Manual</a>
                  </div>
                  <div class="form-group col-md-6">
                     <label for="pm-submitted">Policy Manual Submitted:</label>
