@@ -139,13 +139,15 @@
                                     echo "not-active";
                                 }  ?>"><a class="waves-effect " href="<?= base_url("user") ?>" aria-expanded="false"><i class="icon-Car-Wheel"></i><span class="hide-menu">Dashboard </span></a> </li>
                     <li> <a class="waves-effect " href="<?= base_url("user/profile") ?>" aria-expanded="false"><i class="icon-User"></i><span class="hide-menu">Profile</span></a></li>
+                    <li> <a class="waves-effect " href="<?= base_url("gagencylist") ?>" aria-expanded="false"><i class="icon-Shield"></i><span class="hide-menu">G-Agency List</span></a></li>
                     <li> <a class="waves-effect " href="<?= base_url("viewfiles") ?>" aria-expanded="false"><i class="icon-Files"></i><span class="hide-menu">View Files</span></a></li>
                     <li> <a class="waves-effect " href="<?= base_url("mysubscription") ?>" aria-expanded="false"><i class="icon-Dollar"></i><span class="hide-menu">Subscription</span></a></li>
                     <li> <a class="waves-effect " href="<?= base_url("myorderawebsite") ?>" aria-expanded="false"><i class="icon-Globe"></i><span class="hide-menu">Order Website</span></a></li>
                     <?php if ($this->session->userdata('user_details')[0]['user_type'] != "admin") { ?>
-                    <li> <a class="waves-effect " href="<?= base_url("mydddapplicationform") ?>" aria-expanded="false"><i class="icon-Files"></i><span class="hide-menu">Application</span></a></li>
+                      <li> <a class="waves-effect " href="<?= base_url("mydddapplicationform") ?>" aria-expanded="false"><i class="icon-Files"></i><span class="hide-menu">Application</span></a></li>
                  <?php }else{ ?>
-                    <li> <a class="waves-effect " href="<?= base_url("formlist") ?>" aria-expanded="false"><i class="icon-Files"></i><span class="hide-menu">Application</span></a></li>
+                      <li> <a class="waves-effect " href="<?= base_url("userlist") ?>" aria-expanded="false"><i class="icon-Find-User"></i><span class="hide-menu">User List</span></a></li>
+                      <li> <a class="waves-effect " href="<?= base_url("formlist") ?>" aria-expanded="false"><i class="icon-Files"></i><span class="hide-menu">Application</span></a></li>
                     <?php } ?>
                 <?php //} ?>
         </nav>
