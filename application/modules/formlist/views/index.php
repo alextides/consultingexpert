@@ -110,12 +110,43 @@
            </button>
          </div>
          <form id="step2_form_admin" action="<?php echo base_url(); ?>formlist/admin_step2"  enctype="multipart/form-data"  method="post">
+           <div class="modal-body">
+              <input type="hidden" id="user_id_step2" name="user_id" value="">
+               <br>
+               <h2>Website/Agency:</h2>
+               <br>
+               <div class="form-row">
+                 <div class="form-group col-md-12 upainvoice_empty" style="text-align: center;">
+                     <label for="upainvoice">Upload Paid Invoice</label>
+                     <input type="file" id="upainvoice" name="upainvoice" class="form-control" accept=".pdf, .doc, .docx" required>
+                 </div>
+                 <div class="form-group col-md-12 upainvoice_done" style="text-align: center;">
+                  <a id="upainvoice_done" class="btn btn-primary blue-btn center_modalbutton"  href="" target="_blank" download>View Uploaded Invoice</a>
+                 </div>
+               </div>
+            </div>
+            <div class="modal-footer step2_footer">
+               <span class="error_msg" style="color: red; font-size: 15px; margin-left: 0; width: 100%;"></span>
+               <button type="submit" name="step2_submit" class="btn btn-primary blue-btn step2_submit">Submit</button>
+            </div>
+         </form>
+       </div>
+     </div>
+   </div>
+
+   <!-- 2nd Step -->
+   <!-- <div class="modal fade" id="modal_step_2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+     <div class="modal-dialog" role="document">
+       <div class="modal-content">
+         <div class="modal-header">
+           <h5 class="modal-title" id="addUserLabel" style="font-weight: bold;">Upload Paid Invoice</h5>
+           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+             <span aria-hidden="true">&times;</span>
+           </button>
+         </div>
+         <form id="step2_form_admin" action="</?php echo base_url(); ?>formlist/admin_step2"  enctype="multipart/form-data"  method="post">
             <div class="modal-body">
                <input type="hidden" id="user_id_step2" name="user_id" value="">
-               <h2>Selected Services:</h2>
-               <textarea id="sservices_step2" type="text" style="width: 100%; font-size: 20px;" name="sservices" value="" readonly></textarea>
-               <br>
-               <br>
                <h2>Website:</h2>
                <br>
                <div class="form-row">
@@ -152,7 +183,7 @@
          </form>
        </div>
      </div>
-   </div>
+   </div> -->
 
    <!-- 3rd Step WA -->
    <div class="modal fade" id="modal_step_3_wa" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

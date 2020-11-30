@@ -106,29 +106,20 @@ $(document).ready(function(e){
      $('#user_id_step2').val(user_id);
 
       $.ajax({
-         url: '<?php echo base_url();?>formlist/view_stepform/1',
+         url: '<?php echo base_url();?>formlist/view_stepform/2',
          type: 'post',
          data: {'user_id' : user_id, 'form_id' : form_id},
          success: function(response){
             if (response != "") {
               let result = JSON.parse(response);
-              $('#sservices_step2').val(result[0].services);
-              $("a#owinvoice").attr("href", `assets/uploads/documents/${result[0].website_invoice}`);
-              $("a#oainvoice").attr("href", `assets/uploads/documents/${result[0].agency_invoice}`);
 
-               if(result[0].website_uinvoice != ""){
-                $('.upwinvoice_empty').css('display', 'none');
-                $("a#upwinvoice_done").attr("href", `assets/uploads/documents/${result[0].website_uinvoice}`);
-                }else{
-                   $('.upwinvoice_done').css('display', 'none');
-                }
-                if(result[0].agency_uinvoice != ""){
-                  $('.upainvoice_empty').css('display', 'none');
-                  $("a#upainvoice_done").attr("href", `assets/uploads/documents/${result[0].agency_uinvoice}`);
-                }else{
-                  $('.upainvoice_done').css('display', 'none');
-                }
+              if(result == '' || result == null || result[0].step2_status == '0'){
+                $('.upainvoice_done').css('display', 'none');
+              }
+
                 if(result[0].step2_status != '0'){
+                  $("a#upainvoice_done").attr("href", `assets/uploads/documents/${result[0].upload_paid_invoice}`);
+                  $('.upainvoice_empty').css('display', 'none');
                   $('.step2_footer').css('display', 'none');
                 }
             }else{

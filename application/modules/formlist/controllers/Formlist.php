@@ -119,13 +119,13 @@ class Formlist extends MY_Controller {
 
                   $action_btn = "<a class='btn btn-primary btn-xs status_user step_1 blue-btn' data-id=".$r->user_id." data-sid=".$explode_steps[0]." href='javascript:void(0)'>Step 1</a>";
                   if(!empty($payment_id[0]->fk_payment_id)){
-                     $action_btn .= "<a class='btn btn-primary btn-xs status_user step_2 blue-btn' data-id=".$r->user_id." data-sid=".$explode_steps[0]." href='javascript:void(0)'>Step 2</a>";
+                     $action_btn .= "<a class='btn btn-primary btn-xs status_user step_2 blue-btn' data-id=".$r->user_id." data-sid=".$explode_steps[1]." href='javascript:void(0)'>Step 2</a>";
                   }
                   if (!empty($explode_steps[1])) {
-                     $action_btn .= "<a class='btn btn-primary btn-xs status_user step_3 blue-btn' data-id=".$r->user_id." data-sid=".$explode_steps[1]." href='javascript:void(0)'>Step 3</a>";
+                     $action_btn .= "<a class='btn btn-primary btn-xs status_user step_3 blue-btn' data-id=".$r->user_id." data-sid=".$explode_steps[2]." href='javascript:void(0)'>Step 3</a>";
                   }
                   if (!empty($explode_steps[2])) {
-                     $action_btn .= "<a class='btn btn-warning btn-xs status_user step_4' data-id=".$r->user_id." data-sid=".$explode_steps[2]." href='javascript:void(0)'>Step 4</a>";
+                     $action_btn .= "<a class='btn btn-warning btn-xs status_user step_4' data-id=".$r->user_id." data-sid=".$explode_steps[3]." href='javascript:void(0)'>Step 4</a>";
                   }
 
                   // $action_btn = "<a class='btn btn-primary btn-xs status_user step_1 blue-btn' data-id=".$r->user_id." data-sid=".$r->user_id." href='javascript:void(0)'>Step 1</a>";
@@ -180,14 +180,14 @@ class Formlist extends MY_Controller {
          $form_id = 'step1_id';
          $table = 'ci_formlist_step1';
       }else if($form_type == '2'){
-         $form_id = 'step1_id';
-         $table = 'ci_formlist_step1';
+         $form_id = 'payment_id';
+         $table = 'ci_formlist_step2';
       }else if($form_type == '3'){
          $form_id = 'step3_id';
-         $table = 'ci_formlist_step3';
+         $table = 'ci_formlist_step3_admin';
       }else if($form_type == '4'){
          $form_id = 'step4_id';
-         $table = 'ci_formlist_step4';
+         $table = 'ci_formlist_step4_admin';
       }
       $result = $this->db->
       select('*')->
