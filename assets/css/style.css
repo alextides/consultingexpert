@@ -4851,6 +4851,11 @@ button {
     margin: -1rem -1rem -1rem -1rem;
 }
 
+.center_modalbutton {
+   text-align: center;
+   margin-top: 28px;
+}
+
 /* media queries */
 @media only screen and (max-width: 425px) {
    .dataTables_length, .dataTables_info, .dataTables_paginate {

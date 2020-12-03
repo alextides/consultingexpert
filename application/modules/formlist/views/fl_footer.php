@@ -49,33 +49,245 @@ $(document).ready(function(e){
       });
 
 
-  $(document).on('click','.add-technician',function(e){
-     $('#addUser').modal('show');
-
-  });
   $(document).on('click','.step_1',function(e){
+     var user_id = $(this).attr('data-id');
+     var form_id = $(this).attr('data-sid');
+     $('#user_id_step1').val(user_id);
+
+     $.ajax({
+       url: '<?php echo base_url();?>formlist/view_stepform/1',
+       type: 'post',
+       data: {'user_id' : user_id, 'form_id': form_id},
+       success: function(response){
+         if (response != "") {
+            let result = JSON.parse(response);
+            $('#sservices_step1').val(result[0].services);
+            if(result[0].website_invoice != ""){
+               $('.winvoice_empty').css('display', 'none');
+               $("a#uwinvoice").attr("href", `assets/uploads/documents/${result[0].website_invoice}`);
+            }else{
+               $('.winvoice_done').css('display', 'none');
+            }
+            if(result[0].agency_invoice != ""){
+               $('.ainvoice_empty').css('display', 'none');
+               $("a#uainvoice").attr("href", `assets/uploads/documents/${result[0].agency_invoice}`);
+            }else{
+               $('.ainvoice_done').css('display', 'none');
+            }
+            if(result[0].website_quote != ""){
+               $('.wqprice_empty').css('display', 'none');
+               $('input.wqprice_done').val(result[0].agency_quote);
+            }else{
+               $('.wqprice_done').css('display', 'none');
+            }
+            if(result[0].agency_quote != ""){
+               $('.aqprice_empty').css('display', 'none');
+               $('input.aqprice_done').val(result[0].agency_quote);
+            }else{
+               $('.aqprice_done').css('display', 'none');
+            }
+            if(result[0].step1_status != '0'){
+               $('.step1_footer').css('display', 'none');
+            }
+            $('#modal_step_1').modal('show');
+         }else{
+            alert(response);
+         }
+       }
+     });
+
      $('#modal_step_1').modal('show');
 
   });
 
-  $(document).on('click','.step_2',function(e){
-     $('#modal_step_2').modal('show');
+   $(document).on('click','.step_2',function(e){
+     var user_id = $(this).attr('data-id');
+     var form_id = $(this).attr('data-sid');
+     $('#user_id_step2').val(user_id);
 
-  });
+      $.ajax({
+         url: '<?php echo base_url();?>formlist/view_stepform/2',
+         type: 'post',
+         data: {'user_id' : user_id, 'form_id' : form_id},
+         success: function(response){
+            if (response != "") {
+              let result = JSON.parse(response);
+
+              if(result == '' || result == null || result[0].step2_status == '0'){
+                $('.upainvoice_done').css('display', 'none');
+              }
+
+                if(result[0].step2_status != '0'){
+                  $("a#upainvoice_done").attr("href", `assets/uploads/documents/${result[0].upload_paid_invoice}`);
+                  $('.upainvoice_empty').css('display', 'none');
+                  $('.step2_footer').css('display', 'none');
+                }
+            }else{
+               alert(response);
+            }
+         }
+      });
+      $('#modal_step_2').modal('show');
+   });
   $(document).on('click','.step_3',function(e){
-     $('#modal_step_3').modal('show');
+     var user_id = $(this).attr('data-id');
+     var form_id = $(this).attr('data-sid');
+     $('#user_id_step3').val(user_id);
 
-  });
-  $(document).on('click','.step_3',function(e){
-     $('#modal_step_3_noa').modal('show');
+      $.ajax({
+         url: '<?php echo base_url();?>formlist/view_stepform/3',
+         type: 'post',
+         data: {'user_id' : user_id, 'form_id' : form_id},
+         success: function(response){
+            if (response != "") {
+               let result = JSON.parse(response);
 
+               if(result[0].step3_status == '1')
+                  $('.step3_footer').css('display', 'none');
+               if(result[0].ws_url1 == ''){
+                  $('.step3-website-container').hide();
+               }else{
+                  $('input#prototype1').val(result[0].ws_url1).attr('readonly', true);
+                  $('input#prototype2').val(result[0].ws_url2).attr('readonly', true);
+                  $('input#prototype3').val(result[0].ws_url3).attr('readonly', true);
+               }
+
+               if(result[0].irs_ein != ''){
+                  $('input#irs-ein').val(result[0].irs_ein).attr('readonly', true);
+               }
+               if(result[0].irs_submitted != ''){
+                  $('input#irs-submmitted').val(result[0].irs_submitted).attr('readonly', true);
+               }
+               if(result[0].irs_mailed != ''){
+                  $('input#irs-mailed').val(result[0].irs_mailed).attr('readonly', true);
+               }
+               if(result[0].irs_rdate != ''){
+                  $('input#irs-rdate').val(result[0].irs_rdate).attr('readonly', true);
+               }
+               if(result[0].irs_cspecialist != ''){
+                  $('input#irs-cspecialist').val(result[0].irs_cspecialist).attr('readonly', true);
+               }
+               if(result[0].nia_ddate != ''){
+                  $('input#nia-ddate').val(result[0].nia_ddate).attr('readonly', true);
+               }
+               if(result[0].nia_ddate != ''){
+                  $('input#nia-ddate').val(result[0].nia_ddate).attr('readonly', true);
+               }
+               if(result[0].nia_bplan != ''){
+                  $('input#nia-bplan').val(result[0].nia_bplan).attr('readonly', true);
+               }
+               if(result[0].nia_cplan != ''){
+                  $('input#nia-cplan').val(result[0].nia_cplan).attr('readonly', true);
+               }
+               if(result[0].ad_rdate != ''){
+                  $('input#ad-rdate').val(result[0].ad_rdate).attr('readonly', true);
+               }
+               if(result[0].ad_rfocus != ''){
+                  $('input#ad-rfocus').val(result[0].ad_rfocus).attr('readonly', true);
+               }
+               if(result[0].ad_mdate != ''){
+                  $('input#ad-mdate').val(result[0].ad_mdate).attr('readonly', true);
+               }
+               if(result[0].padate != ''){
+                  $('input#padate').val(result[0].padate).attr('readonly', true);
+               }
+
+               // $("a#upwinvoice_done").attr("href", `assets/uploads/documents/${result[0].website_uinvoice}`);
+
+               if(result[0].irs_ein_file != ''){
+                  $('.irsfile_empty').hide();
+                  $("a#irs-ein-file-done").attr("href", `assets/uploads/documents/${result[0].irs_ein_file}`);
+               }
+               if(result[0].irs_ein_file != ''){
+                  $('.niafile_empty').hide();
+                  $("a#nia-file-done").attr("href", `assets/uploads/documents/${result[0].nia_file}`);
+               }
+               if(result[0].app_denial_file != ''){
+                  $('.adfile_empty').hide();
+                  $("a#adfile_done").attr("href", `assets/uploads/documents/${result[0].app_denial_file}`);
+               }
+               if(result[0].nca_file != ''){
+                  $('.ncafile_empty').hide();
+                  $("a#ncafile_done").attr("href", `assets/uploads/documents/${result[0].nca_file}`);
+               }
+               if(result[0].npa_file != ''){
+                  $('.npafile_empty').hide();
+                  $("a#npafile_done").attr("href", `assets/uploads/documents/${result[0].npa_file}`);
+               }
+               if(result[0].npa_file != ''){
+                  $('.nafile_empty').hide();
+                  $("a#nafile_done").attr("href", `assets/uploads/documents/${result[0].npa_file}`);
+               }
+
+
+
+               if(result[0].step3_type == 'hasno_agency'){
+                  $('.w_agency').css('display', 'none');
+                  $('#modal_step_3_noa').modal('show');
+               }else{
+                  $('#modal_step_3_wa').modal('show');
+               }
+            }else{
+               alert(response);
+            }
+         }
+      });
   });
+  // $(document).on('click','.step_3',function(e){
+  //  var user_id = $(this).attr('data-id');
+  //    $('.user_id_step3').val(user_id);
+  //    $('#modal_step_3_noa').modal('show');
+  //
+  // });
 
   $(document).on('click','.step_4',function(e){
+     var user_id = $(this).attr('data-id');
+     var form_id = $(this).attr('data-sid');
+     $('#user_id_step4').val(user_id);
+
+     $.ajax({
+        url: '<?php echo base_url();?>formlist/view_stepform/4',
+        type: 'post',
+        data: {'user_id' : user_id, 'form_id' : form_id},
+        success: function(response){
+           if (response != "") {
+             let result = JSON.parse(response);
+            if(result[0].district != ''){
+              $('input#district').val(result[0].district).attr('readonly', true);
+            }
+            if(result[0].ahcccs_submitted != ''){
+              $('input#submitted').val(result[0].ahcccs_submitted).attr('readonly', true);
+            }
+            if(result[0].ahcccs_approved != ''){
+              $('input#approved').val(result[0].ahcccs_approved).attr('readonly', true);
+            }
+            if(result[0].olcr_file != ''){
+               $('.olcr_empty').hide();
+               $("a#olcr_done").attr("href", `assets/uploads/documents/${result[0].olcr_file}`);
+            }
+            if(result[0].olcr_date != ''){
+              $('input#olcr-date').val(result[0].olcr_date).attr('readonly', true);
+            }
+            if(result[0].olcr_contact != ''){
+              $('input#olcr-contact').val(result[0].olcr_contact).attr('readonly', true);
+            }
+            if(result[0].pm_file != ''){
+               $('.policy_empty').hide();
+               $("a#policy_done").attr("href", `assets/uploads/documents/${result[0].pm_file}`);
+            }
+            if(result[0].pm_submitted != ''){
+              $('input#pm-submitted').val(result[0].pm_submitted).attr('readonly', true);
+            }
+
+
+
+           }else{
+              alert(response);
+           }
+        }
+     });
      $('#modal_step_4').modal('show');
-
   });
-
 
   $(document).on('click','.edit_user',function(e){
      e.preventDefault();
@@ -168,35 +380,33 @@ $(document).ready(function(){
   });
  });
 
- $('#add_technician_form').on('submit', function(e){
-  e.preventDefault();
-  if (username_state == false || email_state == false) {
-    $('.error_msg').text('Replace input on highlighted field/s.');
-
-  }else{
-     $('.error_msg').text('');
-     var form_data = $('#add_technician_form').serialize();
-
-     // proceed with form submission
-     $.ajax({
-        url: '<?php echo base_url();?>formlist/add_user',
-        type: 'post',
-        data: form_data,
-        success: function(response){
-
-           Swal.fire({
-           title: 'New User has been added.',
-           type: 'success',
-           confirmButtonColor: '#3085d6',
-           cancelButtonColor: '#d33',
-           confirmButtonText: 'OK'
-          }).then((result) => {
-            data_table.ajax.reload();
-          })
-        }
-     });
-  }
-});
+//  $('#step1_form_admin').on('submit', function(e){
+//
+//   var form_data = $('#step1_form_admin').serialize();
+//
+//   // proceed with form submission
+//   $.ajax({
+//      url: '</?php echo base_url();?>formlist/admin_step1',
+//      type: 'post',
+//      data: form_data,
+//      success: function(response){
+//
+//         alert(form_data);
+//         console.log(response);
+//         exit;
+//
+//         Swal.fire({
+//         title: 'Upload Invoice has been added.',
+//         type: 'success',
+//         confirmButtonColor: '#3085d6',
+//         cancelButtonColor: '#d33',
+//         confirmButtonText: 'OK'
+//        }).then((result) => {
+//          data_table.ajax.reload();
+//        })
+//      }
+//   });
+// });
 
 });
 // edit user validation
