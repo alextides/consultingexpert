@@ -142,7 +142,7 @@
                      <label class="col-md-2 col-form-label">Update File:</label>
                      <div class="col-md-10">
                         <!-- <input type="file" name="file_upload" id="file_upload" class="form-control" placeholder="file_name"> -->
-                        <input type="file" size="20" id="file_upload" name="file_upload" class="form-control" required="">
+                        <input type="file" size="20" id="file_upload" name="file_upload" class="form-control">
                      </div>
                   </div>
                   <div class="form-group row">
@@ -161,7 +161,7 @@
                <div class="modal-footer">
                   <button type="submit" class="btn btn-secondary" data-dismiss="modal">Close</button>
                   <button type="submit" class="btn btn-primary update_file">Update</button>
-                  <input type="hidden" name="file_id" id="file_id">
+                  <!-- <input type="hidden" name="file_id" id="file_id"> -->
                </div>
             </div>
          </div>

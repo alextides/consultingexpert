@@ -3,7 +3,7 @@
 <style media="screen">
    .modal-lg {
       margin-top: 10%;
-      width: 600px !important;
+      /* width: 600px !important; */
    }
    #myModalLabel {
       font-size: 30px;

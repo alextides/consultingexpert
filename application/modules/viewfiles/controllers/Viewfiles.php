@@ -114,7 +114,7 @@ class Viewfiles extends MY_Controller {
       foreach ($files->result() as $r) {
          $action_btn = false;
          $action_btn .= "<a class='btn btn-success btn-xs edit_file' data-id=" . $r->file_id . " href='javascript:void(0)'>View</a>";
-         // $action_btn .= "<a class='btn btn-danger btn-xs delete_file' href='" . base_url('managefiles/delete_file/' . $r->file_id) . "'>Delete</a>";
+         $action_btn .= "<a class='btn btn-success btn-xs' download data-id=" . $r->file_id . " href='./assets/uploads/$r->file'>Download</a>";
 
          $data[] = array( //display data from database on Manage Files datatable
             $r->file_title,
