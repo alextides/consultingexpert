@@ -94,11 +94,10 @@
          url: base_url + data_id,
          success: function(data) {
             let result = JSON.parse(data);
-            $('[name="file_name"]').val(result[0].file_name);
+            $('[name="file"]').val(result[0].file);
             $('[name="date_uploaded"]').val(result[0].date_uploaded);
             $('[name="file_id"]').val(result[0].file_id);
-            // $('[name="uploaded_by"]').val(result[0].uploaded_by);
-
+            $('[name="first_name"]').val(result[0].first_name);
             $('#editFileModal').modal('show');
          },
          error: function(data) {

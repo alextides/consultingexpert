@@ -148,8 +148,8 @@
                   <div class="form-group row">
                      <label class="col-md-2 col-form-label">Assigned To:</label>
                      <div class="col-md-10">
-                        <!-- <input type="text" name="fk_user_id" id="fk_user_id" class="form-control" disabled> -->
-                        <input type="text" placeholder="Prosp" class="form-control" disabled>
+                        <input type="text" name="first_name" id="first_name" class="form-control" disabled>
+                        <!-- <input type="text" placeholder="Prosp" class="form-control" disabled> -->
                      </div>
                   </div>
                   <!-- <div class="form-group row">

@@ -22,6 +22,7 @@ class Paymentinvoice extends MY_Controller
 		$fk_user_id = $this->session->userdata('user_details')[0]['fk_user_id'];
 		$param["select"] = "website_quote, agency_quote, agency_invoice, website_invoice";
 		$param["where"] = array("fk_user_id" => $fk_user_id);
+		$param["where"] = array("step1_id" => 16);
 		// $param["where"] = array("step1_status" => 1);
 		$query = $this->MY_Model->getRows("ci_formlist_step1", $param);
 		// echo '<pre>';
