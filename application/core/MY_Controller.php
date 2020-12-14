@@ -66,6 +66,20 @@ class MY_Controller extends MX_Controller {
 		$this->session->set_flashdata('swals', $load);
 	}
 
+	public function send_notification($to_id='',$title='',$desc='',$notif_type='')
+	{
+		if (empty($to_id)) {
+			$to_id=1;
+		}
+		$this->db
+		->set('fk_user_id',$to_id)
+		->set('title',$title)
+		->set('description',$desc)
+		->set('status','unread')
+		->set('notif_type',$notif_type)
+		->insert('ci_notiflist');
+	}
+
 	public function sendmail1($to_email='prospteam@gmail.com',$from_name='Consulting Experts LLC',$subject='Email Notification',$message='Sample Message Here',$use_html_template=true){
 		$this->load->library('email');
 		$config = array(

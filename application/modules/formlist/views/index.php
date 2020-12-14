@@ -42,7 +42,7 @@
      <div class="modal-dialog" role="document">
        <div class="modal-content">
          <div class="modal-header">
-           <h5 class="modal-title" id="addUserLabel" style="font-weight: bold;">New Invoice</h5>
+           <h5 class="modal-title" id="addUserLabel" style="font-weight: bold;">View Invoice</h5>
            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
              <span aria-hidden="true">&times;</span>
            </button>
@@ -54,39 +54,43 @@
                <textarea id="sservices_step1" type="text" name="sservices" style="width: 100%; font-size: 20px;" value="" readonly></textarea>
                <br>
                <br>
-               <h2>Website:</h2>
-               <br>
-               <div class="form-row">
-                 <div class="form-group col-md-6">
-                   <label for="ws_qprice" class="wqprice_empty">Quote price</label>
-                   <input type="number" class="form-control wqprice_empty" name="ws_qprice" id="ws_qprice" step="1" min="1" value="" placeholder="Enter quote price" required>
-                   <label for="ws_qprice" class="wqprice_done">Quote price</label>
-                   <input type="text" class="form-control wqprice_done" name="wqprice_done" id="ws_qprice_done" step="1" min="1" value="" placeholder="Enter quote price" readonly>
-                 </div>
-                 <div class="form-group col-md-6 winvoice_empty">
-                     <label for="ws_invoice">Upload Invoice</label>
-                     <input type="file" id="ws_invoice" name="ws_invoice" accept=".pdf, .doc, .docx" required/>
-                 </div>
-                 <div class="form-group col-md-6 invoice_done" style="text-align: center;">
-                  <a id="uwinvoice" class="btn btn-primary blue-btn center_modalbutton"  href="" target="_blank" download>View Uploaded Invoice</a>
+               <div class="website_container">
+                 <h2>Website:</h2>
+                 <br>
+                 <div class="form-row">
+                   <div class="form-group col-md-6">
+                     <label for="ws_qprice" class="wqprice_empty">Quote price</label>
+                     <input type="number" class="form-control wqprice_empty" name="ws_qprice" id="ws_qprice" step="1" min="1" value="" placeholder="Enter quote price" required>
+                     <label for="ws_qprice" class="wqprice_done">Quote price</label>
+                     <input type="text" class="form-control wqprice_done" name="wqprice_done" id="ws_qprice_done" step="1" min="1" value="" placeholder="Enter quote price" readonly>
+                   </div>
+                   <div class="form-group col-md-6 winvoice_empty">
+                       <label for="ws_invoice">Upload Invoice</label>
+                       <input type="file" id="ws_invoice" name="ws_invoice" accept=".pdf, .doc, .docx" required/>
+                   </div>
+                   <div class="form-group col-md-6 invoice_done" style="text-align: center;">
+                    <a id="uwinvoice" class="btn btn-primary blue-btn center_modalbutton"  href="" target="_blank" download>View Uploaded Invoice</a>
+                   </div>
                  </div>
                </div>
-               <h2>Agency:</h2>
-               <br>
+               <div class="agency_container">
+                 <h2>Agency:</h2>
+                 <br>
 
-               <div class="form-row">
-                 <div class="form-group col-md-6">
-                   <label for="a_qprice" class="aqprice_empty">Quote price</label>
-                   <input type="number" class="form-control aqprice_empty" name="a_qprice" id="a_qprice" step="1" min="1" value="" placeholder="Enter quote price" required>
-                   <label for="ws_qprice" class="aqprice_done">Quote price</label>
-                   <input type="text" class="form-control aqprice_done" name="aqprice_done" id="a_qprice_done" step="1" min="1" value="" placeholder="Enter quote price" readonly>
-                 </div>
-                 <div class="form-group col-md-6 ainvoice_empty">
-                     <label for="a_invoice">Upload Invoice</label>
-                     <input type="file" id="a_invoice" name="a_invoice" accept=".pdf, .doc, .docx" required/>
-                 </div>
-                 <div class="form-group col-md-6 invoice_done" style="text-align: center;">
-                  <a id="uainvoice" class="btn btn-primary blue-btn center_modalbutton" href="" target="_blank" download>View Uploaded Invoice</a>
+                 <div class="form-row">
+                   <div class="form-group col-md-6">
+                     <label for="a_qprice" class="aqprice_empty">Quote price</label>
+                     <input type="number" class="form-control aqprice_empty" name="a_qprice" id="a_qprice" step="1" min="1" value="" placeholder="Enter quote price" required>
+                     <label for="ws_qprice" class="aqprice_done">Quote price</label>
+                     <input type="text" class="form-control aqprice_done" name="aqprice_done" id="a_qprice_done" step="1" min="1" value="" placeholder="Enter quote price" readonly>
+                   </div>
+                   <div class="form-group col-md-6 ainvoice_empty">
+                       <label for="a_invoice">Upload Invoice</label>
+                       <input type="file" id="a_invoice" name="a_invoice" accept=".pdf, .doc, .docx" required/>
+                   </div>
+                   <div class="form-group col-md-6 invoice_done" style="text-align: center;">
+                    <a id="uainvoice" class="btn btn-primary blue-btn center_modalbutton" href="" target="_blank" download>View Uploaded Invoice</a>
+                   </div>
                  </div>
                </div>
             </div>
@@ -113,7 +117,7 @@
            <div class="modal-body">
               <input type="hidden" id="user_id_step2" name="user_id" value="">
                <br>
-               <h2>Website/Agency:</h2>
+               <h2 id="step2_title">Website/Agency:</h2>
                <br>
                <div class="form-row">
                  <div class="form-group col-md-12 upainvoice_empty" style="text-align: center;">
@@ -121,7 +125,7 @@
                      <input type="file" id="upainvoice" name="upainvoice" class="form-control" accept=".pdf, .doc, .docx" required>
                  </div>
                  <div class="form-group col-md-12 upainvoice_done" style="text-align: center;">
-                  <a id="upainvoice_done" class="btn btn-primary blue-btn center_modalbutton"  href="" target="_blank" download>View Uploaded Invoice</a>
+                  <a id="upainvoice_done" class="btn btn-primary blue-btn center_modalbutton"  href="" target="_blank" download>View Uploaded Paid Invoice</a>
                  </div>
                </div>
             </div>
@@ -190,7 +194,7 @@
      <div class="modal-dialog" role="document">
        <div class="modal-content">
          <div class="modal-header">
-           <h5 class="modal-title" id="addUserLabel" style="font-weight: bold;">Step 3 Form (With Agency)</h5>
+           <h5 class="modal-title" id="addUserLabel" style="font-weight: bold;">Step 3 Form</h5>
            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
              <span aria-hidden="true">&times;</span>
            </button>
@@ -198,6 +202,9 @@
          <form id="admin-step3-wa-form" action="<?php echo base_url(); ?>formlist/admin_step3_wa" enctype="multipart/form-data" method="post">
             <input class="user_id_step3" type="hidden" name="user_id_step3" value="">
             <div class="modal-body">
+                <div class="" style="text-align:right;">
+                  <button id="step_3_user" class="btn btn-light center_modalbutton" value="" style="margin-top: 5px; font-weight: bold;">View User Step 3 Form</button>
+                </div>
                <div class="step3-website-container">
                   <h2>Website:</h2>
                   <br>
@@ -229,7 +236,7 @@
                     <label for="irs-ein-file">Upload IRS EIN</label>
                    <input type="file" id="irs-ein-file" name="irs-ein-file" class="form-control" accept=".pdf, .doc, .docx" required>
                  </div>
-                 <div class="form-group col-md-6 irsfile-done" style="text-align: center;">
+                 <div class="form-group col-md-6 w_agency irsfile-done" style="text-align: center;">
                   <a id="irs-ein-file-done" class="btn btn-primary blue-btn center_modalbutton"  href="" target="_blank" download>View IRS EIN</a>
                  </div>
                  <div class="form-group col-md-6 irs-submitted">
@@ -341,6 +348,9 @@
          <form id="admin-step4" action="<?php echo base_url(); ?>formlist/admin_step4" enctype="multipart/form-data" method="post">
             <input id="user_id_step4" type="hidden" name="user_id_step4" value="">
             <div class="modal-body">
+              <div class="" style="text-align:right;">
+                <button id="user-step4-btn" class="btn btn-light center_modalbutton" value="" style="margin-top: 5px; font-weight: bold;">View User Step 4 Form</button>
+              </div>
                <h2>Agency:</h2>
                <br>
                <div class="form-row">
@@ -420,71 +430,166 @@
        </div>
      </div>
    </div>
-   <!-- Add Modal -->
-   <!-- <div class="modal fade" id="addUser" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-     <div class="modal-dialog" role="document">
-       <div class="modal-content">
-         <div class="modal-header">
-           <h5 class="modal-title" id="addUserLabel">Add New Task</h5>
-           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-             <span aria-hidden="true">&times;</span>
-           </button>
-         </div>
-         <form id="add_technician_form" action="</?php echo base_url(); ?>userlist/add_user" method="post">
+
+
+   <!--step3Modal Start-->
+   <div class="modal fade" id="modal_step_3_user" tabindex="-1" role="dialog" aria-labelledby="step3ModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+         <div class="modal-content">
+            <div class="modal-header">
+               <h5 class="modal-title" id="addUserLabel" style="font-weight: bold;"> User's Step 3 Form</h5>
+               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+               </button>
+            </div>
             <div class="modal-body">
-               <div class="form-row">
-                 <div class="form-group col-md-6">
-                   <label for="fname">First Name</label>
-                   <input type="text" class="form-control" name="fname" id="fname" value="</?php if(isset($_POST['fname'])){echo $_POST['fname'];} ?>" placeholder="Enter first name" required>
-                 </div>
-                 <div class="form-group col-md-6">
-                   <label for="lname">Last Name</label>
-                   <input type="text" class="form-control" name="lname" id="lname" value="</?php if(isset($_POST['lname'])){echo $_POST['lname'];} ?>" placeholder="Enter last name" required>
-                 </div>
-               </div>
-               <div class="form-row">
-                 <div class="form-group col-md-12">
-                    <label for="address">Address</label>
-                   <input type="text" class="form-control" name="address" id="address" placeholder="Enter address" value="</?php if(isset($_POST['address'])){echo $_POST['address'];} ?>" required>
-                 </div>
-               </div>
-               <div class="form-row">
-                  <div class="form-group col-md-6">
-                     <label for="email">Email Address</label>
-                     <input type="email" class="form-control" name="email" id="email" placeholder="Enter email address" value="</?php if(isset($_POST['email'])){echo $_POST['email'];} ?>" required>
-                     <span style="color: red; font-size: 13px;"></span>
+              <br>
+              <h2>Website:</h2>
+              <br>
+                <div class="step3-user-website-container">
+                  <div class="form-group ">
+                     <div class="form-group row">
+                         <div class="form-group col-md-6" style="text-align: center;">
+                          <a id="website_questionnaire" class="btn btn-primary blue-btn center_modalbutton"  href="" target="_blank" download>View Website Questionnaire</a>
+                         </div>
+                         <div class="form-group col-md-6" style="text-align: center;">
+                          <a id="website_logo" class="btn btn-primary blue-btn center_modalbutton"  href="" target="_blank" download>View Website Logo</a>
+                         </div>
+                     </div>
                   </div>
-                  <div class="form-group col-md-6">
-                     <label for="inputContact">Contact Number</label>
-                     <input type="text" class="form-control" name="contact" value="</?php if(isset($_POST['contact'])){echo $_POST['contact'];} ?>" id="inputContact" placeholder="Enter contact number" required>
+                  <br>
+                </div>
+                <div class="step3-user-agency-container">
+                  <h2>Agency:</h2>
+                  <br>
+                  <div class="form-group ">
+                     <div class="form-group row">
+                        <div class="form-group col-md-6">
+                            <label for="first_name1">First Name 1:</label>
+                            <input type="text" id="first_name1" name="first_name1" class="form-control" required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="last_name1">Last Name 1:</label>
+                            <input type="text" id="last_name1" name="last_name1" class="form-control" required>
+                        </div>
+                     </div>
                   </div>
-               </div>
-               <div class="form-row">
-                 <div class="form-group col-md-6">
-                    <label for="username">Username</label>
-                   <input type="text" class="form-control" id="username" name="username" value="</?php if(isset($_POST['username'])){echo $_POST['username'];} ?>" placeholder="Enter username" required>
-                   <span style="color: red; font-size: 13px;"></span>
+                  <div class="form-group ">
+                     <div class="form-group row">
+                        <div class="form-group col-md-6">
+                            <label for="first_name2">First Name 2:</label>
+                            <input type="text" id="first_name2" name="first_name2" class="form-control" required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="last_name2">Last Name 2:</label>
+                            <input type="text" id="last_name2" name="last_name2" class="form-control" required>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="form-group row">
+                     <div class="form-group col-md-6">
+                         <label for="agency_name1">Agency Name 1:</label>
+                         <input type="text" id="agency_name1" name="agency_name1" class="form-control" required>
+                     </div>
+                     <div class="form-group col-md-6">
+                         <label for="agency_name2">Agency Name 2:</label>
+                         <input type="text" id="agency_name2" name="agency_name2" class="form-control" required>
+                     </div>
+                     <div class="form-group col-md-6">
+                         <label for="agency_name3">Agency Name 3:</label>
+                         <input type="text" id="agency_name3" name="agency_name3" class="form-control" required>
+                     </div>
+                     <div class="form-group col-md-6">
+                       <label for="address1">Address 1:</label>
+                       <input type="text" id="address1" name="address1" class="form-control" required>
+                     </div>
+                     <div class="form-group col-md-6">
+                       <label for="address2">Address 2:</label>
+                       <input type="text" id="address2" name="address2" class="form-control" required>
+                     </div>
+                     <div class="form-group col-md-6">
+                       <label for="agency_city">City:</label>
+                       <input type="text" id="agency_city" name="agency_city" class="form-control" required>
+                     </div>
+                     <div class="form-group col-md-6">
+                       <label for="agency_state">State:</label>
+                       <input type="text" id="agency_state" name="agency_state" class="form-control" required>
+                     </div>
+                     <div class="form-group col-md-6">
+                       <label for="agency_zip">Zip:</label>
+                       <input type="text" id="agency_zip" name="agency_zip" class="form-control" required>
+                     </div>
+                   </div>
+                 <div class="form-group row">
+                   <div class="form-group col-md-6" style="text-align: center;">
+                    <a id="agency_tax_year1" class="btn btn-primary blue-btn center_modalbutton"  href="" target="_blank" download>View Tax Year 1</a>
+                   </div>
+                   <div class="form-group col-md-6" style="text-align: center;">
+                    <a id="agency_tax_year2" class="btn btn-primary blue-btn center_modalbutton"  href="" target="_blank" download>View Tax Year 2</a>
+                   </div>
+                   <div class="form-group col-md-6" style="text-align: center;">
+                    <a id="agency_tax_year3" class="btn btn-primary blue-btn center_modalbutton"  href="" target="_blank" download>View Tax Year 3</a>
+                   </div>
+                   <div class="form-group col-md-6" style="text-align: center;">
+                    <a id="agency_resume" class="btn btn-primary blue-btn center_modalbutton"  href="" target="_blank" download>View Resume</a>
+                   </div>
+                   <div class="form-group col-md-12" style="text-align: center;">
+                    <a id="agency_bank_statement" class="btn btn-primary blue-btn center_modalbutton"  href="" target="_blank" download>View Bank Statement</a>
+                   </div>
                  </div>
-                 <div class="form-group col-md-6">
-                    <label for="password">Password</label>
-                    <div class="input-group">
-                       <input type="password" class="form-control display-pw" name="password"  value="</?php if(isset($_POST['password'])){echo $_POST['password'];} ?>" id="password" placeholder="Enter password" required>
-                       <div class="input-group-append toggle-password">
-                          <div class="input-group-text">
-                             <i class="toggle-icon ti-lock"></i>
-                          </div>
-                       </div>
+                </div>
+            </div>
+         </div>
+      </div>
+   </div>
+   <!--step3Modal End-->
+
+   <!--step4Modal Start-->
+   <div class="modal fade" id="modal_step_4_user" tabindex="-1" role="dialog" aria-labelledby="step3ModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+         <div class="modal-content">
+            <div class="modal-header">
+               <h5 class="modal-title" id="step3ModalLabel"><i class="icon-File"></i> User's Step 4 Form</h5>
+               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+               </button>
+            </div>
+            <div class="modal-body">
+             <div class="form-group row">
+                <div class="col-md-12">
+                  <div class="form-group col-md-12">
+                    <label for="selected_prototype">Selected URL Prototype:</label>
+                    <input type="text" id="selected_prototype" name="selected_prototype" class="form-control" required>
+                  </div>
+                </div>
+             </div>
+              <div class="step4-user-agency-container">
+                <h2>Agency:</h2>
+                <br>
+                 <div class="form-group row">
+                   <div class="form-group col-md-6" style="text-align: center;">
+                    <a id="fingerprint_card" class="btn btn-primary blue-btn center_modalbutton"  href="" target="_blank" download>View Fingerprint Clearance Card</a>
+                   </div>
+                   <div class="form-group col-md-6" style="text-align: center;">
+                    <a id="criminal_disclosure" class="btn btn-primary blue-btn center_modalbutton"  href="" target="_blank" download>View Criminal History Disclosure</a>
+                   </div>
+                 </div>
+                 <div class="form-group row">
+                    <div class="form-group col-md-6" style="text-align: center;">
+                      <a id="reference1" class="btn btn-primary blue-btn center_modalbutton"  href="" target="_blank" download>View Reference Letter 1</a>
                     </div>
-                 </div>
-               </div>
+                    <div class="form-group col-md-6" style="text-align: center;">
+                      <a id="reference2" class="btn btn-primary blue-btn center_modalbutton"  href="" target="_blank" download>View Reference Letter 2</a>
+                    </div>
+                    <div class="form-group col-md-12" style="text-align: center;">
+                      <a id="reference3" class="btn btn-primary blue-btn center_modalbutton"  href="" target="_blank" download>View Reference Letter 3</a>
+                    </div>
+                </div>
+              </div>
             </div>
-            <div class="modal-footer">
-               <span class="error_msg" style="color: red; font-size: 15px; margin-left: 0; width: 100%;"></span>
-               <button type="submit" class="btn btn-primary blue-btn">Submit</button>
-            </div>
-         </form>
-       </div>
-     </div>
-   </div> -->
+         </div>
+      </div>
+   </div>
+   <!--step3Modal End-->
 
 </div>

@@ -92,6 +92,7 @@ class Formlist extends MY_Controller {
             where('user_type !=', 'admin')->
             join('ci_userdata', 'ci_userdata.fk_user_id = ci_formlist.fk_user_id')->
             join('ci_users', 'ci_users.user_id = ci_formlist.fk_user_id')->
+            join('ci_ddd_application', 'ci_ddd_application.ddd_application_id = ci_formlist.fk_dddform_id')->
             get();
          // }
 
@@ -109,7 +110,7 @@ class Formlist extends MY_Controller {
 
                   $explode_steps = explode(",", $r->form_array);
 
-
+                  $user_explode_steps = explode(",", $r->ddd_form_array);
 
                   $payment_id = $this->db->
                   select('fk_payment_id')->
@@ -117,35 +118,20 @@ class Formlist extends MY_Controller {
                   from('ci_formlist_step1')->
                   get()->result();
 
-                  $action_btn = "<a class='btn btn-primary btn-xs status_user step_1 blue-btn' data-id=".$r->user_id." data-sid=".$explode_steps[0]." href='javascript:void(0)'>Step 1</a>";
+
+                  if (!empty($explode_steps[0])) {
+                    $action_btn = "<a class='btn btn-primary btn-xs status_user step_1 blue-btn' data-id=".$r->user_id." data-sid=".$explode_steps[0]." href='javascript:void(0)'>Step 1 <i class='fa fa-arrow-right'></i></a>";
+                  }
                   if(!empty($payment_id[0]->fk_payment_id)){
-                     $action_btn .= "<a class='btn btn-primary btn-xs status_user step_2 blue-btn' data-id=".$r->user_id." data-sid=".$explode_steps[1]." href='javascript:void(0)'>Step 2</a>";
-                  }
-                  if (!empty($explode_steps[1])) {
-                     $action_btn .= "<a class='btn btn-primary btn-xs status_user step_3 blue-btn' data-id=".$r->user_id." data-sid=".$explode_steps[2]." href='javascript:void(0)'>Step 3</a>";
-                  }
-                  if (!empty($explode_steps[2])) {
-                     $action_btn .= "<a class='btn btn-warning btn-xs status_user step_4' data-id=".$r->user_id." data-sid=".$explode_steps[3]." href='javascript:void(0)'>Step 4</a>";
+                     $action_btn .= "<a class='btn btn-primary btn-xs status_user step_2 blue-btn' data-id=".$r->user_id." data-sid=".$explode_steps[1]." href='javascript:void(0)'>Step 2 <i class='fa fa-arrow-right'></i></a>";
                   }
 
-                  // $action_btn = "<a class='btn btn-primary btn-xs status_user step_1 blue-btn' data-id=".$r->user_id." data-sid=".$r->user_id." href='javascript:void(0)'>Step 1</a>";
-                  // $action_btn .= "<a class='btn btn-primary btn-xs status_user step_2 blue-btn' data-id=".$r->user_id." href='javascript:void(0)'>Step 2</a>";
-                  // $action_btn .= "<a class='btn btn-primary btn-xs status_user step_3 blue-btn' data-id=".$r->user_id." href='javascript:void(0)'>Step 3</a>";
-                  // $action_btn .= "<a class='btn btn-warning btn-xs status_user step_4' data-id=".$r->user_id." href='javascript:void(0)'>Step 4</a>";
-            // }
-            // if($this->session->userdata('type') != 'admin'){
-            //      $data[] = array(
-            //           $r->first_name,
-            //           $r->last_name,
-            //           $r->brand_establishment,
-            //           $r->sc_name,
-            //           $r->address,
-            //           $r->contact_number,
-            //           $r->email,
-            //           $r->status,
-            //           $action_btn
-            //      );
-            // }else{
+                  if (!empty($explode_steps[2])) {
+                     $action_btn .= "<a class='btn btn-primary btn-xs status_user step_3 blue-btn' data-id=".$r->user_id." data-sid=".$explode_steps[2]." data-userformid=".$user_explode_steps[2]." href='javascript:void(0)'>Step 3 <i class='fa fa-arrow-right'></i></a>";
+                  }
+                  if (!empty($explode_steps[3])) {
+                     $action_btn .= "<a class='btn btn-primary blue-btn btn-xs status_user step_4' data-id=".$r->user_id." data-sid=".$explode_steps[3]." data-userformid=".$user_explode_steps[3]."  href='javascript:void(0)'>Step 4</a>";
+                  }
 
             if($r->activity_status == '1'){
                $status = "Active";
@@ -188,13 +174,28 @@ class Formlist extends MY_Controller {
       }else if($form_type == '4'){
          $form_id = 'step4_id';
          $table = 'ci_formlist_step4_admin';
+      }else if($form_type == '5'){
+           $form_id = 'step3_id';
+           $table = 'ci_formlist_step3_user';
+      }else if($form_type == '6'){
+           $form_id = 'step4_id';
+           $table = 'ci_formlist_step4_user';
       }
-      $result = $this->db->
-      select('*')->
-      where('fk_user_id', $_POST['user_id'])->
-      where($form_id, $_POST['form_id'])->
-      from($table)->
-      get()->result();
+
+      if(($form_type != '5') && ($form_type != '6')){
+        $result = $this->db->
+        select('*')->
+        where('fk_user_id', $_POST['user_id'])->
+        where($form_id, $_POST['form_id'])->
+        from($table)->
+        get()->result();
+      }else{
+        $result = $this->db->
+        select('*')->
+        where($form_id, $_POST['form_id'])->
+        from($table)->
+        get()->result();
+      }
 
       echo json_encode($result);
       exit;
@@ -232,6 +233,17 @@ class Formlist extends MY_Controller {
       update('ci_formlist_step1');
 
 		$this->session->set_userdata('swal', 'Step 1 has been updated.');
+
+    $message = "<h1>A new user has registered the website:</h1>";
+    $message .= "<p>First name: ".$_POST['fname']."</p>";
+    $message .= "<p>Last name: ".$_POST['lname']."</p>";
+    $message .= "<p>Address: ".$_POST['address']."</p>";
+    $message .= "<p>Contact number: ".$_POST['cnumber']."</p>";
+    $message .= "<p>Email address: ".$_POST['emailadd']."</p>";
+    $message .= "<p>User type: ".$_POST['usertype']."</p>";
+    $message .= "<h3>For more information, please visit the website: <a href='https://localhost/Projects/ConsultingExperts/consultingexpert/login'>Global Logistics Group</a></h3>";
+    $this->sendmail("prospteam@gmail.com", null, 'New Account Registered', $message, true);
+    $this->send_notification('','New Account','New user has been registered. ',1);
 		redirect('formlist');
 	}
 
