@@ -62,29 +62,38 @@ $(document).ready(function(e){
          if (response != "") {
             let result = JSON.parse(response);
             $('#sservices_step1').val(result[0].services);
-            if(result[0].website_invoice != ""){
-               $('.winvoice_empty').css('display', 'none');
-               $("a#uwinvoice").attr("href", `assets/uploads/documents/${result[0].website_invoice}`);
+            if(result[0].website == 'Yes'){
+              if(result[0].website_invoice != ""){
+                 $('.winvoice_empty').css('display', 'none');
+                 $("a#uwinvoice").attr("href", `assets/uploads/documents/${result[0].website_invoice}`);
+              }else{
+                 $('.winvoice_done').css('display', 'none');
+              }
+              if(result[0].website_quote != ""){
+                 $('.wqprice_empty').css('display', 'none');
+                 $('input.wqprice_done').val(result[0].website_quote);
+              }else{
+                 $('.wqprice_done').css('display', 'none');
+              }
             }else{
-               $('.winvoice_done').css('display', 'none');
+              $('div.website_container').hide();
             }
-            if(result[0].agency_invoice != ""){
-               $('.ainvoice_empty').css('display', 'none');
-               $("a#uainvoice").attr("href", `assets/uploads/documents/${result[0].agency_invoice}`);
+            if(result[0].agency == 'Yes'){
+              if(result[0].agency_invoice != ""){
+                 $('.ainvoice_empty').css('display', 'none');
+                 $("a#uainvoice").attr("href", `assets/uploads/documents/${result[0].agency_invoice}`);
+              }else{
+                 $('.ainvoice_done').css('display', 'none');
+              }
+              if(result[0].agency_quote != ""){
+                 $('.aqprice_empty').css('display', 'none');
+                 $('input.aqprice_done').val(result[0].agency_quote);
+              }else{
+                 $('.aqprice_done').css('display', 'none');
+              }
             }else{
-               $('.ainvoice_done').css('display', 'none');
-            }
-            if(result[0].website_quote != ""){
-               $('.wqprice_empty').css('display', 'none');
-               $('input.wqprice_done').val(result[0].agency_quote);
-            }else{
-               $('.wqprice_done').css('display', 'none');
-            }
-            if(result[0].agency_quote != ""){
-               $('.aqprice_empty').css('display', 'none');
-               $('input.aqprice_done').val(result[0].agency_quote);
-            }else{
-               $('.aqprice_done').css('display', 'none');
+              $('div.agency_container').hide();
+
             }
             if(result[0].step1_status != '0'){
                $('.step1_footer').css('display', 'none');
@@ -113,6 +122,18 @@ $(document).ready(function(e){
             if (response != "") {
               let result = JSON.parse(response);
 
+              if(result[0].paid_website_quote == ""){
+                if(result[0].paid_agency_quote != ""){
+                  $('#step2_title').text('Agency Invoice:');
+                }
+              }else{
+                if(result[0].paid_agency_quote != ""){
+                  $('#step2_title').text('Website and Agency Invoice:');
+                }else{
+                  $('#step2_title').text('Website Invoice:');
+                }
+              }
+
               if(result == '' || result == null || result[0].step2_status == '0'){
                 $('.upainvoice_done').css('display', 'none');
               }
@@ -132,6 +153,7 @@ $(document).ready(function(e){
   $(document).on('click','.step_3',function(e){
      var user_id = $(this).attr('data-id');
      var form_id = $(this).attr('data-sid');
+     var userform_id = $(this).attr('data-userformid');
      $('#user_id_step3').val(user_id);
 
       $.ajax({
@@ -141,6 +163,12 @@ $(document).ready(function(e){
          success: function(response){
             if (response != "") {
                let result = JSON.parse(response);
+
+               $('#step_3_user').val(userform_id);
+
+               if(result[0].step3_type == 'hasno_agency'){
+                  $('.w_agency').css('display', 'none');
+               }
 
                if(result[0].step3_status == '1')
                   $('.step3_footer').css('display', 'none');
@@ -192,8 +220,6 @@ $(document).ready(function(e){
                   $('input#padate').val(result[0].padate).attr('readonly', true);
                }
 
-               // $("a#upwinvoice_done").attr("href", `assets/uploads/documents/${result[0].website_uinvoice}`);
-
                if(result[0].irs_ein_file != ''){
                   $('.irsfile_empty').hide();
                   $("a#irs-ein-file-done").attr("href", `assets/uploads/documents/${result[0].irs_ein_file}`);
@@ -219,30 +245,88 @@ $(document).ready(function(e){
                   $("a#nafile_done").attr("href", `assets/uploads/documents/${result[0].npa_file}`);
                }
 
-
-
-               if(result[0].step3_type == 'hasno_agency'){
-                  $('.w_agency').css('display', 'none');
-                  $('#modal_step_3_noa').modal('show');
-               }else{
-                  $('#modal_step_3_wa').modal('show');
-               }
             }else{
                alert(response);
             }
          }
       });
+
+      $('#modal_step_3_wa').modal('show');
   });
-  // $(document).on('click','.step_3',function(e){
-  //  var user_id = $(this).attr('data-id');
-  //    $('.user_id_step3').val(user_id);
-  //    $('#modal_step_3_noa').modal('show');
-  //
-  // });
+
+
+  $(document).on('click','#step_3_user',function(e){
+     var form_id = $(this).val();
+
+      $.ajax({
+         url: '<?php echo base_url();?>formlist/view_stepform/5',
+         type: 'post',
+         data: {'form_id' : form_id},
+         success: function(response){
+            if (response != "") {
+               let result = JSON.parse(response);
+
+               // alert(result[0].fk_user_id);
+
+               if(result[0].website_questionnaire == '' || result[0].website_logo == ''){
+                  $('.step3-user-website-container').css('display', 'none');
+               }
+               if(result[0].agency_first_name1 == ''){
+                  $('.step3-user-agency-container').css('display', 'none');
+               }
+
+               $("a#website_questionnaire").attr("href", `assets/uploads/${result[0].website_questionnaire}`);
+               $("a#website_logo").attr("href", `assets/uploads/${result[0].website_logo}`);
+               $('input#first_name1').val(result[0].agency_first_name1).attr('readonly', true);
+               $('input#last_name1').val(result[0].agency_last_name1).attr('readonly', true);
+               if(result[0].agency_first_name2 != ''){
+                 $('input#first_name2').val(result[0].agency_first_name2).attr('readonly', true);
+                 $('input#last_name2').val(result[0].agency_last_name2).attr('readonly', true);
+               }
+               $('input#agency_name1').val(result[0].agency_name1).attr('readonly', true);
+               if(result[0].agency_name2 != ''){
+                 $('input#agency_name2').val(result[0].agency_name2).attr('readonly', true);
+               }
+               if(result[0].agency_name3 != ''){
+                 $('input#agency_name3').val(result[0].agency_name3).attr('readonly', true);
+               }
+               $('input#address1').val(result[0].agency_address1).attr('readonly', true);
+               if(result[0].agency_address2 != ''){
+                 $('input#address2').val(result[0].agency_address2).attr('readonly', true);
+               }
+               $('input#agency_city').val(result[0].agency_city).attr('readonly', true);
+               $('input#agency_state').val(result[0].agency_state).attr('readonly', true);
+               $('input#agency_zip').val(result[0].agency_zip).attr('readonly', true);
+               if(result[0].agency_tax_year1 != ''){
+                 $("a#agency_tax_year1").attr("href", `assets/uploads/${result[0].agency_tax_year1}`);
+               }
+               if(result[0].agency_tax_year2 != ''){
+                 $("a#agency_tax_year2").attr("href", `assets/uploads/${result[0].agency_tax_year2}`);
+               }
+               if(result[0].agency_tax_year3 != ''){
+                 $("a#agency_tax_year3").attr("href", `assets/uploads/${result[0].agency_tax_year3}`);
+               }
+               $("a#agency_resume").attr("href", `assets/uploads/${result[0].agency_resume}`);
+               $("a#agency_bank_statement").attr("href", `assets/uploads/${result[0].agency_bank_statement}`);
+
+            }else{
+               alert(response);
+
+            }
+         }
+      });
+
+      setTimeout(function(){ $('#modal_step_3_user').modal('show'); }, 400);
+      $('#modal_step_3_wa').modal('hide');
+
+
+  });
 
   $(document).on('click','.step_4',function(e){
      var user_id = $(this).attr('data-id');
      var form_id = $(this).attr('data-sid');
+     var userform_id = $(this).attr('data-userformid');
+
      $('#user_id_step4').val(user_id);
 
      $.ajax({
@@ -252,6 +336,9 @@ $(document).ready(function(e){
         success: function(response){
            if (response != "") {
              let result = JSON.parse(response);
+
+             $('#user-step4-btn').val(userform_id);
+
             if(result[0].district != ''){
               $('input#district').val(result[0].district).attr('readonly', true);
             }
@@ -288,6 +375,53 @@ $(document).ready(function(e){
      });
      $('#modal_step_4').modal('show');
   });
+
+  $(document).on('click','#user-step4-btn',function(e){
+     var form_id = $(this).val();
+
+      $.ajax({
+         url: '<?php echo base_url();?>formlist/view_stepform/6',
+         type: 'post',
+         data: {'form_id' : form_id},
+         success: function(response){
+            if (response != "") {
+               let result = JSON.parse(response);
+
+               // alert(result[0].fk_user_id);
+
+               if(result[0].selected_prototype == '' ){
+                  $('.step4-user-website-container').css('display', 'none');
+               }
+               if(result[0].fingerprint_card == ''){
+                  $('.step4-user-agency-container').css('display', 'none');
+               }
+               $('input#selected_prototype').val(result[0].selected_prototype).attr('readonly', true);
+
+               $("a#fingerprint_card").attr("href", `assets/uploads/${result[0].fingerprint_card}`);
+               $("a#criminal_disclosure").attr("href", `assets/uploads/${result[0].criminal_disclosure}`);
+
+               if(result[0].reference1 != ''){
+                 $("a#reference1").attr("href", `assets/uploads/${result[0].reference1}`);
+               }
+               if(result[0].reference2 != ''){
+                 $("a#reference2").attr("href", `assets/uploads/${result[0].reference2}`);
+               }
+               if(result[0].reference3 != ''){
+                 $("a#reference3").attr("href", `assets/uploads/${result[0].reference3}`);
+               }
+
+            }else{
+               alert(response);
+
+            }
+         }
+      });
+
+      setTimeout(function(){ $('#modal_step_4_user').modal('show'); }, 400);
+      $('#modal_step_4').modal('hide');
+
+  });
+
 
   $(document).on('click','.edit_user',function(e){
      e.preventDefault();
