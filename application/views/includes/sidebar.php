@@ -63,8 +63,10 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link waves-effect waves-dark" href="<?= base_url("notiflist") ?>"> <i class="icon-Bell"></i>
                         <div class="notify">
-                            <span class="heartbit"></span>
-                            <span class="point"></span>
+                            <?php if (!empty($notifs)): ?>
+                              <span class="heartbit"></span>
+                              <span class="point"></span>
+                            <?php endif; ?>
                         </div>
                     </a>
                 </li>

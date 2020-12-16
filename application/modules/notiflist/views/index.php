@@ -27,7 +27,7 @@
             <?php } elseif($value->notif_type == '4') { ?>
                   <a class="notif_link" style="width: 100%;" href="<?php echo base_url(); ?>loads/view_loads?notif=<?php echo $value->notif_id; ?>">
             <?php } else { ?>
-               <a class="notif_link" style="width: 100%;" href="<?php echo base_url(); ?>notifications/index?notif=<?php echo $value->notif_id; ?>">
+               <a class="notif_link" style="width: 100%;" href="<?php echo base_url(); ?>notiflist/index?notif=<?php echo $value->notif_id; ?>">
             <?php } ?>
             <li class="li-item glow-custom" style="<?php if($value->status =='unread') echo "background: rgb(230, 242, 255) none repeat scroll 0% 0%;"; else  echo "background: #EAEAEA;";?>">
                <span>

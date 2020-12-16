@@ -68,7 +68,7 @@
                        <label for="ws_invoice">Upload Invoice</label>
                        <input type="file" id="ws_invoice" name="ws_invoice" accept=".pdf, .doc, .docx" required/>
                    </div>
-                   <div class="form-group col-md-6 invoice_done" style="text-align: center;">
+                   <div class="form-group col-md-6 winvoice_done" style="text-align: center;">
                     <a id="uwinvoice" class="btn btn-primary blue-btn center_modalbutton"  href="" target="_blank" download>View Uploaded Invoice</a>
                    </div>
                  </div>
@@ -88,7 +88,7 @@
                        <label for="a_invoice">Upload Invoice</label>
                        <input type="file" id="a_invoice" name="a_invoice" accept=".pdf, .doc, .docx" required/>
                    </div>
-                   <div class="form-group col-md-6 invoice_done" style="text-align: center;">
+                   <div class="form-group col-md-6 ainvoice_done" style="text-align: center;">
                     <a id="uainvoice" class="btn btn-primary blue-btn center_modalbutton" href="" target="_blank" download>View Uploaded Invoice</a>
                    </div>
                  </div>

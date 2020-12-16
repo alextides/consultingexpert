@@ -234,16 +234,11 @@ class Formlist extends MY_Controller {
 
 		$this->session->set_userdata('swal', 'Step 1 has been updated.');
 
-    $message = "<h1>A new user has registered the website:</h1>";
-    $message .= "<p>First name: ".$_POST['fname']."</p>";
-    $message .= "<p>Last name: ".$_POST['lname']."</p>";
-    $message .= "<p>Address: ".$_POST['address']."</p>";
-    $message .= "<p>Contact number: ".$_POST['cnumber']."</p>";
-    $message .= "<p>Email address: ".$_POST['emailadd']."</p>";
-    $message .= "<p>User type: ".$_POST['usertype']."</p>";
-    $message .= "<h3>For more information, please visit the website: <a href='https://localhost/Projects/ConsultingExperts/consultingexpert/login'>Global Logistics Group</a></h3>";
-    $this->sendmail("prospteam@gmail.com", null, 'New Account Registered', $message, true);
-    $this->send_notification('','New Account','New user has been registered. ',1);
+    $message = "<h1>DDD Forms - Step 1 has been updated.:</h1>";
+    $message .= "<h3>Proceed now to Step 2 on DDD Forms.</h3>";
+    $message .= "<h3>For more information, please visit the website: <a href='https://localhost/Projects/ConsultingExperts/consultingexpert/login'>Consulting Experts LLC</a></h3>";
+    $this->sendmail1("prospteam@gmail.com", null, 'Notification - DDD Forms', $message, true);
+    $this->send_notification($_POST['user_id'],'Notification: DDD Forms','Proceed to Step 2 now. ',5);
 		redirect('formlist');
 	}
 
@@ -274,8 +269,13 @@ class Formlist extends MY_Controller {
 		set('website_uinvoice', $filename1)->
 		set('agency_uinvoice', $filename2)->
 		where('fk_user_id', $_POST['user_id'])->
-      update('ci_formlist_step1');
+    update('ci_formlist_step1');
 
+    $message = "<h1>DDD Forms - Step 2 has been updated.:</h1>";
+    $message .= "<h3>Proceed now to Step 3 on DDD Forms.</h3>";
+    $message .= "<h3>For more information, please visit the website: <a href='https://localhost/Projects/ConsultingExperts/consultingexpert/login'>Consulting Experts LLC</a></h3>";
+    $this->sendmail1("prospteam@gmail.com", null, 'Notification - DDD Forms', $message, true);
+    $this->send_notification($_POST['user_id'],'Notification: DDD Forms','Proceed to Step 3 now. ',5);
 		$this->session->set_userdata('swal', 'Step 2 has been updated.');
 		redirect('formlist');
 	}
@@ -358,100 +358,105 @@ class Formlist extends MY_Controller {
 		set('nia_ddate', $_POST['nia-ddate'])->
 		set('nia_bplan', $_POST['nia-bplan'])->
 		set('nia_cplan', $_POST['nia-cplan'])->
-      set('app_denial_file', $appdenialfile)->
+    set('app_denial_file', $appdenialfile)->
 		set('ad_rdate', $_POST['ad-rdate'])->
 		set('ad_rfocus', $_POST['ad-rfocus'])->
 		set('ad_mdate', $_POST['ad-mdate'])->
-      set('nca_file', $ncafile)->
-      set('npa_file', $npafile)->
+    set('nca_file', $ncafile)->
+    set('npa_file', $npafile)->
 		set('padate', $_POST['padate'])->
 		set('na_file', $nafile)->
 		where('fk_user_id', $_POST['user_id_step3'])->
-      update('ci_formlist_step3');
+    update('ci_formlist_step3');
 
-		$this->session->set_userdata('swal', 'Step 2 has been updated.');
-		redirect('formlist');
-	}
-
-   public function admin_step3_na(){
-
-      $files2 = $_FILES['nia-file']['name'];
-
-      $folder2 = 'assets/uploads/documents/';
-      $name2 = $_FILES['nia-file']['tmp_name'];
-      $othername2 = $_FILES['nia-file']['name'];
-      move_uploaded_file($name2, $folder2.time().'_'.$othername2);
-
-      $files2 = $_FILES['nia-file']['name'];
-      $niafile = time().'_'.$files2;
-
-      $files3 = $_FILES['nia-app-denial']['name'];
-
-      $folder3 = 'assets/uploads/documents/';
-      $name3 = $_FILES['nia-app-denial']['tmp_name'];
-      $othername3 = $_FILES['nia-app-denial']['name'];
-      move_uploaded_file($name3, $folder3.time().'_'.$othername3);
-
-      $files3 = $_FILES['nia-app-denial']['name'];
-      $appdenialfile = time().'_'.$files3;
-
-      $files4 = $_FILES['nca-file']['name'];
-
-      $folder4 = 'assets/uploads/documents/';
-      $name4 = $_FILES['nca-file']['tmp_name'];
-      $othername4 = $_FILES['nca-file']['name'];
-      move_uploaded_file($name4, $folder4.time().'_'.$othername4);
-
-      $files4 = $_FILES['nca-file']['name'];
-      $ncafile = time().'_'.$files4;
-
-      $files5 = $_FILES['npa-file']['name'];
-
-      $folder5 = 'assets/uploads/documents/';
-      $name5 = $_FILES['npa-file']['tmp_name'];
-      $othername5 = $_FILES['npa-file']['name'];
-      move_uploaded_file($name5, $folder5.time().'_'.$othername5);
-
-      $files5 = $_FILES['npa-file']['name'];
-      $npafile = time().'_'.$files5;
-
-      $files6 = $_FILES['na-file']['name'];
-
-      $folder6 = 'assets/uploads/documents/';
-      $name6 = $_FILES['na-file']['tmp_name'];
-      $othername6 = $_FILES['na-file']['name'];
-      move_uploaded_file($name6, $folder6.time().'_'.$othername6);
-
-      $files6 = $_FILES['na-file']['name'];
-      $nafile = time().'_'.$files6;
-
-		$result = $this->db->
-		set('step3_status', '0')->
-		set('ws_url1', $_POST['prototype1'])->
-		set('ws_url2', $_POST['prototype2'])->
-		set('ws_url3', $_POST['prototype3'])->
-      set('irs_submitted', $_POST['irs-submitted'])->
-		set('irs_mailed', $_POST['irs-mailed'])->
-		set('irs_rdate', $_POST['irs-rdate'])->
-		set('irs_cspecialist', $_POST['irs-cspecialist'])->
-		set('nia_file', $niafile)->
-		set('nia_ddate', $_POST['nia-ddate'])->
-		set('nia_bplan', $_POST['nia-bplan'])->
-		set('nia_cplan', $_POST['nia-cplan'])->
-      set('app_denial_file', $appdenialfile)->
-		set('ad_rdate', $_POST['ad-rdate'])->
-		set('ad_rfocus', $_POST['ad-rfocus'])->
-		set('ad_mdate', $_POST['ad-mdate'])->
-      set('nca_file', $ncafile)->
-      set('npa_file', $npafile)->
-		set('padate', $_POST['padate'])->
-		set('na_file', $nafile)->
-		where('fk_user_id', $_POST['user_id_step3'])->
-      update('ci_formlist_step3');
-
+    $message = "<h1>DDD Forms - Step 3 has been checked and recorded.:</h1>";
+    $message .= "<h3>Proceed now to Step 4 on DDD Forms.</h3>";
+    $message .= "<h3>For more information, please visit the website: <a href='https://localhost/Projects/ConsultingExperts/consultingexpert/login'>Consulting Experts LLC</a></h3>";
+    // $this->sendmail1("prospteam@gmail.com", null, 'Notification - DDD Forms', $message, true);
+    $this->send_notification($_POST['user_id'],'Notification: DDD Forms','Proceed to Step 4 now. ',5);
 		$this->session->set_userdata('swal', 'Step 3 has been updated.');
 		redirect('formlist');
 	}
+
+  //  public function admin_step3_na(){
+  //
+  //     $files2 = $_FILES['nia-file']['name'];
+  //
+  //     $folder2 = 'assets/uploads/documents/';
+  //     $name2 = $_FILES['nia-file']['tmp_name'];
+  //     $othername2 = $_FILES['nia-file']['name'];
+  //     move_uploaded_file($name2, $folder2.time().'_'.$othername2);
+  //
+  //     $files2 = $_FILES['nia-file']['name'];
+  //     $niafile = time().'_'.$files2;
+  //
+  //     $files3 = $_FILES['nia-app-denial']['name'];
+  //
+  //     $folder3 = 'assets/uploads/documents/';
+  //     $name3 = $_FILES['nia-app-denial']['tmp_name'];
+  //     $othername3 = $_FILES['nia-app-denial']['name'];
+  //     move_uploaded_file($name3, $folder3.time().'_'.$othername3);
+  //
+  //     $files3 = $_FILES['nia-app-denial']['name'];
+  //     $appdenialfile = time().'_'.$files3;
+  //
+  //     $files4 = $_FILES['nca-file']['name'];
+  //
+  //     $folder4 = 'assets/uploads/documents/';
+  //     $name4 = $_FILES['nca-file']['tmp_name'];
+  //     $othername4 = $_FILES['nca-file']['name'];
+  //     move_uploaded_file($name4, $folder4.time().'_'.$othername4);
+  //
+  //     $files4 = $_FILES['nca-file']['name'];
+  //     $ncafile = time().'_'.$files4;
+  //
+  //     $files5 = $_FILES['npa-file']['name'];
+  //
+  //     $folder5 = 'assets/uploads/documents/';
+  //     $name5 = $_FILES['npa-file']['tmp_name'];
+  //     $othername5 = $_FILES['npa-file']['name'];
+  //     move_uploaded_file($name5, $folder5.time().'_'.$othername5);
+  //
+  //     $files5 = $_FILES['npa-file']['name'];
+  //     $npafile = time().'_'.$files5;
+  //
+  //     $files6 = $_FILES['na-file']['name'];
+  //
+  //     $folder6 = 'assets/uploads/documents/';
+  //     $name6 = $_FILES['na-file']['tmp_name'];
+  //     $othername6 = $_FILES['na-file']['name'];
+  //     move_uploaded_file($name6, $folder6.time().'_'.$othername6);
+  //
+  //     $files6 = $_FILES['na-file']['name'];
+  //     $nafile = time().'_'.$files6;
+  //
+	// 	$result = $this->db->
+	// 	set('step3_status', '0')->
+	// 	set('ws_url1', $_POST['prototype1'])->
+	// 	set('ws_url2', $_POST['prototype2'])->
+	// 	set('ws_url3', $_POST['prototype3'])->
+  //     set('irs_submitted', $_POST['irs-submitted'])->
+	// 	set('irs_mailed', $_POST['irs-mailed'])->
+	// 	set('irs_rdate', $_POST['irs-rdate'])->
+	// 	set('irs_cspecialist', $_POST['irs-cspecialist'])->
+	// 	set('nia_file', $niafile)->
+	// 	set('nia_ddate', $_POST['nia-ddate'])->
+	// 	set('nia_bplan', $_POST['nia-bplan'])->
+	// 	set('nia_cplan', $_POST['nia-cplan'])->
+  //     set('app_denial_file', $appdenialfile)->
+	// 	set('ad_rdate', $_POST['ad-rdate'])->
+	// 	set('ad_rfocus', $_POST['ad-rfocus'])->
+	// 	set('ad_mdate', $_POST['ad-mdate'])->
+  //     set('nca_file', $ncafile)->
+  //     set('npa_file', $npafile)->
+	// 	set('padate', $_POST['padate'])->
+	// 	set('na_file', $nafile)->
+	// 	where('fk_user_id', $_POST['user_id_step3'])->
+  //     update('ci_formlist_step3');
+  //
+	// 	$this->session->set_userdata('swal', 'Step 3 has been updated.');
+	// 	redirect('formlist');
+	// }
 
    public function admin_step4(){
 
@@ -490,11 +495,16 @@ class Formlist extends MY_Controller {
 		set('olcr_file', $olcrfile)->
 		set('olcr_date', $_POST['olcr-date'])->
 		set('olcr_contact', $_POST['olcr-contact'])->
-      set('pm_file', $pmfile)->
+    set('pm_file', $pmfile)->
 		set('pm_submitted', $_POST['pm-submitted'])->
 		where('fk_user_id', $_POST['user_id_step4'])->
-      update('ci_formlist_step4');
+    update('ci_formlist_step4');
 
+    $message = "<h1>DDD Forms - Step 4 has been checked and recorded.:</h1>";
+    $message .= "<h3>Congratulations! You're done with the DDD Forms.</h3>";
+    $message .= "<h3>For more information, please visit the website: <a href='https://localhost/Projects/ConsultingExperts/consultingexpert/login'>Consulting Experts LLC</a></h3>";
+    // $this->sendmail1("prospteam@gmail.com", null, 'Notification - DDD Forms', $message, true);
+    $this->send_notification($_POST['user_id'],'Notification: DDD Forms','Congratulations! You are done with your Step 4 DDD Form! ',5);
 		$this->session->set_userdata('swal', 'Step 4 has been updated.');
 		redirect('formlist');
 	}
