@@ -67,9 +67,11 @@ class Mydddapplicationform extends MY_Controller
       $post = $this->input->post();
       $fk_user_id = $this->session->userdata('user_details')[0]['fk_user_id'];
       $select_services = $_POST['services'];
+      $ddd_application_id = $_POST['ddd_application_id'];
       for ($i = 0; $i < count($select_services); $i++) {
          $step1 = array(
             'fk_user_id' => $fk_user_id,
+            'fk_ddd_application_id' => $post["ddd_application_id"],
             'services' => $select_services[$i],
             'website' => $post["user_website"],
             'agency' => $post["user_agency"],
@@ -216,12 +218,12 @@ class Mydddapplicationform extends MY_Controller
                'agency_state'          => $post["agency_state"],
                'agency_zip'            => $post["agency_zip"],
                'website_questionnaire' => $this->upload->data('file_name'),
-               'website_logo'          => $this->upload->data('website_logo'),
-               'agency_tax_year1'      => $this->upload->data('file_name2'),
-               'agency_tax_year2'      => $this->upload->data('file_name3'),
-               'agency_tax_year3'      => $this->upload->data('file_name4'),
-               'agency_resume'         => $this->upload->data('file_name5'),
-               'agency_bank_statement' => $this->upload->data('file_name6'),
+               'website_logo'          => $this->upload->data('file_name'),
+               'agency_tax_year1'      => $this->upload->data('file_name'),
+               'agency_tax_year2'      => $this->upload->data('file_name'),
+               'agency_tax_year3'      => $this->upload->data('file_name'),
+               'agency_resume'         => $this->upload->data('file_name'),
+               'agency_bank_statement' => $this->upload->data('file_name'),
                'fk_user_id'            => $fk_user_id,
                'date_added'            => date("Y-m-d H:i:s"),
                'step3_status'          => 1,
@@ -331,15 +333,12 @@ class Mydddapplicationform extends MY_Controller
       $fk_user_id = $this->session->userdata('user_details')[0]['fk_user_id'];
 
       $files = $this->db
-         ->select('ci_ddd_application.*, ci_userdata.*, ci_formlist_step1.*')
+         ->select('*')
          ->from('ci_ddd_application')
-         // ->where('step1_status', '1')
          ->where('ci_ddd_application.fk_user_id', $fk_user_id)
-         ->where('ci_ddd_application.ddd_application_id', '5')
-         // // ->where('ci_ddd_application.ddd_application', '1')
-         ->join('ci_formlist_step1', 'ci_formlist_step1.fk_user_id = ci_ddd_application.fk_user_id')
-         // ->join('ci_formlist_step3', 'ci_formlist_step3.fk_user_id = ci_formlist_step1.fk_user_id')
-         // ->join('ci_formlist_step4', 'ci_formlist_step4.fk_user_id = ci_formlist_step1.fk_user_id')
+         ->join('ci_formlist_step1', 'ci_formlist_step1.fk_ddd_application_id = ci_ddd_application.ddd_application_id')
+         ->join('ci_formlist_step2', 'ci_formlist_step2.fk_ddd_application_id = ci_ddd_application.ddd_application_id')
+         ->join('ci_formlist_step3_user', 'ci_formlist_step3_user.fk_ddd_application_id = ci_ddd_application.ddd_application_id')
          ->join('ci_userdata', 'ci_userdata.fk_user_id = ci_ddd_application.fk_user_id')
          ->get();
 
@@ -348,7 +347,12 @@ class Mydddapplicationform extends MY_Controller
 
       foreach ($files->result() as $r) {
          $action_btn = false;
-         $action_btn .= "<a style='background-color: #1d95e9; border-color: #1d95e9' class='btn btn-info btn-xs step1' data-id=" . $r->step1_id . " href='javascript:void(0)'>Step 1 $r->step1_id<i class='fa fa-arrow-right'></i></a>";
+         $action_btn .= "<a style='background-color: #1d95e9; border-color: #1d95e9' class='btn btn-info btn-xs step1' data-id=" . $r->ddd_application_id . " href='javascript:void(0)'>Step 1 <i class='fa fa-arrow-right'></i></a>";
+         $action_btn .= "<a style='background-color: #1065a2; border-color: #1065a2' class='btn btn-info btn-xs step1_details_btn' data-id=" . $r->step1_id . " href='javascript:void(0)'>Step 1 Details <i class='fa fa-arrow-right'></i></a>";
+         $action_btn .= "<a style='background-color: #1d95e9; border-color: #1d95e9' class='btn btn-info btn-xs step2' data-id=" . $r->step1_id . " href='javascript:void(0)'>Step 2<i class='fa fa-arrow-right'></i></a>";
+         $action_btn .= "<a style='background-color: #1065a2; border-color: #1065a2' class='btn btn-info btn-xs step2_details_btn' data-id=" . $r->payment_id . " href='javascript:void(0)'>Step 2 Details <i class='fa fa-arrow-right'></i></a>";
+         $action_btn .= "<a style='background-color: #1d95e9; border-color: #1d95e9' class='btn btn-info btn-xs step3' data-id=" . $r->payment_id . " href='javascript:void(0)'>Step 3 <i class='fa fa-arrow-right'></i></a>";
+         $action_btn .= "<a style='background-color: #1065a2; border-color: #1065a2' class='btn btn-info btn-xs step3_details_btn' data-id=" . $r->step3_id . " href='javascript:void(0)'>Step 3 Details <i class='fa fa-arrow-right'></i></a>";
          // $action_btn .= "<a style='background-color: #1065a2; border-color: #1065a2' class='btn btn-success btn-xs step2' data-id=" . $r->step1_id . " href='javascript:void(0)'>Step 2 $r->step1_id<i class='fa fa-arrow-right'></i></a>";
          // $action_btn .= "<a style='background-color: #1d95e9; border-color: #1d95e9' class='btn btn-primary btn-xs step3' data-id=" . $r->step3_id . " href='javascript:void(0)'>Step 3 $r->step3_id<i class='fa fa-arrow-right'></i></a>";
          // $action_btn .= "<a style='background-color: #1065a2; border-color: #1065a2' class='btn btn-success btn-xs step4' data-id=" . $r->step4_id . " href='javascript:void(0)'>Step 4 $r->step4_id<i class='fa fa-arrow-right'></i></a>";
@@ -462,6 +466,21 @@ class Mydddapplicationform extends MY_Controller
    //    exit();
    // }
 
+   public function get_ddd_application($id = '') // get step1 details query
+   {
+      $result = $this->db
+         ->select('*')
+         ->from('ci_ddd_application')
+         ->where('ddd_application_id', $id)
+         ->get()
+         ->result_array();
+      echo json_encode($result);
+      // echo '<pre>';
+      // print_r($result);
+      //  exit;
+      exit();
+   }
+
    public function get_step1_details($id = '') // get step1 details query
    {
       $result = $this->db
@@ -481,9 +500,9 @@ class Mydddapplicationform extends MY_Controller
    {
       $result = $this->db
          ->select('*')
-         ->from('ci_formlist_step1')
-         ->join('ci_formlist_step2', 'ci_formlist_step2.fk_user_id = ci_formlist_step1.fk_user_id')
-         ->where('step1_id', $id)
+         ->from('ci_formlist_step2')
+         // ->join('ci_formlist_step2', 'ci_formlist_step2.fk_user_id = ci_formlist_step1.fk_user_id')
+         ->where('payment_id', $id)
          ->get()
          ->result_array();
       echo json_encode($result);
