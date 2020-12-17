@@ -71,9 +71,9 @@ if(TEST_MODE){
   define('STRIPE_SECRET_KEY','sk_test_O2dUx2u1rnMoIEAbjo1fxhzJ');
 
   //NOTE: SQUARE
-  define('SQUARE_APPLICATION_ID','sandbox-sq0idp-Cv-UCD-d58VKczDvd8PXog');
-  define('SQUARE_ACCESS_TOKEN','sandbox-sq0atb-s3f9nBf4GmWjTLcRoEm9aw');
-  define('SQUARE_LOCATION_ID','CBASEICWWAw5k2TCC_Ez-1bJueUgAQ');
+  define('SQUARE_APPLICATION_ID', 'sandbox-sq0idb-8npLyVGxhS-iYng8JQ5bmg');
+  define('SQUARE_ACCESS_TOKEN', 'EAAAEDP539hULAesxnPLBo8rdwAZ5DswcmH4rVqoUMRh3JUq8TUnyI6rX97L-seX');
+  define('SQUARE_LOCATION_ID', '4TG7S9TDARJA2');
 
 }else {
 

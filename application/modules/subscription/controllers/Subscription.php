@@ -259,20 +259,20 @@ class Subscription extends MY_Controller
 		$date_subscribed = date('Y-m-d');
 		$fk_user_id = $this->session->userdata('user_details')[0]['fk_user_id'];
 
-		$data = array(
+		$data2 = array(
 			'fk_user_id'		=> $fk_user_id,
 			'transaction_id'	=> $trans,
-			'paid_amount' 		=> $_SESSION['formdata']['Amount'],
-			'payment_for' 		=> $_SESSION['formdata']['Payment_For'],
-			'gateway' 			=> $_SESSION['formdata']['gateway'],
+			'paid_amount' 		=> $data['Amount'],
+			'payment_for' 		=> $data['Payment_For'],
+			'gateway' 			=> $data['gateway'],
 			'date_subscribed'   => $date_subscribed,
 			'membership_status' => 1 //paid
 		);
-		$this->MY_Model->insert('ci_subscription', $data);
+		$this->MY_Model->insert('ci_subscription', $data2);
 
 		if ($status = 'SUCCESS') {
-			$name = $_SESSION['formdata']['First_Name'] . " " . $_SESSION['formdata']['Last_Name'];
-			$email_address = $_SESSION['formdata']['Email'];
+			$name = $data['First_Name'] . " " . $data['Last_Name'];
+			$email_address = $data['Email'];
 			$email_from = 'Consulting Experts LLC';
 			$email_subject = 'Subscription';
 
@@ -313,8 +313,8 @@ class Subscription extends MY_Controller
 									<td class='content_con'>
 										<p><span style='font-size: small;'><span lang='en-US' style='white-space: pre-line;'>Transaction Status: " . $status . "</span></span></p>
 										<p><span style='font-size: small;'><span lang='en-US' style='white-space: pre-line;'>Transaction ID: " . $trans . "</span></span></p>
-										<p><span style='font-size: small;'><span lang='en-US' style='white-space: pre-line;'>Amount: " . $_SESSION['formdata']['Amount'] . "</span></span></p>
-										<p><span style='font-size: small;'><span lang='en-US' style='white-space: pre-line;'>Payment For: " . $_SESSION['formdata']['Payment_For'] . "</span></span></p>
+										<p><span style='font-size: small;'><span lang='en-US' style='white-space: pre-line;'>Amount: " . $data['Amount'] . "</span></span></p>
+										<p><span style='font-size: small;'><span lang='en-US' style='white-space: pre-line;'>Payment For: " . $data['Payment_For'] . "</span></span></p>
 									</td>
 									<td>&nbsp;</td>
 								</tr>

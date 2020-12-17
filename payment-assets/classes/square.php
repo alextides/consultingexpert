@@ -27,6 +27,7 @@ class Square
 
 		// curl_setopt($ch, CURLOPT_URL, "https://connect.squareup.com/v2/locations/".$this->location_id."/transactions");
 		$new_url = (TEST_MODE)?"https://connect.squareupsandbox.com/v2/locations/":"https://connect.squareup.com/v2/locations/";
+		curl_setopt($ch, CURLOPT_URL, $new_url . $this->location_id . "/transactions");
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 		curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($postfields));

@@ -229,6 +229,9 @@ class Orderawebsite extends MY_Controller
 		require 'payment-assets/classes/square.php';
 		$square = new Square();
 		$response = $square->makePayment();
+		echo '<pre>';
+		print_r($square);
+		 exit;
 		if (isset($response)) {
 			if (isset($response->errors)) {
 				return $this->message('danger', '<b>Error: </b> ' . $response->errors[0]->detail);

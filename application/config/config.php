@@ -27,7 +27,7 @@ $config['modules_locations'] = array(
 |
 */
 global $base_url;
-$config['base_url'] = 'http://localhost/Projects/ConsultingExperts/consultingexpert';
+$config['base_url'] = 'http://localhost/consultingexpert';
 // $config['base_url'] = 'consultingexpert/login';
 // $config['base_url'] = "http://www.betterlifehomecaregroup.com/employee_in_service";
 
