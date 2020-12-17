@@ -78,7 +78,7 @@ class Managesubscription extends MY_Controller
       $subs = $this->db
          ->select('*')
          ->from('ci_subscription')
-         ->where('membership_status', '1')
+         // ->where('membership_status', '1')
          // ->where('delete_status', '0')
          ->join('ci_userdata', 'ci_userdata.fk_user_id = ci_subscription.fk_user_id')
          ->get();
@@ -87,16 +87,26 @@ class Managesubscription extends MY_Controller
 
       foreach ($subs->result() as $r) {
          $action_btn = false;
-         $action_btn .= "<a class='btn btn-success btn-xs edit_file' data-id=" . $r->membership_id . " href='javascript:void(0)'>Enable</a>";
-         $action_btn .= "<a class='btn btn-danger btn-xs delete_file' href='" . base_url('managefiles/delete_file/' . $r->membership_id) . "'>Disable</a>";
+         $action_btn .= "<a class='btn btn-success btn-xs' data-id=" . $r->membership_id . " href='".base_url('managesubscription/enable_subs/'.$r->membership_id) . "'>Enable</a>";
+         $action_btn .= "<a class='btn btn-danger btn-xs' data-id=" . $r->membership_id . " href='".base_url('managesubscription/disable_subs/'.$r->membership_id) . "'>Disable</a>";
+
+         if($r->membership_status == 1){
+            $membership_status = "Paid";
+         }elseif($r->membership_status == 2){
+            $membership_status = "Enabled";
+         }elseif($r->membership_status == 3) {
+            $membership_status = "Disabled";
+         }else{
+            $membership_status = "";
+         }
 
          $data[] = array( //display data from database on Manage Files datatable
-            $r->fk_user_id,
+            $r->first_name.''. ' ' .''.$r->last_name,
             $r->transaction_id,
             // $r->transaction_id,
             $r->paid_amount,
-            $r->date_subscribed, 
-            $r->membership_status,
+            $r->date_subscribed,
+            $membership_status,
             $action_btn
          );
       }
@@ -121,25 +131,23 @@ class Managesubscription extends MY_Controller
       redirect('managefiles');
    }
 
-   public function activate_user($id = '')
-   {
+   public function enable_subs($id = '') {
       $res = $this->db
-         ->set('activity_status', '1')
-         ->where('user_id', $id)
-         ->update('ci_users');
-
-      $this->session->set_userdata('swal', 'User activated successfully.');
-      redirect('userlist');
+         ->set('membership_status', '2')
+         ->where('membership_id', $id)
+         ->update('ci_subscription');
+      $this->session->set_userdata('swal', 'Subscription enabled successfully.');
+      redirect('managesubscription');
    }
-   public function deactivate_user($id = '')
-   {
-      $res = $this->db
-         ->set('activity_status', '0')
-         ->where('user_id', $id)
-         ->update('ci_users');
 
-      $this->session->set_userdata('swal', 'User deactivated successfully.');
-      redirect('userlist');
+   public function disable_subs($id = '') {
+      $res = $this->db
+         ->set('membership_status', '3')
+         ->where('membership_id', $id)
+         ->update('ci_subscription');
+
+      $this->session->set_userdata('swal', 'Subscription disabled successfully.');
+      redirect('managesubscription');
    }
 
    public function verify_username()

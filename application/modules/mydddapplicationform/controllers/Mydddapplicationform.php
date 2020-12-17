@@ -339,6 +339,7 @@ class Mydddapplicationform extends MY_Controller
          ->join('ci_formlist_step1', 'ci_formlist_step1.fk_ddd_application_id = ci_ddd_application.ddd_application_id')
          ->join('ci_formlist_step2', 'ci_formlist_step2.fk_ddd_application_id = ci_ddd_application.ddd_application_id')
          ->join('ci_formlist_step3_user', 'ci_formlist_step3_user.fk_ddd_application_id = ci_ddd_application.ddd_application_id')
+         // ->join('ci_formlist_step3_admin', 'ci_formlist_step3_admin.fk_stepform_id = ci_formlist.stepform_id')
          ->join('ci_userdata', 'ci_userdata.fk_user_id = ci_ddd_application.fk_user_id')
          ->get();
 
@@ -353,6 +354,7 @@ class Mydddapplicationform extends MY_Controller
          $action_btn .= "<a style='background-color: #1065a2; border-color: #1065a2' class='btn btn-info btn-xs step2_details_btn' data-id=" . $r->payment_id . " href='javascript:void(0)'>Step 2 Details <i class='fa fa-arrow-right'></i></a>";
          $action_btn .= "<a style='background-color: #1d95e9; border-color: #1d95e9' class='btn btn-info btn-xs step3' data-id=" . $r->payment_id . " href='javascript:void(0)'>Step 3 <i class='fa fa-arrow-right'></i></a>";
          $action_btn .= "<a style='background-color: #1065a2; border-color: #1065a2' class='btn btn-info btn-xs step3_details_btn' data-id=" . $r->step3_id . " href='javascript:void(0)'>Step 3 Details <i class='fa fa-arrow-right'></i></a>";
+         $action_btn .= "<a style='background-color: #1d95e9; border-color: #1d95e9' class='btn btn-info btn-xs step3' data-id=" . $r->step3_id . " href='javascript:void(0)'>Step 4 <i class='fa fa-arrow-right'></i></a>";
          // $action_btn .= "<a style='background-color: #1065a2; border-color: #1065a2' class='btn btn-success btn-xs step2' data-id=" . $r->step1_id . " href='javascript:void(0)'>Step 2 $r->step1_id<i class='fa fa-arrow-right'></i></a>";
          // $action_btn .= "<a style='background-color: #1d95e9; border-color: #1d95e9' class='btn btn-primary btn-xs step3' data-id=" . $r->step3_id . " href='javascript:void(0)'>Step 3 $r->step3_id<i class='fa fa-arrow-right'></i></a>";
          // $action_btn .= "<a style='background-color: #1065a2; border-color: #1065a2' class='btn btn-success btn-xs step4' data-id=" . $r->step4_id . " href='javascript:void(0)'>Step 4 $r->step4_id<i class='fa fa-arrow-right'></i></a>";

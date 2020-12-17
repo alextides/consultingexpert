@@ -44,6 +44,7 @@
         display: block;
         margin: 0 auto;
         border-radius: 100%;
+        border: 1px solid;
     }
 </style>
 <div class="page-wrapper">
@@ -72,12 +73,13 @@
             <div class="col-md-3">
                 <div class="card">
                     <div class="card-body">
-                        <form class="form-material m-t-40" method="post" id="profileform" action="<?= base_url("user/update_profile"); ?>">
+                        <form class="form-material m-t-40" method="post" id="profileform" enctype="multipart/form-data" action="<?= base_url("user/update_profile"); ?>">
                             <div class="profile-pic-display">
-                                <img src="<?= base_url() ?>assets/images/prof.jpg" alt="homepage" class="profile-image" />
+                                <img src="<?= base_url() ?>assets/images/user.png" alt="homepage" class="profile-image" />
+                                <!-- <img src="<?php //echo $this->session->userdata('user_details')[0]['profile_picture'] ?>" alt="homepage" class="profile-image" /> -->
                             </div>
                             <span class="btn file-profile">
-                                Add Photo<input type="file" name="profile_picture" id="profile_picture" class="btn-file-profile">
+                                Update Photo<input type="file" name="profile_picture" id="profile_picture" accept=".pdf, .doc, .docx .png" class="btn-file-profile">
                             </span>
                     </div>
                 </div>

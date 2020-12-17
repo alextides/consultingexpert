@@ -41,6 +41,20 @@ class User extends MY_Controller
 
 	public function update_profile()
 	{
+		if ($_FILES['file_upload']['name'] != "") {
+			$config['upload_path'] = './assets/uploads/profile/';
+			$config['allowed_types'] = 'gif|jpg|png|pdf|txt|docx|doc';
+			$this->load->library('upload', $config);
+			if (!$this->upload->do_upload('file')) {
+				$error = array('error' => $this->upload->display_errors());
+			} else {
+				$upload_data = $this->upload->data();
+				$profile_picture = $upload_data['file_name'];
+			}
+		} else {
+			$profile_picture = $this->input->post('profile_picture');
+		}
+
 		$fk_user_id = $this->session->userdata('user_details')[0]['fk_user_id'];
 		$users = $this->db
 			->set('email', $_POST['email'])
@@ -55,7 +69,7 @@ class User extends MY_Controller
 			->set('last_name', $_POST['last_name'])
 			->set('contact_number', $_POST['contact_number'])
 			->set('address', $_POST['address'])
-			->set('profile_picture', $_POST['profile_picture'])
+			->set('profile_picture', $profile_picture)
 			->where('fk_user_id', $fk_user_id)
 			->update('ci_userdata');
 		}

@@ -120,7 +120,7 @@
          <div class="modal-dialog">
             <div class="modal-content">
                <div class="modal-header">
-                  <h5 class="modal-title" id="editFileModalLabel"><i class="icon-File"></i> Edit File</h5>
+                  <h5 class="modal-title" id="editFileModalLabel"><i class="icon-File"></i> View File</h5>
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                      <span aria-hidden="true">&times;</span>
                   </button>
@@ -130,7 +130,7 @@
                   <div class="form-group row">
                      <label class="col-md-2 col-form-label">File Title: </label>
                      <div class="col-md-10">
-                        <input type="text" name="file_title" id="file_title" class="form-control" required>
+                        <input type="text" name="file_title" id="file_title" class="form-control" required disabled>
                      </div>
                   </div>
                   <div class="form-group row">
@@ -140,28 +140,14 @@
                      </div>
                   </div>
                   <div class="form-group row">
-                     <label class="col-md-2 col-form-label">Update File:</label>
+                     <label class="col-md-2 col-form-label">Date:</label>
                      <div class="col-md-10">
-                        <input type="file" name="file_upload" id="file_upload" class="form-control" placeholder="file_name">
+                        <input type="text" name="date_uploaded" id="date_uploaded" class="form-control" disabled>
                      </div>
                   </div>
-                  <div class="form-group row">
-                     <label class="col-md-2 col-form-label">Assigned To:</label>
-                     <div class="col-md-10">
-                        <input type="text" name="first_name" id="first_name" class="form-control" disabled>
-                        <!-- <input type="text" placeholder="Prosp" class="form-control" disabled> -->
-                     </div>
-                  </div>
-                  <!-- <div class="form-group row">
-                     <label class="col-md-2 col-form-label">Uploaded By*</label>
-                     <div class="col-md-10">
-                        <input type="text" name="uploaded_by" id="uploaded_by" class="form-control" placeholder="uploaded_by" required>
-                     </div>
-                  </div> -->
                </div>
                <div class="modal-footer">
                   <button type="submit" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                  <button type="submit" class="btn btn-primary update_file">Update</button>
                   <input type="hidden" name="file_id" id="file_id">
                </div>
             </div>

@@ -257,7 +257,7 @@
       <div class="modal-dialog modal-dialog-scrollable modal-lg">
          <div class=" modal-content">
             <div class="modal-header">
-               <h5 class="modal-title" id="step1_details_modalLabel"><i class="icon-File"></i> DDD Application Form Step 1</h5>
+               <h5 class="modal-title" id="step1_details_modalLabel"><i class="icon-File"></i> DDD Application Form Step 1 Details</h5>
                </button>
             </div>
             <div class="modal-body">
@@ -642,7 +642,7 @@
    <div class="modal-dialog modal-dialog-scrollable modal-lg">
       <div class=" modal-content">
          <div class="modal-header">
-            <h5 class="modal-title" id="step3_details_modalLabel"><i class="icon-File"></i> DDD Application Form Step 3</h5>
+            <h5 class="modal-title" id="step3_details_modalLabel"><i class="icon-File"></i> DDD Application Form Step 3 Details</h5>
             </button>
          </div>
          <div class="modal-body">

@@ -119,7 +119,7 @@
          <div class="modal-dialog">
             <div class="modal-content">
                <div class="modal-header">
-                  <h5 class="modal-title" id="editFileModalLabel"><i class="icon-File"></i> Edit File</h5>
+                  <h5 class="modal-title" id="editFileModalLabel"><i class="icon-File"></i> Update File Title and Assign User</h5>
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                      <span aria-hidden="true">&times;</span>
                   </button>
@@ -127,11 +127,55 @@
                <div class="modal-body">
                   <input id="file_id" type="hidden" name="file_id" value="">
                   <div class="form-group row">
-                     <label class="col-md-2 col-form-label">File Title: </label>
-                     <div class="col-md-10">
+                     <label class="col-md-3 col-form-label">File Title: </label>
+                     <div class="col-md-9">
                         <input type="text" name="file_title" id="file_title" class="form-control" required>
                      </div>
                   </div>
+                  <div class="form-group row">
+                     <label class="col-md-3 col-form-label">Assigned To: </label>
+                     <div class="col-md-9">
+                        <input type="text" name="first_name" id="first_name" class="form-control" required disabled>
+                     </div>
+                  </div>
+                  <div class="form-group ">
+                     <div class="form-group row">
+                        <label class="col-md-3 col-form-label">Re-assign To: </label>
+                        <div class="col-md-9">
+                           <select class="custom-select" id="assignfile" name="assignfile">
+                              <option selected disabled value="">Select User</option>
+                              <?php foreach ($users as $row) { ?>
+                                 <option id="assign_file" name="assign_file" value="<?php echo $row['user_id']; ?>"><?php echo $row['first_name']; ?> <?php echo $row['last_name']; ?></option>
+                              <?php } ?>
+                           </select>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div class="modal-footer">
+                  <button type="submit" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <button type="submit" class="btn btn-primary update_file">Update</button>
+                  <!-- <input type="hidden" name="file_id" id="file_id"> -->
+               </div>
+            </div>
+         </div>
+      </div>
+      <!-- Modal End-->
+   </form>
+
+   <!--Edit File Modal -->
+   <form id="editFilesForm" method="post" enctype="multipart/form-data" action="<?php echo base_url(); ?>managefiles/update_attached_file">
+      <div class="modal fade" id="editAttachedFileModal" tabindex="-1" aria-labelledby="editFileModalLabel" aria-hidden="true">
+         <div class="modal-dialog">
+            <div class="modal-content">
+               <div class="modal-header">
+                  <h5 class="modal-title" id="editFileModalLabel"><i class="icon-File"></i> Update File</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                     <span aria-hidden="true">&times;</span>
+                  </button>
+               </div>
+               <div class="modal-body">
+                  <input id="file_id" type="hidden" name="file_id" value="">
                   <div class="form-group row">
                      <label class="col-md-2 col-form-label">File:</label>
                      <div class="col-md-10">
@@ -142,26 +186,13 @@
                      <label class="col-md-2 col-form-label">Update File:</label>
                      <div class="col-md-10">
                         <!-- <input type="file" name="file_upload" id="file_upload" class="form-control" placeholder="file_name"> -->
-                        <input type="file" size="20" id="file_upload" name="file_upload" class="form-control">
+                        <input type="file" size="20" id="file_upload" name="file_upload" class="form-control" required>
                      </div>
                   </div>
-                  <div class="form-group row">
-                     <label class="col-md-2 col-form-label">Assigned To:</label>
-                     <div class="col-md-10">
-                        <input type="text" name="fk_user_id" id="fk_user_id" class="form-control" disabled>
-                     </div>
-                  </div>
-                  <!-- <div class="form-group row">
-                     <label class="col-md-2 col-form-label">Uploaded By*</label>
-                     <div class="col-md-10">
-                        <input type="text" name="uploaded_by" id="uploaded_by" class="form-control" placeholder="uploaded_by" required>
-                     </div>
-                  </div> -->
                </div>
                <div class="modal-footer">
                   <button type="submit" class="btn btn-secondary" data-dismiss="modal">Close</button>
                   <button type="submit" class="btn btn-primary update_file">Update</button>
-                  <!-- <input type="hidden" name="file_id" id="file_id"> -->
                </div>
             </div>
          </div>

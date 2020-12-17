@@ -94,6 +94,7 @@
          url: base_url + data_id,
          success: function(data) {
             let result = JSON.parse(data);
+            $('[name="file_title"]').val(result[0].file_title);
             $('[name="file"]').val(result[0].file);
             $('[name="date_uploaded"]').val(result[0].date_uploaded);
             $('[name="file_id"]').val(result[0].file_id);

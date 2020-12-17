@@ -45,9 +45,7 @@ class Managefiles extends MY_Controller
             );
             $res = $this->MY_Model->insert('ci_filelist', $file);
             if ($res) {
-               $this->errmsg = "";
-               $resmsg = array("err" => false, "msg" => "Uploaded Successfully!");
-               $this->session->set_flashdata('res_err', $resmsg);
+               $this->session->set_userdata('swal', 'File Uploaded successfully.');
             }
          }
       }
@@ -79,25 +77,37 @@ class Managefiles extends MY_Controller
 
    public function update_file()
    {
+      $this->db->
+      set('file_title', $_POST['file_title'])->
+      set('fk_user_id', $_POST['assignfile'])->
+      where('file_id', $_POST['file_id'])->
+      update('ci_filelist');
+      $uid = $this->db->insert_id();
+
+      $this->session->set_userdata('swal', 'File record has been updated.');
+      redirect('managefiles');
+   }
+
+   public function update_attached_file()
+   {
       if ($_FILES['file_upload']['name'] != "") {
          $config['upload_path'] = './assets/uploads/';
          $config['allowed_types'] = 'gif|jpg|png|pdf|txt|docx|doc';
          $this->load->library('upload', $config);
-         if ( !$this->upload->do_upload('file')) {
+         if (!$this->upload->do_upload('file')) {
             $error = array('error' => $this->upload->display_errors());
          } else {
-            $upload_data=$this->upload->data();
-            $file_update=$upload_data['file_name'];
+            $upload_data = $this->upload->data();
+            $file_update = $upload_data['file_name'];
          }
-      } else{
-         $file_update=$this->input->post('file_upload');
+      } else {
+         $file_update = $this->input->post('file_upload');
       }
 
-      $this->db->
-      set('file_title', $_POST['file_title'])->
-      set('file', $file_update)->
-      where('file_id', $_POST['file_id'])->
-      update('ci_filelist');
+      $this->db
+      ->set('file', $file_update)
+      ->where('file_id', $_POST['file_id'])
+      ->update('ci_filelist');
       $uid = $this->db->insert_id();
 
       $this->session->set_userdata('swal', 'File record has been updated.');
@@ -168,6 +178,8 @@ class Managefiles extends MY_Controller
       foreach ($files->result() as $r) {
          $action_btn = false;
          $action_btn .= "<a class='btn btn-success btn-xs edit_file' data-id=" . $r->file_id . " href='javascript:void(0)'>Edit</a>";
+         $action_btn .= "<a class='btn btn-warning btn-xs edit_attached_file' data-id=" . $r->file_id . " href='javascript:void(0)'>Edit File</a>";
+         $action_btn .= "<a class='btn btn-danger btn-xs' download data-id=" . $r->file . " href='./assets/uploads/$r->file'>Download</a>";
          $action_btn .= "<a class='btn btn-danger btn-xs delete_file' href='" . base_url('managefiles/delete_file/' . $r->file_id) . "'>Delete</a>";
 
          $data[] = array( //display data from database on Manage Files datatable

@@ -64,10 +64,35 @@
             let result = JSON.parse(data);
             $('[name="file_title"]').val(result[0].file_title);
             $('[name="file"]').val(result[0].file);
-            $('[name="fk_user_id"]').val(result[0].fk_user_id);
+            $('[name="first_name"]').val(result[0].first_name);
             $('[name="file_id"]').val(result[0].file_id);
             // $('[name="uploaded_by"]').val(result[0].uploaded_by);
             $('#editFileModal').modal('show');
+         },
+         error: function(data) {
+            alert(data);
+         }
+      });
+   });
+
+   $(document).on('click', '.edit_attached_file', function(e) { //edit button - view files details by user_id on modal
+      e.preventDefault();
+      var data_id = $(this).attr('data-id');
+      let new_array = [];
+      let checker = '';
+
+      var base_url = "<?php echo base_url(); ?>managefiles/edit_file/";
+      $.ajax({
+         type: "GET",
+         url: base_url + data_id,
+         success: function(data) {
+            let result = JSON.parse(data);
+            $('[name="file_title"]').val(result[0].file_title);
+            $('[name="file"]').val(result[0].file);
+            $('[name="fk_user_id"]').val(result[0].fk_user_id);
+            $('[name="file_id"]').val(result[0].file_id);
+            // $('[name="uploaded_by"]').val(result[0].uploaded_by);
+            $('#editAttachedFileModal').modal('show');
          },
          error: function(data) {
             alert(data);
