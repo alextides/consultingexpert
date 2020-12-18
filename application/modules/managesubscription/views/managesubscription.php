@@ -42,7 +42,7 @@
                      <table id="subscription_datatable" class="table table-striped jambo_table bulk_action dt-responsive" style="width: 100% !important;">
                         <thead>
                            <tr>
-                              <th>User ID</th>
+                              <th>Full Name</th>
                               <th>Transaction ID</th>
                               <!-- <th>Services</th> -->
                               <th>Paid Amount</th>

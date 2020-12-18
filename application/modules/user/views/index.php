@@ -49,8 +49,8 @@
             </div>
 
             <div class="select-private">
-                <input class="private-btn" type="button" value="Subscription">
-                <input class="private-btn" type="button" value="Order a Website">
+                <a class="private-btn" type="button" value="" href="http://localhost/Projects/ConsultingExperts/consultingexpert/subscription">Subscription</a>
+                <a class="private-btn" type="button" value="" href="http://localhost/Projects/ConsultingExperts/consultingexpert/orderawebsite">Order a Website</a>
                 <input class="private-btn" type="button" value="Quote for DD Application">
             </div>
         </div>
