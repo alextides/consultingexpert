@@ -70,7 +70,7 @@
                                     echo "active";
                                 } else {
                                     echo "not-active";
-                                }  ?>"> <a class="waves-effect " href="<?= base_url("admin") ?>" aria-expanded="false"><i class="icon-Car-Wheel"></i><span class="hide-menu">Dashboard </span></a> </li>
+                                }  ?>"> <a class="waves-effect " href="<?= base_url("dashboardadmin") ?>" aria-expanded="false"><i class="icon-Car-Wheel"></i><span class="hide-menu">Dashboard </span></a> </li>
                     <li> <a class="waves-effect " href="<?= base_url("user/profile") ?>" aria-expanded="false"><i class="icon-User"></i><span class="hide-menu">Profile</span></a></li>
                     <li> <a class="waves-effect " href="<?= base_url("gagencylist") ?>" aria-expanded="false"><i class="icon-Shield"></i><span class="hide-menu">Agency List</span></a></li>
                     <li> <a class="waves-effect " href="<?= base_url("userlist") ?>" aria-expanded="false"><i class="icon-User"></i><span class="hide-menu">Manage Users</span></a></li>
@@ -85,7 +85,7 @@
                                     echo "active";
                                 } else {
                                     echo "not-active";
-                                }  ?>"><a class="waves-effect " href="<?= base_url("user") ?>" aria-expanded="false"><i class="icon-Car-Wheel"></i><span class="hide-menu">Dashboard </span></a> </li>
+                                }  ?>"><a class="waves-effect " href="<?= base_url("dashboarduser") ?>" aria-expanded="false"><i class="icon-Car-Wheel"></i><span class="hide-menu">Dashboard </span></a> </li>
                     <li> <a class="waves-effect " href="<?= base_url("user/profile") ?>" aria-expanded="false"><i class="icon-User"></i><span class="hide-menu">Profile</span></a></li>
                     <li> <a class="waves-effect " href="<?= base_url("gagencylist") ?>" aria-expanded="false"><i class="icon-Shield"></i><span class="hide-menu">Agency List</span></a></li>
                     <li> <a class="waves-effect " href="<?= base_url("viewfiles") ?>" aria-expanded="false"><i class="icon-Files"></i><span class="hide-menu">View Files</span></a></li>
