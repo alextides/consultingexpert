@@ -90,11 +90,17 @@ class Manageorderawebsite extends MY_Controller
 
       foreach ($oaw->result() as $r) {
          $action_btn = false;
-         $action_btn .= "<a class='btn btn-success btn-xs edit_file' data-id=" . $r->orderawebsite_id . " href='javascript:void(0)'>View Details</a>";
+         // $action_btn .= "<a class='btn btn-success btn-xs edit_file' data-id=" . $r->orderawebsite_id . " href='javascript:void(0)'>View Details</a>";
          // $action_btn .= "<a class='btn btn-danger btn-xs delete_file' href='" . base_url('managefiles/delete_file/' . $r->orderawebsite_id) . "'>Delete</a>";
 
+         if ($r->orderawebsite_status == 1) {
+            $orderawebsite_status = "Paid";
+         } else {
+            $orderawebsite_status = "";
+         }
+
          $data[] = array( //display data from database on Manage Files datatable
-            $r->fk_user_id,
+            $r->first_name . '' . ' ' . '' . $r->last_name,
             $r->transaction_id,
             $r->paid_amount, 
             // $r->payment_for,
@@ -102,7 +108,7 @@ class Manageorderawebsite extends MY_Controller
             $r->company_name, 
             "<a class='btn btn-danger btn-xs' href='$r->website_link' target='_blank'>$r->website_link</a>",
             $r->company_info,
-            $r->orderawebsite_status,
+            $orderawebsite_status,
             $action_btn
          );
       }

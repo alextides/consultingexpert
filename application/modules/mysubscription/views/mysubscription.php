@@ -62,7 +62,7 @@
    </div>
 
    <!--Add File Modal -->
-   <div class="modal fade" id="addFileModal" tabindex="-1" aria-labelledby="addFileModalLabel" aria-hidden="true">
+   <div class="modal fade" id="ViewSubsModal" tabindex="-1" aria-labelledby="addFileModalLabel" aria-hidden="true">
       <div class="modal-dialog">
          <div class="modal-content">
             <div class="modal-header">
@@ -71,34 +71,28 @@
                   <span aria-hidden="true">&times;</span>
                </button>
             </div>
-            <form method="post" enctype="multipart/form-data" action="<?= base_url("managefiles/upload_file") ?>" id="addFileForm">
                <div class="modal-body">
                   <div class="form-group ">
                      <div class="form-group row">
-                        <label class="col-md-2 col-form-label">File Title: </label>
-                        <div class="col-md-10">
-                           <input type="text" id="add_file_title" name="add_file_title" class="form-control" placeholder="Input file title" required="">
+                        <label class="col-md-3 col-form-label">Transaction ID: </label>
+                        <div class="col-md-9">
+                           <input type="text" id="transaction_id" name="transaction_id" class="form-control" disabled>
                         </div>
                      </div>
                   </div>
                   <div class="form-group ">
                      <div class="form-group row">
-                        <label class="col-md-2 col-form-label">Add File: </label>
-                        <div class="col-md-10">
-                           <input type="file" size="20" id="file_upload" name="file_upload" class="form-control" required="">
+                        <label class="col-md-3 col-form-label">Paid Amount: </label>
+                        <div class="col-md-9">
+                           <input type="text" id="paid_amount" name="paid_amount" class="form-control" placeholder="Input file title" disabled>
                         </div>
                      </div>
                   </div>
                   <div class="form-group ">
                      <div class="form-group row">
-                        <label class="col-md-2 col-form-label">Assign To: </label>
-                        <div class="col-md-10">
-                           <select class="custom-select" id="assign_file" name="assign_file" required>
-                              <option selected disabled value="">Select User</option>
-                              <?php foreach ($users as $row) { ?>
-                                 <option id="assign_file" name="assign_file" value="<?php echo $row['user_id']; ?>"><?php echo $row['first_name']; ?> <?php echo $row['last_name']; ?></option>
-                              <?php } ?>
-                           </select>
+                        <label class="col-md-3 col-form-label">Date Paid: </label>
+                        <div class="col-md-9">
+                           <input type="text" id="date_subscribed" name="date_subscribed" class="form-control">
                         </div>
                      </div>
                   </div>
@@ -106,10 +100,8 @@
 
 
                <div class="modal-footer">
-                  <button type="submit" class="btn btn-primary uploadfile-btn">Upload File</button>
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                </div>
-            </form>
          </div>
       </div>
    </div>

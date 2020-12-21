@@ -1,6 +1,30 @@
 <script src="<?= base_url() . "assets"; ?>/js/jquery.dataTables.min.js"></script>
 <script src="<?= base_url() . "assets"; ?>/js/responsive.dataTables.min.js"></script>
 <script type="text/javascript">
+   $(document).on('click', '.view_subs', function(e) { //edit button - view files details by user_id on modal
+      e.preventDefault();
+      var data_id = $(this).attr('data-id');
+      let new_array = [];
+      let checker = '';
+
+      var base_url = "<?php echo base_url(); ?>mysubscription/get_subscription/";
+      $.ajax({
+         type: "GET",
+         url: base_url + data_id,
+         success: function(data) {
+            let result = JSON.parse(data);
+            $('[name="transaction_id"]').val(result[0].transaction_id);
+            $('[name="paid_amount"]').val(result[0].paid_amount);
+            $('[name="date_subscribed"]').val(result[0].date_subscribed);
+            $('#ViewSubsModal').modal('show');
+         },
+         error: function(data) {
+            alert(data);
+         }
+      });
+   });
+
+
    $(document).on('click', '.toggle-password', function() {
       if ($('.ti-lock').length) {
          $('i.toggle-icon').removeClass('ti-lock');
