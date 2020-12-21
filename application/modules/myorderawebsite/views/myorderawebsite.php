@@ -50,7 +50,7 @@
                               <th>Website Link</th>
                               <th>Company Info</th>
                               <th>Status</th>
-                              <th>Action</th>
+                              <!-- <th>Action</th> -->
                            </tr>
                         </thead>
                         <tbody>
