@@ -19,19 +19,19 @@
    });
 
    $(document).on('click', '.step1', function(e) { //step1 button
-      e.preventDefault();
-      var data_id = $(this).attr('data-id');
-      let new_array = [];
-      let checker = '';
-
-      var base_url = "<?php echo base_url(); ?>mydddapplicationform/get_ddd_application/";
-      $.ajax({
-         type: "GET",
-         url: base_url + data_id,
-         success: function(data) {
-            let result = JSON.parse(data);
-            // $('[name="fk_user_id"]').val(result[0].fk_user_id);
-            $('[name="ddd_application_id"]').val(result[0].ddd_application_id);
+      // e.preventDefault();
+      // var data_id = $(this).attr('data-userid');
+      // let new_array = [];
+      // let checker = '';
+      //
+      // var base_url = "</?php echo base_url(); ?>mydddapplicationform/get_ddd_application/";
+      // $.ajax({
+      //    type: "GET",
+      //    url: base_url + data_id,
+      //    success: function(data) {
+      //       let result = JSON.parse(data);
+      //       // $('[name="fk_user_id"]').val(result[0].fk_user_id);
+      //       $('[name="ddd_application_id"]').val(result[0].ddd_application_id);
 
             // $('[name="selected_services"]').val(result[0].services);
             // $('[name="website"]').val(result[0].website);
@@ -40,16 +40,16 @@
             // $('[name="website_invoice"]').val(result[0].website_invoice);
             // $('[name="agency_invoice"]').val(result[0].agency_invoice);
             $('#step1').modal('show');
-         },
-         error: function(data) {
-            alert(data);
-         }
-      });
+      //    },
+      //    error: function(data) {
+      //       alert(data);
+      //    }
+      // });
    });
 
    $(document).on('click', '.step1_details_btn', function(e) { //step1_details button - view step1_details details by user_id on modal
       e.preventDefault();
-      var data_id = $(this).attr('data-id');
+      var data_id = $(this).attr('data-sid');
       let new_array = [];
       let checker = '';
 
@@ -78,7 +78,7 @@
 
    $(document).on('click', '.step2', function(e) { //step1_details button - view step1_details details by user_id on modal
       e.preventDefault();
-      var data_id = $(this).attr('data-id');
+      var data_id = $(this).attr('data-sid');
       let new_array = [];
       let checker = '';
 
@@ -88,6 +88,7 @@
          url: base_url + data_id,
          success: function(data) {
             let result = JSON.parse(data);
+
             // $('[name="fk_user_id"]').val(result[0].fk_user_id);
             // $('[name="ddd_application_id"]').val(result[0].ddd_application_id);
 
@@ -99,14 +100,14 @@
             $('#step2').modal('show');
          },
          error: function(data) {
-            alert(data);
+            alert(result[0]);
          }
       });
    });
 
    $(document).on('click', '.step2_details_btn', function(e) { //step1_details button - view step1_details details by user_id on modal
       e.preventDefault();
-      var data_id = $(this).attr('data-id');
+      var data_id = $(this).attr('data-sid');
       let new_array = [];
       let checker = '';
 
@@ -131,7 +132,9 @@
 
    $(document).on('click', '.step3', function(e) { //step1_details button - view step1_details details by user_id on modal
       e.preventDefault();
-      var data_id = $(this).attr('data-id');
+      var data_id = $(this).attr('data-sid');
+      var form_id = $(this).attr('data-fid');
+      $('#form_id_step3').val(form_id);
       let new_array = [];
       let checker = '';
 
@@ -159,7 +162,7 @@
 
    $(document).on('click', '.step3_details_btn', function(e) { //step1_details button - view step1_details details by user_id on modal
       e.preventDefault();
-      var data_id = $(this).attr('data-id');
+      var data_id = $(this).attr('data-sid');
       let new_array = [];
       let checker = '';
 
@@ -169,6 +172,10 @@
          url: base_url + data_id,
          success: function(data) {
             let result = JSON.parse(data);
+
+            // alert(result);
+            // console.log(result);
+
             $('[name="website_questionnaire_info"]').val(result[0].website_questionnaire);
             $('[name="website_logo_info"]').val(result[0].website_logo);
             $('[name="agency_first_name1_info"]').val(result[0].agency_first_name1);

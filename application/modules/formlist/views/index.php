@@ -19,7 +19,7 @@
                        <table id="formlist_datatable" class="table table-striped jambo_table bulk_action dt-responsive" style="width: 100% !important;">
                          <thead>
                              <tr>
-                                 <?php if($this->session->userdata('type') != 'admin'){  ?>
+                                 <?php if($this->session->userdata('type') != '1'){  ?>
                                     <th>Owner</th>
                                  <?php } ?>
                                  <th>Date Added</th>
@@ -50,8 +50,10 @@
          <form id="step1_form_admin" action="<?php echo base_url(); ?>formlist/admin_step1" enctype="multipart/form-data" method="post">
             <div class="modal-body">
                <input type="hidden" id="user_id_step1" name="user_id" value="">
-               <h2>Selected Services:</h2>
-               <textarea id="sservices_step1" type="text" name="sservices" style="width: 100%; font-size: 20px;" value="" readonly></textarea>
+               <input type="hidden" id="step_id_step1" name="step_id" value="">
+               <input type="hidden" id="form_id_step1" name="form_id" value="">
+               <h1>Selected Services:</h1>
+               <!-- <textarea id="sservices_step1" type="text" name="sservices" style="width: 100%; font-size: 20px;" value="" readonly></textarea> -->
                <br>
                <br>
                <div class="website_container">
@@ -116,6 +118,8 @@
          <form id="step2_form_admin" action="<?php echo base_url(); ?>formlist/admin_step2"  enctype="multipart/form-data"  method="post">
            <div class="modal-body">
               <input type="hidden" id="user_id_step2" name="user_id" value="">
+              <input type="hidden" id="step_id_step2" name="step_id" value="">
+              <input type="hidden" id="form_id_step2" name="form_id" value="">
                <br>
                <h2 id="step2_title">Website/Agency:</h2>
                <br>
@@ -227,102 +231,104 @@
                </div>
                <h2>Agency:</h2>
                <br>
-               <div class="form-row">
-                  <div class="form-group col-md-6 w_agency">
-                      <label for="irs-ein">IRS EIN: </label>
-                      <input type="text" id="irs-ein" name="irs-ein step3_input" class="form-control" required>
-                  </div>
-                 <div class="form-group col-md-6 w_agency irsfile_empty">
-                    <label for="irs-ein-file">Upload IRS EIN</label>
-                   <input type="file" id="irs-ein-file" name="irs-ein-file" class="form-control" accept=".pdf, .doc, .docx" required>
+               <div class="step3-agency-container">
+                 <div class="form-row">
+                    <div class="form-group col-md-6 w_agency">
+                        <label for="irs-ein">IRS EIN: </label>
+                        <input type="text" id="irs-ein" name="irs-ein step3_input" class="form-control" required>
+                    </div>
+                   <div class="form-group col-md-6 w_agency irsfile_empty">
+                      <label for="irs-ein-file">Upload IRS EIN</label>
+                     <input type="file" id="irs-ein-file" name="irs-ein-file" class="form-control" accept=".pdf, .doc, .docx" required>
+                   </div>
+                   <div class="form-group col-md-6 w_agency irsfile-done" style="text-align: center;">
+                    <a id="irs-ein-file-done" class="btn btn-primary blue-btn center_modalbutton"  href="" target="_blank" download>View IRS EIN</a>
+                   </div>
+                   <div class="form-group col-md-6 irs-submitted">
+                       <label for="irs-submmitted">Submitted: </label>
+                       <input type="text" id="irs-submmitted" name="irs-submitted" class="form-control step3_input" required>
+                   </div>
+                   <div class="form-group col-md-6">
+                       <label for="irs-mailed">Mailed: </label>
+                       <input type="text" id="irs-mailed" name="irs-mailed" class="form-control step3_input" required>
+                   </div>
+                   <div class="form-group col-md-6">
+                       <label for="irs-rdate">Date Received:</label>
+                       <input type="date" id="irs-rdate" name="irs-rdate" class="form-control step3_input" required>
+                   </div>
+                   <div class="form-group col-md-6">
+                       <label for="irs-cspecialist">Contract Specialist</label>
+                       <input type="text" id="irs-cspecialist" name="irs-cspecialist" class="form-control step3_input" required>
+                   </div>
+                </div>
+                 <div class="form-row">
+                   <div class="form-group col-md-6 niafile_empty">
+                      <label for="nia-file">Upload Notice of Incomplete Application</label>
+                      <input type="file" id="nia-file" name="nia-file" class="form-control step3_input" accept=".pdf, .doc, .docx" required>
+                   </div>
+                   <div class="form-group col-md-6 niafile_done" style="text-align: center;">
+                    <a id="nia-file-done" class="btn btn-primary blue-btn center_modalbutton"  href="" target="_blank" style="margin-top: 5px;" download>View Notice of Incomplete Application</a>
+                   </div>
+                   <div class="form-group col-md-6">
+                       <label for="nia-ddate">Due Date: </label>
+                       <input type="date" id="nia-ddate" name="nia-ddate" class="form-control step3_input" required>
+                   </div>
+                   <div class="form-group col-md-6">
+                       <label for="nia-bplan">Business Plan: </label>
+                       <input type="text" id="nia-bplan" name="nia-bplan" class="form-control step3_input" required>
+                   </div>
+                   <div class="form-group col-md-6">
+                       <label for="nia-cplan">Contigency Plan:</label>
+                       <input type="text" id="nia-cplan" name="nia-cplan" class="form-control step3_input" required>
+                   </div>
                  </div>
-                 <div class="form-group col-md-6 w_agency irsfile-done" style="text-align: center;">
-                  <a id="irs-ein-file-done" class="btn btn-primary blue-btn center_modalbutton"  href="" target="_blank" download>View IRS EIN</a>
+                 <div class="form-row">
+                   <div class="form-group col-md-6 adfile_empty">
+                      <label for="nia-app-denial">Upload Application Denial</label>
+                      <input type="file" id="nia-app-denial" name="nia-app-denial" class="form-control step3_input" accept=".pdf, .doc, .docx" required>
+                   </div>
+                   <div class="form-group col-md-6 adfile_done" style="text-align: center;">
+                    <a id="adfile_done" class="btn btn-primary blue-btn center_modalbutton"  href="" target="_blank" download>View Application Denial</a>
+                   </div>
+                   <div class="form-group col-md-6">
+                       <label for="ad-rdate">Revisions Date: </label>
+                       <input type="date" id="ad-rdate" name="ad-rdate" class="form-control step3_input" required>
+                   </div>
+                   <div class="form-group col-md-6">
+                       <label for="ad-rfocus">Resubmitted Focus: </label>
+                       <input type="text" id="ad-rfocus" name="ad-rfocus" class="form-control step3_input" required>
+                   </div>
+                   <div class="form-group col-md-6">
+                       <label for="ad-mdate">Mailed Date:</label>
+                       <input type="date" id="ad-mdate" name="ad-mdate" class="form-control step3_input" required>
+                   </div>
                  </div>
-                 <div class="form-group col-md-6 irs-submitted">
-                     <label for="irs-submmitted">Submitted: </label>
-                     <input type="text" id="irs-submmitted" name="irs-submitted" class="form-control step3_input" required>
-                 </div>
-                 <div class="form-group col-md-6">
-                     <label for="irs-mailed">Mailed: </label>
-                     <input type="text" id="irs-mailed" name="irs-mailed" class="form-control step3_input" required>
-                 </div>
-                 <div class="form-group col-md-6">
-                     <label for="irs-rdate">Date Received:</label>
-                     <input type="date" id="irs-rdate" name="irs-rdate" class="form-control step3_input" required>
-                 </div>
-                 <div class="form-group col-md-6">
-                     <label for="irs-cspecialist">Contract Specialist</label>
-                     <input type="text" id="irs-cspecialist" name="irs-cspecialist" class="form-control step3_input" required>
-                 </div>
-              </div>
-               <div class="form-row">
-                 <div class="form-group col-md-6 niafile_empty">
-                    <label for="nia-file">Upload Notice of Incomplete Application</label>
-                    <input type="file" id="nia-file" name="nia-file" class="form-control step3_input" accept=".pdf, .doc, .docx" required>
-                 </div>
-                 <div class="form-group col-md-6 niafile_done" style="text-align: center;">
-                  <a id="nia-file-done" class="btn btn-primary blue-btn center_modalbutton"  href="" target="_blank" style="margin-top: 5px;" download>View Notice of Incomplete Application</a>
-                 </div>
-                 <div class="form-group col-md-6">
-                     <label for="nia-ddate">Due Date: </label>
-                     <input type="date" id="nia-ddate" name="nia-ddate" class="form-control step3_input" required>
-                 </div>
-                 <div class="form-group col-md-6">
-                     <label for="nia-bplan">Business Plan: </label>
-                     <input type="text" id="nia-bplan" name="nia-bplan" class="form-control step3_input" required>
-                 </div>
-                 <div class="form-group col-md-6">
-                     <label for="nia-cplan">Contigency Plan:</label>
-                     <input type="text" id="nia-cplan" name="nia-cplan" class="form-control step3_input" required>
-                 </div>
-               </div>
-               <div class="form-row">
-                 <div class="form-group col-md-6 adfile_empty">
-                    <label for="nia-app-denial">Upload Application Denial</label>
-                    <input type="file" id="nia-app-denial" name="nia-app-denial" class="form-control step3_input" accept=".pdf, .doc, .docx" required>
-                 </div>
-                 <div class="form-group col-md-6 adfile_done" style="text-align: center;">
-                  <a id="adfile_done" class="btn btn-primary blue-btn center_modalbutton"  href="" target="_blank" download>View Application Denial</a>
-                 </div>
-                 <div class="form-group col-md-6">
-                     <label for="ad-rdate">Revisions Date: </label>
-                     <input type="date" id="ad-rdate" name="ad-rdate" class="form-control step3_input" required>
-                 </div>
-                 <div class="form-group col-md-6">
-                     <label for="ad-rfocus">Resubmitted Focus: </label>
-                     <input type="text" id="ad-rfocus" name="ad-rfocus" class="form-control step3_input" required>
-                 </div>
-                 <div class="form-group col-md-6">
-                     <label for="ad-mdate">Mailed Date:</label>
-                     <input type="date" id="ad-mdate" name="ad-mdate" class="form-control step3_input" required>
-                 </div>
-               </div>
-               <div class="form-row">
-                 <div class="form-group col-md-6 ncafile_empty">
-                    <label for="nca-file">Upload Notice of Complete Application</label>
-                    <input type="file" id="nca-file" name="nca-file" class="form-control" accept=".pdf, .doc, .docx" required>
-                 </div>
-                 <div class="form-group col-md-6 ncafile_done" style="text-align: center;">
-                  <a id="ncafile_done" class="btn btn-primary blue-btn center_modalbutton"  href="" target="_blank"  download>View Notice of Complete Application</a>
-                 </div>
-                 <div class="form-group col-md-6 npafile_empty">
-                    <label for="npa-file">Upload Notice of Pre Award</label>
-                   <input type="file" id="npa-file" name="npa-file" class="form-control" accept=".pdf, .doc, .docx" required>
-                 </div>
-                 <div class="form-group col-md-6 npafile_done" style="text-align: center;">
-                  <a id="npafile_done" class="btn btn-primary blue-btn center_modalbutton"  href="" target="_blank" download>View Notice of Pre Award</a>
-                 </div>
-                 <div class="form-group col-md-6">
-                     <label for="padate">Pre Award Date: </label>
-                     <input type="date" id="padate" name="padate" class="form-control step3_input" required>
-                 </div>
-                 <div class="form-group col-md-6 nafile_empty">
-                    <label for="na-file">Upload Notice of Award</label>
-                   <input type="file" id="na-file" name="na-file" class="form-control" accept=".pdf, .doc, .docx" required>
-                 </div>
-                 <div class="form-group col-md-6 nafile_done" style="text-align: center;">
-                  <a id="nafile_done" class="btn btn-primary blue-btn center_modalbutton"  href="" target="_blank" download>View Notice of Award</a>
+                 <div class="form-row">
+                   <div class="form-group col-md-6 ncafile_empty">
+                      <label for="nca-file">Upload Notice of Complete Application</label>
+                      <input type="file" id="nca-file" name="nca-file" class="form-control" accept=".pdf, .doc, .docx" required>
+                   </div>
+                   <div class="form-group col-md-6 ncafile_done" style="text-align: center;">
+                    <a id="ncafile_done" class="btn btn-primary blue-btn center_modalbutton"  href="" target="_blank"  download>View Notice of Complete Application</a>
+                   </div>
+                   <div class="form-group col-md-6 npafile_empty">
+                      <label for="npa-file">Upload Notice of Pre Award</label>
+                     <input type="file" id="npa-file" name="npa-file" class="form-control" accept=".pdf, .doc, .docx" required>
+                   </div>
+                   <div class="form-group col-md-6 npafile_done" style="text-align: center;">
+                    <a id="npafile_done" class="btn btn-primary blue-btn center_modalbutton"  href="" target="_blank" download>View Notice of Pre Award</a>
+                   </div>
+                   <div class="form-group col-md-6">
+                       <label for="padate">Pre Award Date: </label>
+                       <input type="date" id="padate" name="padate" class="form-control step3_input" required>
+                   </div>
+                   <div class="form-group col-md-6 nafile_empty">
+                      <label for="na-file">Upload Notice of Award</label>
+                     <input type="file" id="na-file" name="na-file" class="form-control" accept=".pdf, .doc, .docx" required>
+                   </div>
+                   <div class="form-group col-md-6 nafile_done" style="text-align: center;">
+                    <a id="nafile_done" class="btn btn-primary blue-btn center_modalbutton"  href="" target="_blank" download>View Notice of Award</a>
+                   </div>
                  </div>
                </div>
             </div>

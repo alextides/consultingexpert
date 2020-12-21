@@ -51,13 +51,16 @@ $(document).ready(function(e){
 
   $(document).on('click','.step_1',function(e){
      var user_id = $(this).attr('data-id');
-     var form_id = $(this).attr('data-sid');
+     var step_id = $(this).attr('data-sid');
+     var form_id = $(this).attr('data-fid');
      $('#user_id_step1').val(user_id);
+     $('#step_id_step1').val(step_id);
+     $('#form_id_step1').val(form_id);
 
      $.ajax({
        url: '<?php echo base_url();?>formlist/view_stepform/1',
        type: 'post',
-       data: {'user_id' : user_id, 'form_id': form_id},
+       data: {'user_id' : user_id, 'step_id': step_id},
        success: function(response){
          if (response != "") {
             let result = JSON.parse(response);
@@ -111,16 +114,23 @@ $(document).ready(function(e){
 
    $(document).on('click','.step_2',function(e){
      var user_id = $(this).attr('data-id');
-     var form_id = $(this).attr('data-sid');
+     var step_id = $(this).attr('data-sid');
+     var form_id = $(this).attr('data-fid');
      $('#user_id_step2').val(user_id);
+     $('#step_id_step2').val(step_id);
+     $('#form_id_step2').val(form_id);
 
       $.ajax({
          url: '<?php echo base_url();?>formlist/view_stepform/2',
          type: 'post',
-         data: {'user_id' : user_id, 'form_id' : form_id},
+         data: {'user_id' : user_id, 'step_id' : step_id},
          success: function(response){
             if (response != "") {
               let result = JSON.parse(response);
+
+              // console.log(result[0]);
+              // alert(result[0]);
+              // return;
 
               if(result[0].paid_website_quote == ""){
                 if(result[0].paid_agency_quote != ""){
@@ -152,33 +162,45 @@ $(document).ready(function(e){
    });
   $(document).on('click','.step_3',function(e){
      var user_id = $(this).attr('data-id');
-     var form_id = $(this).attr('data-sid');
+     var step_id = $(this).attr('data-sid');
      var userform_id = $(this).attr('data-userformid');
      $('#user_id_step3').val(user_id);
+     $('#step_3_user').val(userform_id);
 
       $.ajax({
          url: '<?php echo base_url();?>formlist/view_stepform/3',
          type: 'post',
-         data: {'user_id' : user_id, 'form_id' : form_id},
+         data: {'user_id' : user_id, 'step_id' : step_id},
          success: function(response){
             if (response != "") {
                let result = JSON.parse(response);
 
-               $('#step_3_user').val(userform_id);
+               alert(result[0].step3_type);
+               // console.log(response);
 
-               if(result[0].step3_type == 'hasno_agency'){
-                  $('.w_agency').css('display', 'none');
-               }
 
                if(result[0].step3_status == '1')
                   $('.step3_footer').css('display', 'none');
-               if(result[0].ws_url1 == ''){
-                  $('.step3-website-container').hide();
-               }else{
-                  $('input#prototype1').val(result[0].ws_url1).attr('readonly', true);
-                  $('input#prototype2').val(result[0].ws_url2).attr('readonly', true);
-                  $('input#prototype3').val(result[0].ws_url3).attr('readonly', true);
+               if(result[0].step3_type == '2'){
+                  $('.w_agency').css('display', 'none');
                }
+               if(result[0].step3_type == '3'){
+                  $('.step3-website-container').css('display', 'none');
+               }else{
+                 $('input#prototype1').val(result[0].ws_url1).attr('readonly', true);
+                 $('input#prototype2').val(result[0].ws_url2).attr('readonly', true);
+                 $('input#prototype3').val(result[0].ws_url3).attr('readonly', true);
+               }
+
+               // if(result[0].step3_status == '1')
+               //    $('.step3_footer').css('display', 'none');
+               // if(result[0].ws_url1 == ''){
+               //    $('.step3-website-container').hide();
+               // }else{
+               //    $('input#prototype1').val(result[0].ws_url1).attr('readonly', true);
+               //    $('input#prototype2').val(result[0].ws_url2).attr('readonly', true);
+               //    $('input#prototype3').val(result[0].ws_url3).attr('readonly', true);
+               // }
 
                if(result[0].irs_ein != ''){
                   $('input#irs-ein').val(result[0].irs_ein).attr('readonly', true);
@@ -223,27 +245,39 @@ $(document).ready(function(e){
                if(result[0].irs_ein_file != ''){
                   $('.irsfile_empty').hide();
                   $("a#irs-ein-file-done").attr("href", `assets/uploads/documents/${result[0].irs_ein_file}`);
+               }else{
+                 $('.irsfile-done').hide();
                }
                if(result[0].irs_ein_file != ''){
                   $('.niafile_empty').hide();
                   $("a#nia-file-done").attr("href", `assets/uploads/documents/${result[0].nia_file}`);
+               }else{
+                 $('.niafile_done').hide();
                }
                if(result[0].app_denial_file != ''){
                   $('.adfile_empty').hide();
                   $("a#adfile_done").attr("href", `assets/uploads/documents/${result[0].app_denial_file}`);
-               }
+                }else{
+                  $('.adfile_done').hide();
+                }
                if(result[0].nca_file != ''){
                   $('.ncafile_empty').hide();
-                  $("a#ncafile_done").attr("href", `assets/uploads/documents/${result[0].nca_file}`);
-               }
+                  $(".ncafile_done").attr("href", `assets/uploads/documents/${result[0].nca_file}`);
+                }else{
+                  $('.ncafile_done').hide();
+                }
                if(result[0].npa_file != ''){
                   $('.npafile_empty').hide();
                   $("a#npafile_done").attr("href", `assets/uploads/documents/${result[0].npa_file}`);
-               }
+                }else{
+                  $('.npafile_done').hide();
+                }
                if(result[0].npa_file != ''){
                   $('.nafile_empty').hide();
                   $("a#nafile_done").attr("href", `assets/uploads/documents/${result[0].npa_file}`);
-               }
+                }else{
+                  $('.nafile_done').hide();
+                }
 
             }else{
                alert(response);

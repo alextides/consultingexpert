@@ -8,7 +8,8 @@ class Mydddapplicationform extends MY_Controller
    public function index()
    {
       // $data['technicianlist'] = 1;
-      $data['title'] = 'Manage Files';
+      $data['formlist'] = 1;
+      $data['title'] = 'My DDD Application Form List';
       $data['quote'] = $this->getquote();
       $data['paid_invoice'] = $this->get_paid_invoice();
       $data['step3_files'] = $this->get_step3_files();
@@ -22,13 +23,6 @@ class Mydddapplicationform extends MY_Controller
 
    public function create_ddd_form()
    {
-      $post = $this->input->post();
-         $create_steps = array(
-            'fk_user_id' => $post["fk_user_id"],
-            'date_added' => date("Y-m-d H:i:s"),
-            'status'     => 1
-         );
-         $res = $this->MY_Model->insert("ci_ddd_application", $create_steps);
       $this->session->set_userdata('swal', 'DDD Application Form Added Successfully.');
       redirect(base_url("mydddapplicationform"));
    }
@@ -68,22 +62,56 @@ class Mydddapplicationform extends MY_Controller
       $fk_user_id = $this->session->userdata('user_details')[0]['fk_user_id'];
       $select_services = $_POST['services'];
       $ddd_application_id = $_POST['ddd_application_id'];
+      $all_choices = array();
       for ($i = 0; $i < count($select_services); $i++) {
+        array_push($all_choices,$select_services[$i]);
+      }
+      $the_choices = implode(", ",$all_choices);
+
          $step1 = array(
             'fk_user_id' => $fk_user_id,
-            'fk_ddd_application_id' => $post["ddd_application_id"],
-            'services' => $select_services[$i],
+            'services' => $the_choices,
             'website' => $post["user_website"],
             'agency' => $post["user_agency"],
             'date_added' => date("Y-m-d H:i:s"),
-            'step1_status' => 1,
+            'step1_status' => 0,
          );
          $res = $this->MY_Model->insert('ci_formlist_step1', $step1);
-         if ($res) {
-            $this->session->set_userdata('swal', 'Step 1 Successfully Submitted.');
-         }
-      }
 
+         $insert_id = $this->db->insert_id();
+
+         $create_steps = array(
+            'fk_user_id' => $fk_user_id,
+            'stepform_date_added ' => date("Y-m-d H:i:s"),
+            'status'     => 'Awaiting For Step 2',
+            'ddd_form_array' => $insert_id
+         );
+      $res = $this->MY_Model->insert("ci_ddd_application", $create_steps);
+      $dddform_id = $this->db->insert_id();
+
+         $create_steps = array(
+            'fk_user_id' => $fk_user_id,
+            'fk_dddform_id' => $dddform_id,
+            'form_date_added' => date("Y-m-d H:i:s"),
+            'form_status'     => 'Proceed to Step 1',
+            'form_array' => $insert_id
+         );
+      $res = $this->MY_Model->insert("ci_formlist", $create_steps);
+
+      $adminform_id = $this->db->insert_id();
+
+      $this->db->
+      set('fk_stepform_id', $adminform_id)->
+      where('ddd_application_id', $dddform_id)->
+      update('ci_ddd_application');
+
+      $message = "<h1>DDD Forms - New Form.</h1>";
+      $message .= "<h3>A new DDD form has been made.</h3>";
+      $message .= "<h3>For more information, please visit the website: <a href='https://localhost/Projects/ConsultingExperts/consultingexpert/login'>Consulting Experts LLC</a></h3>";
+      $this->sendmail1("prospteam@gmail.com", null, 'Notification - DDD Forms', $message, true);
+      $this->send_notification('propsteam@gmail.com','Notification: DDD Forms','A new DDD form has been made. ',5);
+
+      $this->session->set_userdata('swal', 'Step 1 Successfully Submitted.');
       redirect(base_url("mydddapplicationform"));
    }
 
@@ -178,6 +206,10 @@ class Mydddapplicationform extends MY_Controller
 
    public function submit_step3()
    {
+
+     // echo "<pre>";print_r($_POST['form_id']);exit;
+
+     $fk_user_id = $this->session->userdata('user_details')[0]['fk_user_id'];
       $post = $this->input->post();
       $param = array(
          'select' => '*',
@@ -231,7 +263,84 @@ class Mydddapplicationform extends MY_Controller
             $res = $this->MY_Model->insert('ci_formlist_step3_user', $step3);
          }
       }
-      $this->session->set_userdata('swal', 'Step 3 Form Submitted Successfully!');
+      $step3user_id = $this->db->insert_id();
+
+      if(!empty($_FILES['website_questionnaire']['name'])){
+        if(!empty($post["agency_name1"])){
+          $forstep3 = $this->db->
+          set('fk_user_id', $fk_user_id)->
+          set('step3_status', '1')->
+          set('step3_type', '1')->
+          insert('ci_formlist_step3_admin');
+        }else{
+          $forstep3 = $this->db->
+          set('fk_user_id', $fk_user_id)->
+          set('step3_status', '1')->
+          set('step3_type', '2')->
+          insert('ci_formlist_step3_admin');
+        }
+      }else{
+        if(!empty($post["agency_name1"])){
+          $forstep3 = $this->db->
+          set('fk_user_id', $fk_user_id)->
+          set('step3_status', '1')->
+          set('step3_type', '3')->
+          insert('ci_formlist_step3_admin');
+        }else{
+          $forstep3 = $this->db->
+          set('fk_user_id', $fk_user_id)->
+          set('step3_status', '2')->
+          set('step3_type', '4')->
+          insert('ci_formlist_step3_admin');
+        }
+      }
+
+
+      $step3admin_id = $this->db->insert_id();
+
+      // ci_ddd_application side pag udpate sa form array
+      // $user_form = $this->db->
+      // select('ddd_form_array')->
+      // where('fk_stepform_id', $_POST['form_id'])->
+      // from('ci_ddd_application')->
+      // get()->result();
+      //
+      // $new_form_array = array();
+      // array_push($new_form_array, $user_form[0]->ddd_form_array);
+      // array_push($new_form_array, $step3user_id);
+      //
+      // $new_form_array = implode(', ', $new_form_array);
+
+      $this->db->
+      set('status', 'Awaiting Step 4')->
+      where('fk_stepform_id', $_POST['form_id'])->
+      update('ci_ddd_application');
+
+      // admin side update sa form_array
+      $user_form = $this->db->
+      select('form_array')->
+      where('stepform_id', $_POST['form_id'])->
+      from('ci_formlist')->
+      get()->result();
+
+      $new_form_array2 = array();
+      array_push($new_form_array2, $user_form[0]->form_array);
+      array_push($new_form_array2, $step3admin_id);
+
+      $new_form_array2 = implode(', ', $new_form_array2);
+
+      $this->db->
+      set('form_array', $new_form_array2)->
+      set('form_status', 'Proceed to Step 4')->
+      where('stepform_id', $_POST['form_id'])->
+      update('ci_formlist');
+
+      $message = "<h1>DDD Forms - A Step 3 User Form has been updated.:</h1>";
+      $message .= "<h3>Proceed now to Step 3 on DDD Forms.</h3>";
+      $message .= "<h3>For more information, please visit the website: <a href='https://localhost/Projects/ConsultingExperts/consultingexpert/login'>Consulting Experts LLC</a></h3>";
+      $this->sendmail1("prospteam@gmail.com", null, 'Notification - DDD Forms', $message, true);
+      $this->send_notification('prospteam@gmail.com','Notification: DDD Forms','Proceed to Step 3 User Form now. ',5);
+      $this->session->set_userdata('swal', 'Step 3 Form has been submitted.');
       redirect(base_url("mydddapplicationform"));
    }
 
@@ -278,7 +387,7 @@ class Mydddapplicationform extends MY_Controller
       $this->session->set_userdata('swal', 'Step 4 Form Submitted Successfully!');
       redirect(base_url("mydddapplicationform"));
    }
-   
+
    public function get_dddapplication()
    {
       $draw = intval($this->input->post("draw"));
@@ -302,9 +411,9 @@ class Mydddapplicationform extends MY_Controller
       }
 
       $valid_columns = array(
-         1 => 'file',
-         2 => 'date_uploaded',
-         3 => 'first_name',
+         1 => 'first_name',
+         2 => 'date_added',
+         3 => 'status',
       );
 
       if (!isset($valid_columns[$col])) {
@@ -332,33 +441,69 @@ class Mydddapplicationform extends MY_Controller
 
       $fk_user_id = $this->session->userdata('user_details')[0]['fk_user_id'];
 
-      $files = $this->db
-         ->select('*')
-         ->from('ci_ddd_application')
-         ->where('ci_ddd_application.fk_user_id', $fk_user_id)
-         ->join('ci_formlist_step1', 'ci_formlist_step1.fk_ddd_application_id = ci_ddd_application.ddd_application_id')
-         ->join('ci_formlist_step2', 'ci_formlist_step2.fk_ddd_application_id = ci_ddd_application.ddd_application_id')
-         ->join('ci_formlist_step3_user', 'ci_formlist_step3_user.fk_ddd_application_id = ci_ddd_application.ddd_application_id')
-         // ->join('ci_formlist_step3_admin', 'ci_formlist_step3_admin.fk_stepform_id = ci_formlist.stepform_id')
-         ->join('ci_userdata', 'ci_userdata.fk_user_id = ci_ddd_application.fk_user_id')
-         ->get();
+      // $files = $this->db
+      //    ->select('*')
+      //    ->from('ci_ddd_application')
+      //    ->where('ci_ddd_application.fk_user_id', $fk_user_id)
+      //    ->join('ci_formlist_step1', 'ci_formlist_step1.fk_ddd_application_id = ci_ddd_application.ddd_application_id')
+      //    ->join('ci_formlist_step2', 'ci_formlist_step2.fk_ddd_application_id = ci_ddd_application.ddd_application_id')
+      //    ->join('ci_formlist_step3_user', 'ci_formlist_step3_user.fk_ddd_application_id = ci_ddd_application.ddd_application_id')
+      //    ->join('ci_userdata', 'ci_userdata.fk_user_id = ci_ddd_application.fk_user_id')
+      //    ->get();
 
+
+      $files = $this->db->
+         select('*')->
+         from('ci_ddd_application')->
+         where('ci_ddd_application.fk_user_id', $fk_user_id)->
+         join('ci_userdata', 'ci_userdata.fk_user_id = ci_ddd_application.fk_user_id')->
+         join('ci_users', 'ci_users.user_id = ci_ddd_application.fk_user_id')->
+         join('ci_formlist', 'ci_formlist.fk_dddform_id = ci_ddd_application.ddd_application_id')->
+         // get()->result_array();
+         get();
+
+         // echo "<pre>";print_r($files);exit;
 
       $data = array();
 
       foreach ($files->result() as $r) {
-         $action_btn = false;
-         $action_btn .= "<a style='background-color: #1d95e9; border-color: #1d95e9' class='btn btn-info btn-xs step1' data-id=" . $r->ddd_application_id . " href='javascript:void(0)'>Step 1 <i class='fa fa-arrow-right'></i></a>";
-         $action_btn .= "<a style='background-color: #1065a2; border-color: #1065a2' class='btn btn-info btn-xs step1_details_btn' data-id=" . $r->step1_id . " href='javascript:void(0)'>Step 1 Details <i class='fa fa-arrow-right'></i></a>";
-         $action_btn .= "<a style='background-color: #1d95e9; border-color: #1d95e9' class='btn btn-info btn-xs step2' data-id=" . $r->step1_id . " href='javascript:void(0)'>Step 2<i class='fa fa-arrow-right'></i></a>";
-         $action_btn .= "<a style='background-color: #1065a2; border-color: #1065a2' class='btn btn-info btn-xs step2_details_btn' data-id=" . $r->payment_id . " href='javascript:void(0)'>Step 2 Details <i class='fa fa-arrow-right'></i></a>";
-         $action_btn .= "<a style='background-color: #1d95e9; border-color: #1d95e9' class='btn btn-info btn-xs step3' data-id=" . $r->payment_id . " href='javascript:void(0)'>Step 3 <i class='fa fa-arrow-right'></i></a>";
-         $action_btn .= "<a style='background-color: #1065a2; border-color: #1065a2' class='btn btn-info btn-xs step3_details_btn' data-id=" . $r->step3_id . " href='javascript:void(0)'>Step 3 Details <i class='fa fa-arrow-right'></i></a>";
-         $action_btn .= "<a style='background-color: #1d95e9; border-color: #1d95e9' class='btn btn-info btn-xs step3' data-id=" . $r->step3_id . " href='javascript:void(0)'>Step 4 <i class='fa fa-arrow-right'></i></a>";
+
+        $explode_steps = explode(",", $r->form_array);
+
+        $user_explode_steps = explode(",", $r->ddd_form_array);
+
+        // echo "<pre>";print_r($user_explode_steps);exit;
+
+        $payment_id = $this->db->
+        select('fk_payment_id')->
+        where('step1_id', $explode_steps[0])->
+        from('ci_formlist_step1')->
+        get()->result();
+
+        // echo "<pre>";print_r($explode_steps);exit;
+
+
+         // $action_btn = false;
+         // $action_btn .= "<a style='background-color: #1d95e9; border-color: #1d95e9' class='btn btn-info btn-xs step1' data-id=" . $r->ddd_application_id . " href='javascript:void(0)'>Step 1 <i class='fa fa-arrow-right'></i></a>";
+         if (!empty($user_explode_steps[0])) {
+           $action_btn = "<a style='background-color: #1065a2; border-color: #1065a2' class='btn btn-info btn-xs step1_details_btn' data-sid=" . $user_explode_steps[0] . " data-fid=".$r->fk_stepform_id." href='javascript:void(0)'>Step 1 Details <i class='fa fa-arrow-right'></i></a>";
+         }
+         if (!empty($user_explode_steps[1])) {
+           $action_btn .= "<a style='background-color: #1d95e9; border-color: #1d95e9' class='btn btn-info btn-xs step2' data-sid=" . $user_explode_steps[0]. " data-fid=".$r->fk_stepform_id." href='javascript:void(0)'>Step 2<i class='fa fa-arrow-right'></i></a>";
+         }
+         if (!empty($payment_id[0]->fk_payment_id)) {
+           $action_btn .= "<a style='background-color: #1065a2; border-color: #1065a2' class='btn btn-info btn-xs step2_details_btn' data-psid=" . $user_explode_steps[0]. " data-sid=" . $user_explode_steps[1]. " data-pid=" . $payment_id[0]->fk_payment_id . " href='javascript:void(0)'>Step 2 Details <i class='fa fa-arrow-right'></i></a>";
+         }
+         if (!empty($user_explode_steps[2])) {
+           $action_btn .= "<a style='background-color: #1d95e9; border-color: #1d95e9' class='btn btn-info btn-xs step3' data-pid=" . $payment_id[0]->fk_payment_id . " data-fid=".$r->fk_stepform_id." data-sid= ".$user_explode_steps[2]." href='javascript:void(0)'>Step 3 <i class='fa fa-arrow-right'></i></a>";
+         }
+         if (!empty($explode_steps[2])) {
+           $action_btn .= "<a style='background-color: #1065a2; border-color: #1065a2' class='btn btn-info btn-xs step3_details_btn' data-sid=" . $user_explode_steps[2] . " data-fid=".$r->fk_stepform_id." href='javascript:void(0)'>Step 3 Details <i class='fa fa-arrow-right'></i></a>";
+         }
          // $action_btn .= "<a style='background-color: #1065a2; border-color: #1065a2' class='btn btn-success btn-xs step2' data-id=" . $r->step1_id . " href='javascript:void(0)'>Step 2 $r->step1_id<i class='fa fa-arrow-right'></i></a>";
          // $action_btn .= "<a style='background-color: #1d95e9; border-color: #1d95e9' class='btn btn-primary btn-xs step3' data-id=" . $r->step3_id . " href='javascript:void(0)'>Step 3 $r->step3_id<i class='fa fa-arrow-right'></i></a>";
          // $action_btn .= "<a style='background-color: #1065a2; border-color: #1065a2' class='btn btn-success btn-xs step4' data-id=" . $r->step4_id . " href='javascript:void(0)'>Step 4 $r->step4_id<i class='fa fa-arrow-right'></i></a>";
-         
+
          // if ($r->step1_status == '1') {
          //    $status = "Processing";
          // } else {
@@ -366,7 +511,7 @@ class Mydddapplicationform extends MY_Controller
          // }
          $data[] = array( //display data from database on Manage Files datatable
             $r->first_name .''. " " .''. $r->last_name,
-            $r->date_added,
+            $r->stepform_date_added,
             $r->status,
             // $status,
             $action_btn

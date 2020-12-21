@@ -97,9 +97,9 @@ class MY_Controller extends MX_Controller {
 		$config['protocol']    = 'smtp';
 		$config['smtp_host']    = 'secure.emailsrvr.com';
 		$config['smtp_port']    = '587';
-		$config['smtp_user']    = 'onlineform6@proweaver.net';
+		$config['smtp_user']    = 'onlineform7@proweaver.net';
 		$config['_smtp_auth'] = TRUE;
-		$config['smtp_pass']    = 'Ub3CSit1forRpeEZ';
+		$config['smtp_pass']    = '4Y@LaWaMlTY20_foR';
 		$config['smtp_crypto'] = 'tls';
 		$config['mailtype'] = 'html'; // or html
 		$config['charset'] = 'utf-8';
@@ -109,7 +109,7 @@ class MY_Controller extends MX_Controller {
 		$this->email->initialize($config);
 		$this->email->set_newline("\r\n");
 
-		$this->email->from('onlineform6@proweaver.net', 'Consulting Experts LLC');
+		$this->email->from('onlineform7@proweaver.net', $from_name);
 		$this->email->to($to_email);
 		$this->email->subject($subject);
 
@@ -122,7 +122,7 @@ class MY_Controller extends MX_Controller {
 			$this->email->message($message);
 		}
 
-		$this->email->send();
+		// $this->email->send();
 
 		if ($this->email->send()) {
 			return true;

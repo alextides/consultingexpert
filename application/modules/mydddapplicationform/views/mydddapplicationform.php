@@ -60,10 +60,10 @@
             <h3 class="text-themecolor page-title-text">DDD Application Form</h3>
          </div>
          <div class="col-md-7 align-self-center text-right d-none d-md-block">
-            <form name="create_form" id="create_form" method="POST" action="<?= base_url("mydddapplicationform/create_ddd_form") ?>">
-               <input type="hidden" name="fk_user_id" id="fk_user_id" value="<?php echo $this->session->userdata('user_details')[0]['fk_user_id']; ?>">
-               <button style="background-color: #1065a2; border-color: #1065a2" type="submit" class="btn btn-primary btn-lg step2-btn">Create DDD Application <i class="fa fa-plus"></i> </button>
-            </form>
+            <!-- <form name="create_form" id="create_form" method="POST" action="</?= base_url("mydddapplicationform/create_ddd_form") ?>">
+               <input type="hidden" name="fk_user_id" id="fk_user_id" value="</?php echo $this->session->userdata('user_details')[0]['fk_user_id']; ?>"> -->
+               <a style="background-color: #1065a2; border-color: #1065a2" href="#" data-userid="<?php echo $this->session->userdata('user_details')[0]['fk_user_id']; ?>" class="btn btn-primary btn-lg step2-btn step1">Create DDD Application <i class="fa fa-plus"></i> </a>
+            <!-- </form> -->
          </div>
       </div>
       <div class="row">
@@ -207,7 +207,7 @@
                      </form>
                      <!-- step1 form end-->
                   </div>
-                  <!-- 
+                  <!--
                   <div class="tab-pane fade" id="step1details" role="tabpanel" aria-labelledby="step1details-tab">
                      <div class="form-group row">
                         <label class="col-md-3 col-form-label">Selected Services: </label>
@@ -239,7 +239,7 @@
                   //    echo '<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#step1_details_modal" disabled>Step 1 Details </button>';
                   // }
                }  ?>
-               <!-- 
+               <!--
                <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#step1Modal">Step 1 Form</button>
                <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#step1_details_modal">Step 1 Details </button> -->
             </div>
@@ -257,7 +257,7 @@
       <div class="modal-dialog modal-dialog-scrollable modal-lg">
          <div class=" modal-content">
             <div class="modal-header">
-               <h5 class="modal-title" id="step1_details_modalLabel"><i class="icon-File"></i> DDD Application Form Step 1 Details</h5>
+               <h5 class="modal-title" id="step1_details_modalLabel"><i class="icon-File"></i> DDD Application Form Step 1</h5>
                </button>
             </div>
             <div class="modal-body">
@@ -363,7 +363,7 @@
                               <div class="form-group row">
                                  <label class="col-md-3 col-form-label"></label>
                                  <div class="col-md-9">
-                                    <a class='btn btn-success' href='http://localhost/Projects/ConsultingExperts/consultingexpert/paymentinvoice' target='_blank' style="float: right">Click here to Pay!</a>
+                                    <a class='btn btn-success' href='http://zerobacklog.com/consultingexperts/paymentinvoice' target='_blank' style="float: right">Click here to Pay!</a>
                                  </div>
                               </div>
                            </div>
@@ -468,6 +468,7 @@
                   <!-- step3 form -->
                   <div class="tab-pane fade show active" id="step3form" role="tabpanel" aria-labelledby="pills-step1form-tab">
                      <form method="post" enctype="multipart/form-data" action="<?= base_url("mydddapplicationform/submit_step3") ?>" id="step3Form">
+                       <input type="hidden" id="form_id_step3" name="form_id" value="">
                         <div class="form-group ">
                            <div class="form-group row">
                               <label class="col-md-3 col-form-label">Paid Invoice: </label>
@@ -642,7 +643,7 @@
    <div class="modal-dialog modal-dialog-scrollable modal-lg">
       <div class=" modal-content">
          <div class="modal-header">
-            <h5 class="modal-title" id="step3_details_modalLabel"><i class="icon-File"></i> DDD Application Form Step 3 Details</h5>
+            <h5 class="modal-title" id="step3_details_modalLabel"><i class="icon-File"></i> DDD Application Form Step 3</h5>
             </button>
          </div>
          <div class="modal-body">

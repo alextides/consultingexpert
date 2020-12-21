@@ -89,7 +89,7 @@ class Formlist extends MY_Controller {
             select('*')->
             from('ci_formlist')->
             where('delete_status', '0')->
-            where('user_type !=', 'admin')->
+            where('user_type !=', '1')->
             join('ci_userdata', 'ci_userdata.fk_user_id = ci_formlist.fk_user_id')->
             join('ci_users', 'ci_users.user_id = ci_formlist.fk_user_id')->
             join('ci_ddd_application', 'ci_ddd_application.ddd_application_id = ci_formlist.fk_dddform_id')->
@@ -120,17 +120,16 @@ class Formlist extends MY_Controller {
 
 
                   if (!empty($explode_steps[0])) {
-                    $action_btn = "<a class='btn btn-primary btn-xs status_user step_1 blue-btn' data-id=".$r->user_id." data-sid=".$explode_steps[0]." href='javascript:void(0)'>Step 1 <i class='fa fa-arrow-right'></i></a>";
+                    $action_btn = "<a class='btn btn-primary btn-xs status_user step_1 blue-btn' data-id=".$r->user_id." data-sid=".$explode_steps[0]." data-fid=".$r->fk_stepform_id." href='javascript:void(0)'>Step 1 <i class='fa fa-arrow-right'></i></a>";
                   }
                   if(!empty($payment_id[0]->fk_payment_id)){
-                     $action_btn .= "<a class='btn btn-primary btn-xs status_user step_2 blue-btn' data-id=".$r->user_id." data-sid=".$explode_steps[1]." href='javascript:void(0)'>Step 2 <i class='fa fa-arrow-right'></i></a>";
+                     $action_btn .= "<a class='btn btn-primary btn-xs status_user step_2 blue-btn' data-id=".$r->user_id." data-sid=".$explode_steps[1]." data-fid=".$r->fk_stepform_id." href='javascript:void(0)'>Step 2 <i class='fa fa-arrow-right'></i></a>";
                   }
-
                   if (!empty($explode_steps[2])) {
-                     $action_btn .= "<a class='btn btn-primary btn-xs status_user step_3 blue-btn' data-id=".$r->user_id." data-sid=".$explode_steps[2]." data-userformid=".$user_explode_steps[2]." href='javascript:void(0)'>Step 3 <i class='fa fa-arrow-right'></i></a>";
+                     $action_btn .= "<a class='btn btn-primary btn-xs status_user step_3 blue-btn' data-id=".$r->user_id." data-sid=".$explode_steps[2]." data-userformid=".$user_explode_steps[2]." data-fid=".$r->fk_stepform_id." href='javascript:void(0)'>Step 3 <i class='fa fa-arrow-right'></i></a>";
                   }
                   if (!empty($explode_steps[3])) {
-                     $action_btn .= "<a class='btn btn-primary blue-btn btn-xs status_user step_4' data-id=".$r->user_id." data-sid=".$explode_steps[3]." data-userformid=".$user_explode_steps[3]."  href='javascript:void(0)'>Step 4</a>";
+                     $action_btn .= "<a class='btn btn-primary blue-btn btn-xs status_user step_4' data-id=".$r->user_id." data-sid=".$explode_steps[3]." data-userformid=".$user_explode_steps[3]." data-fid=".$r->fk_stepform_id."  href='javascript:void(0)'>Step 4</a>";
                   }
 
             if($r->activity_status == '1'){
@@ -186,7 +185,7 @@ class Formlist extends MY_Controller {
         $result = $this->db->
         select('*')->
         where('fk_user_id', $_POST['user_id'])->
-        where($form_id, $_POST['form_id'])->
+        where($form_id, $_POST['step_id'])->
         from($table)->
         get()->result();
       }else{
@@ -202,6 +201,20 @@ class Formlist extends MY_Controller {
    }
 
    public function admin_step1(){
+
+     // $user_form = $this->db->
+     // select('ddd_form_array')->
+     // where('fk_stepform_id', $_POST['form_id'])->
+     // from('ci_ddd_application')->
+     // get()->result();
+     //
+     // $new_form_array = array();
+     // array_push($new_form_array, $user_form[0]->ddd_form_array);
+     // array_push($new_form_array, '1');
+     //
+     // $new_form_array = implode(', ', $new_form_array);
+     //
+     // echo "<pre>";print_r($new_form_array);exit;
 
       $files1 = $_FILES['ws_invoice']['name'];
 
@@ -230,14 +243,52 @@ class Formlist extends MY_Controller {
 		set('website_invoice', $filename1)->
 		set('agency_invoice', $filename2)->
 		where('fk_user_id', $_POST['user_id'])->
-      update('ci_formlist_step1');
+		where('step1_id', $_POST['step_id'])->
+    update('ci_formlist_step1');
+
+    $forstep2 = $this->db->
+    set('fk_user_id', $_POST['user_id'])->
+    set('step2_status', '0')->
+    insert('ci_formlist_step2');
+
+    $step2_id = $this->db->insert_id();
+
+    $user_form = $this->db->
+    select('ddd_form_array')->
+    where('fk_stepform_id', $_POST['form_id'])->
+    from('ci_ddd_application')->
+    get()->result();
+
+    $new_form_array = array();
+    array_push($new_form_array, $user_form[0]->ddd_form_array);
+    array_push($new_form_array, $step2_id);
+
+    $new_form_array = implode(', ', $new_form_array);
+
+    $this->db->
+    set('ddd_form_array', $new_form_array)->
+    set('status', 'Proceed to Step 2')->
+    where('fk_stepform_id', $_POST['form_id'])->
+    update('ci_ddd_application');
+
+    $this->db->
+    set('form_array', $new_form_array)->
+    set('form_status', 'Awaiting Step 2')->
+    where('stepform_id', $_POST['form_id'])->
+    update('ci_formlist');
 
 		$this->session->set_userdata('swal', 'Step 1 has been updated.');
 
-    $message = "<h1>DDD Forms - Step 1 has been updated.:</h1>";
+    $uemail = $this->db->
+    select('email')->
+    where('user_id', $_POST['user_id'])->
+    from('ci_users')->
+    get()->result();
+
+    $message = "<h1>DDD Forms - Step 1 has been updated.</h1>";
     $message .= "<h3>Proceed now to Step 2 on DDD Forms.</h3>";
     $message .= "<h3>For more information, please visit the website: <a href='https://localhost/Projects/ConsultingExperts/consultingexpert/login'>Consulting Experts LLC</a></h3>";
-    $this->sendmail1("prospteam@gmail.com", null, 'Notification - DDD Forms', $message, true);
+    $this->sendmail1($uemail[0]->email, null, 'Notification - DDD Forms', $message, true);
     $this->send_notification($_POST['user_id'],'Notification: DDD Forms','Proceed to Step 2 now. ',5);
 		redirect('formlist');
 	}
@@ -245,15 +296,15 @@ class Formlist extends MY_Controller {
 
    public function admin_step2(){
 
-      $files1 = $_FILES['upwinvoice']['name'];
-
-      $folder1 = 'assets/uploads/documents/';
-      $name1 = $_FILES['upwinvoice']['tmp_name'];
-      $othername1 = $_FILES['upwinvoice']['name'];
-      move_uploaded_file($name1, $folder1.time().'_'.$othername1);
-
-      $files1 = $_FILES['upwinvoice']['name'];
-      $filename1 = time().'_'.$files1;
+      // $files1 = $_FILES['upwinvoice']['name'];
+      //
+      // $folder1 = 'assets/uploads/documents/';
+      // $name1 = $_FILES['upwinvoice']['tmp_name'];
+      // $othername1 = $_FILES['upwinvoice']['name'];
+      // move_uploaded_file($name1, $folder1.time().'_'.$othername1);
+      //
+      // $files1 = $_FILES['upwinvoice']['name'];
+      // $filename1 = time().'_'.$files1;
 
       $files2 = $_FILES['upainvoice']['name'];
 
@@ -266,15 +317,53 @@ class Formlist extends MY_Controller {
       $filename2 = time().'_'.$files2;
 
 		$result2 = $this->db->
-		set('website_uinvoice', $filename1)->
-		set('agency_uinvoice', $filename2)->
+		// set('website_uinvoice', $filename1)->
+		set('upload_paid_invoice', $filename2)->
+		set('step2_status', '1')->
 		where('fk_user_id', $_POST['user_id'])->
-    update('ci_formlist_step1');
+		where('payment_id', $_POST['step_id'])->
+    update('ci_formlist_step2');
+
+    $forstep3 = $this->db->
+    set('fk_user_id', $_POST['user_id'])->
+    set('step3_status', '0')->
+    insert('ci_formlist_step3_user');
+
+    $step3_id = $this->db->insert_id();
+
+    $user_form = $this->db->
+    select('ddd_form_array')->
+    where('fk_stepform_id', $_POST['form_id'])->
+    from('ci_ddd_application')->
+    get()->result();
+
+    $new_form_array = array();
+    array_push($new_form_array, $user_form[0]->ddd_form_array);
+    array_push($new_form_array, $step3_id);
+
+    $new_form_array = implode(', ', $new_form_array);
+
+    $this->db->
+    set('ddd_form_array', $new_form_array)->
+    set('status', 'Proceed to Step 3')->
+    where('fk_stepform_id', $_POST['form_id'])->
+    update('ci_ddd_application');
+
+    $this->db->
+    set('form_status', 'Awaiting Step 3')->
+    where('stepform_id', $_POST['form_id'])->
+    update('ci_formlist');
+
+    $uemail = $this->db->
+    select('email')->
+    where('user_id', $_POST['user_id'])->
+    from('ci_users')->
+    get()->result();
 
     $message = "<h1>DDD Forms - Step 2 has been updated.:</h1>";
     $message .= "<h3>Proceed now to Step 3 on DDD Forms.</h3>";
     $message .= "<h3>For more information, please visit the website: <a href='https://localhost/Projects/ConsultingExperts/consultingexpert/login'>Consulting Experts LLC</a></h3>";
-    $this->sendmail1("prospteam@gmail.com", null, 'Notification - DDD Forms', $message, true);
+    $this->sendmail1($uemail[0]->email, null, 'Notification - DDD Forms', $message, true);
     $this->send_notification($_POST['user_id'],'Notification: DDD Forms','Proceed to Step 3 now. ',5);
 		$this->session->set_userdata('swal', 'Step 2 has been updated.');
 		redirect('formlist');
@@ -369,11 +458,47 @@ class Formlist extends MY_Controller {
 		where('fk_user_id', $_POST['user_id_step3'])->
     update('ci_formlist_step3');
 
-    $message = "<h1>DDD Forms - Step 3 has been checked and recorded.:</h1>";
+    $forstep4 = $this->db->
+    set('fk_user_id', $_POST['user_id'])->
+    set('step4_status', '0')->
+    insert('ci_formlist_step4_user');
+
+    $step4_id = $this->db->insert_id();
+
+    $user_form = $this->db->
+    select('ddd_form_array')->
+    where('fk_stepform_id', $_POST['form_id'])->
+    from('ci_ddd_application')->
+    get()->result();
+
+    $new_form_array = array();
+    array_push($new_form_array, $user_form[0]->ddd_form_array);
+    array_push($new_form_array, $step3_id);
+
+    $new_form_array = implode(', ', $new_form_array);
+
+    $this->db->
+    set('ddd_form_array', $new_form_array)->
+    set('status', 'Proceed to Step 3')->
+    where('fk_stepform_id', $_POST['form_id'])->
+    update('ci_ddd_application');
+
+    $this->db->
+    set('form_status', 'Awaiting Step 3')->
+    where('stepform_id', $_POST['form_id'])->
+    update('ci_formlist');
+
+    $uemail = $this->db->
+    select('email')->
+    where('user_id', $_POST['user_id'])->
+    from('ci_users')->
+    get()->result();
+
+    $message = "<h1>DDD Forms - Step 3 has been updated.:</h1>";
     $message .= "<h3>Proceed now to Step 4 on DDD Forms.</h3>";
     $message .= "<h3>For more information, please visit the website: <a href='https://localhost/Projects/ConsultingExperts/consultingexpert/login'>Consulting Experts LLC</a></h3>";
-    // $this->sendmail1("prospteam@gmail.com", null, 'Notification - DDD Forms', $message, true);
-    $this->send_notification($_POST['user_id'],'Notification: DDD Forms','Proceed to Step 4 now. ',5);
+    $this->sendmail1($uemail[0]->email, null, 'Notification - DDD Forms', $message, true);
+    $this->send_notification($_POST['user_id'],'Notification: DDD Forms','Proceed to Step 3 now. ',5);
 		$this->session->set_userdata('swal', 'Step 3 has been updated.');
 		redirect('formlist');
 	}
