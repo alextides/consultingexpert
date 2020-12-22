@@ -1,7 +1,7 @@
 <?php
 $isProduction = false;
 $base_url = (isset($_SERVER['HTTPS']) ? 'https' : 'http').'://'.$_SERVER['HTTP_HOST'].'/'.(explode("/",$_SERVER['REQUEST_URI'])[1]).'/';
-define('TEST_MODE', false);
+define('TEST_MODE', true);
 define('COMPANY_NAME', 'Consulting Experts LLC');
 define('FORM_NAME', 'Payment');
 

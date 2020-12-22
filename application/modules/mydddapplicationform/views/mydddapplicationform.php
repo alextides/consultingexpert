@@ -62,7 +62,7 @@
          <div class="col-md-7 align-self-center text-right d-none d-md-block">
             <!-- <form name="create_form" id="create_form" method="POST" action="</?= base_url("mydddapplicationform/create_ddd_form") ?>">
                <input type="hidden" name="fk_user_id" id="fk_user_id" value="</?php echo $this->session->userdata('user_details')[0]['fk_user_id']; ?>"> -->
-               <a style="background-color: #1065a2; border-color: #1065a2" href="#" data-userid="<?php echo $this->session->userdata('user_details')[0]['fk_user_id']; ?>" class="btn btn-primary btn-lg step2-btn step1">Create DDD Application <i class="fa fa-plus"></i> </a>
+            <a style="background-color: #1065a2; border-color: #1065a2" href="#" data-userid="<?php echo $this->session->userdata('user_details')[0]['fk_user_id']; ?>" class="btn btn-primary btn-lg step2-btn step1">Create DDD Application <i class="fa fa-plus"></i> </a>
             <!-- </form> -->
          </div>
       </div>
@@ -363,7 +363,7 @@
                               <div class="form-group row">
                                  <label class="col-md-3 col-form-label"></label>
                                  <div class="col-md-9">
-                                    <a class='btn btn-success' href='http://zerobacklog.com/consultingexperts/paymentinvoice' target='_blank' style="float: right">Click here to Pay!</a>
+                                    <a class='btn btn-success' href='<?= base_url("paymentinvoice") ?>' target='_blank' style="float: right">Click here to Pay!</a>
                                  </div>
                               </div>
                            </div>
@@ -468,7 +468,7 @@
                   <!-- step3 form -->
                   <div class="tab-pane fade show active" id="step3form" role="tabpanel" aria-labelledby="pills-step1form-tab">
                      <form method="post" enctype="multipart/form-data" action="<?= base_url("mydddapplicationform/submit_step3") ?>" id="step3Form">
-                       <input type="hidden" id="form_id_step3" name="form_id" value="">
+                        <input type="hidden" id="form_id_step3" name="form_id" value="">
                         <div class="form-group ">
                            <div class="form-group row">
                               <label class="col-md-3 col-form-label">Paid Invoice: </label>
@@ -662,8 +662,9 @@
                         <div class="form-group row">
                            <label class="col-md-3 col-form-label">Paid Invoice: </label>
                            <div class="col-md-9">
-                                 <input type="text" class="form-control" disabled id="paid_invoice" name="paid_invoice" value="<?php echo $row['upload_paid_invoice']; ?>">
-                                 <a class="btn btn-primary" href="./assets/uploads/<?php //echo $row['upload_paid_invoice']; ?>" download><i class="icon-Eye"></i> View Invoice</a>
+                              <input type="text" class="form-control" disabled id="paid_invoice" name="paid_invoice" value="<?php echo $row['upload_paid_invoice']; ?>">
+                              <a class="btn btn-primary" href="./assets/uploads/<?php //echo $row['upload_paid_invoice']; 
+                                                                                 ?>" download><i class="icon-Eye"></i> View Invoice</a>
                            </div>
                         </div>
                      </div>
@@ -671,13 +672,15 @@
                         <div class="form-group row">
                            <div class="col-md-6">
                               <label class="col-form-label">Website Questionnaire</label>
-                                 <input type="text" class="form-control" id="website_questionnaire_info" name="website_questionnaire_info" required disabled>
-                                 <a class="btn btn-primary" href="./assets/uploads/<?php //echo $row['website_questionnaire']; ?>" download><i class="icon-Download"></i> Download File</a>
+                              <input type="text" class="form-control" id="website_questionnaire_info" name="website_questionnaire_info" required disabled>
+                              <a class="btn btn-primary" href="./assets/uploads/<?php //echo $row['website_questionnaire']; 
+                                                                                 ?>" download><i class="icon-Download"></i> Download File</a>
                            </div>
                            <div class="col-md-6">
                               <label class="col-form-label">Website Logo</label>
-                                 <input type="text" class="form-control" id="website_logo_info" name="website_logo_info" required disabled>
-                                 <a class="btn btn-primary" href="./assets/uploads/<?php //echo $row['website_logo']; ?>" download><i class="icon-Download"></i> Download File</a>
+                              <input type="text" class="form-control" id="website_logo_info" name="website_logo_info" required disabled>
+                              <a class="btn btn-primary" href="./assets/uploads/<?php //echo $row['website_logo']; 
+                                                                                 ?>" download><i class="icon-Download"></i> Download File</a>
                            </div>
                         </div>
                      </div>
@@ -762,8 +765,9 @@
                         <div class="form-group row">
                            <div class="col-md-12">
                               <label class="col-form-label">Tax Year 1:</label>
-                                 <input type="text" class="form-control" id="agency_tax_year1_info" name="agency_tax_year1_info" required disabled>
-                                 <a class="btn btn-primary" href="./assets/uploads/<?php //echo $row['agency_tax_year1']; ?>" download><i class="icon-Download"></i> Download File</a>
+                              <input type="text" class="form-control" id="agency_tax_year1_info" name="agency_tax_year1_info" required disabled>
+                              <a class="btn btn-primary" href="./assets/uploads/<?php //echo $row['agency_tax_year1']; 
+                                                                                 ?>" download><i class="icon-Download"></i> Download File</a>
                            </div>
                         </div>
                      </div>
@@ -771,13 +775,15 @@
                         <div class="form-group row">
                            <div class="col-md-6">
                               <label class="col-form-label">Tax Year 2:</label>
-                                 <input type="text" class="form-control" id="agency_tax_year2_info" name="agency_tax_year2_info" required disabled>
-                                 <a class="btn btn-primary" href="./assets/uploads/<?php //echo $row['agency_tax_year2']; ?>" download><i class="icon-Download"></i> Download File</a>
+                              <input type="text" class="form-control" id="agency_tax_year2_info" name="agency_tax_year2_info" required disabled>
+                              <a class="btn btn-primary" href="./assets/uploads/<?php //echo $row['agency_tax_year2']; 
+                                                                                 ?>" download><i class="icon-Download"></i> Download File</a>
                            </div>
                            <div class="col-md-6">
                               <label class="col-form-label">Tax Year 3:</label>
-                                 <input type="text" class="form-control" id="agency_tax_year3_info" name="agency_tax_year3_info" required disabled>
-                                 <a class="btn btn-primary" href="./assets/uploads/<?php //echo $row['agency_tax_year3']; ?>" download><i class="icon-Download"></i> Download File</a>
+                              <input type="text" class="form-control" id="agency_tax_year3_info" name="agency_tax_year3_info" required disabled>
+                              <a class="btn btn-primary" href="./assets/uploads/<?php //echo $row['agency_tax_year3']; 
+                                                                                 ?>" download><i class="icon-Download"></i> Download File</a>
                            </div>
                         </div>
                      </div>
@@ -785,13 +791,14 @@
                         <div class="form-group row">
                            <div class="col-md-6">
                               <label class="col-form-label">Resume:</label>
-                                 <input type="text" class="form-control" id="agency_resume_info" name="agency_resume_info" required disabled>
-                                 <a class="btn btn-primary" href="./assets/uploads/<?php//echo $row['agency_resume']; ?>" download><i class="icon-Download"></i> Download File</a>
+                              <input type="text" class="form-control" id="agency_resume_info" name="agency_resume_info" required disabled>
+                              <a class="btn btn-primary" href="./assets/uploads/<?php//echo $row['agency_resume']; ?>" download><i class="icon-Download"></i> Download File</a>
                            </div>
                            <div class="col-md-6">
                               <label class="col-form-label">Bank Statement:</label>
-                                 <input type="text" class="form-control" id="agency_bank_statement_info" name="agency_bank_statement_info" required disabled>
-                                 <a class="btn btn-primary" href="./assets/uploads/<?php //echo $row['agency_bank_statement']; ?>" download><i class="icon-Download"></i> Download File</a>
+                              <input type="text" class="form-control" id="agency_bank_statement_info" name="agency_bank_statement_info" required disabled>
+                              <a class="btn btn-primary" href="./assets/uploads/<?php //echo $row['agency_bank_statement']; 
+                                                                                 ?>" download><i class="icon-Download"></i> Download File</a>
                            </div>
                         </div>
                      </div>

@@ -180,13 +180,14 @@
                      <label class="col-md-2 col-form-label">File:</label>
                      <div class="col-md-10">
                         <input type="text" name="file" id="file" class="form-control" disabled>
+                        <input type="hidden" name="file_id" id="file_id" class="form-control">
                      </div>
                   </div>
                   <div class="form-group row">
                      <label class="col-md-2 col-form-label">Update File:</label>
                      <div class="col-md-10">
                         <!-- <input type="file" name="file_upload" id="file_upload" class="form-control" placeholder="file_name"> -->
-                        <input type="file" size="20" id="file_upload" name="file_upload" class="form-control" required>
+                        <input type="file" size="20" id="update_file_attached" name="update_file_attached" class="form-control" required>
                      </div>
                   </div>
                </div>

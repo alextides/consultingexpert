@@ -90,26 +90,20 @@ class Managefiles extends MY_Controller
 
    public function update_attached_file()
    {
-      if ($_FILES['file_upload']['name'] != "") {
-         $config['upload_path'] = './assets/uploads/';
-         $config['allowed_types'] = 'gif|jpg|png|pdf|txt|docx|doc';
-         $this->load->library('upload', $config);
-         if (!$this->upload->do_upload('file')) {
-            $error = array('error' => $this->upload->display_errors());
-         } else {
-            $upload_data = $this->upload->data();
-            $file_update = $upload_data['file_name'];
-         }
-      } else {
-         $file_update = $this->input->post('file_upload');
-      }
+      $files2 = $_FILES['update_file_attached']['name'];
 
-      $this->db
-      ->set('file', $file_update)
-      ->where('file_id', $_POST['file_id'])
-      ->update('ci_filelist');
-      $uid = $this->db->insert_id();
+      $folder2 = './assets/uploads/';
+      $name2 = $_FILES['update_file_attached']['tmp_name'];
+      $othername2 = $_FILES['update_file_attached']['name'];
+      move_uploaded_file($name2, $folder2.time().'_'.$othername2);
 
+      $files2 = $_FILES['update_file_attached']['name'];
+      $filename2 = time().'_'.$files2;
+
+		$this->db->
+		set('file', $filename2)->
+		where('file_id', $_POST['file_id'])->
+      update('ci_filelist');
       $this->session->set_userdata('swal', 'File record has been updated.');
       redirect('managefiles');
    }

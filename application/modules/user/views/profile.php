@@ -75,11 +75,23 @@
                     <div class="card-body">
                         <form class="form-material m-t-40" method="post" id="profileform" enctype="multipart/form-data" action="<?= base_url("user/update_profile"); ?>">
                             <div class="profile-pic-display">
-                                <img src="<?= base_url() ?>assets/images/user.png" alt="homepage" class="profile-image" />
-                                <!-- <img src="<?php //echo $this->session->userdata('user_details')[0]['profile_picture'] ?>" alt="homepage" class="profile-image" /> -->
+                                <?php foreach ($user_info as $row) { ?>
+                                    <?php
+                                    if (!empty($row['profile_picture'])) {
+                                        $profile = base_url().'assets/uploads/profile/' . $row['profile_picture'];
+                                        $default_profile = base_url(). 'assets/uploads/profile/'. $row['profile_picture'];
+                                        echo "<img src='" . $profile . "' alt='profile' class='profile-image'>";
+                                    }else{
+                                        echo "<img src='" . $default_profile . "' alt='profile' class='profile-image'>";
+                                    }
+                                    ?>
+
+                                <?php } ?>
                             </div>
                             <span class="btn file-profile">
+
                                 Update Photo<input type="file" name="profile_picture" id="profile_picture" accept=".pdf, .doc, .docx .png" class="btn-file-profile">
+
                             </span>
                     </div>
                 </div>

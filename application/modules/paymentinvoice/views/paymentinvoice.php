@@ -137,7 +137,7 @@ if (DONATION) {
                             <span class="input-group-text" id="AmountPrepend"><i class="fas fa-dollar-sign"></i></span>
                           </div>
                           <?php foreach ($quote as $row) {  ?>
-                            <input type="number" name="Website_Quote" id="Website_Quote" class="form-control form-control-lg required" value="<?php echo $row['website_quote']; ?>" aria-describedby="AmountPrepend" readonly>
+                            <input type="number" name="Website_Quote" id="Website_Quote" class="form-control form-control-lg required" value="<?php echo $Website_Quote; ?>" aria-describedby="AmountPrepend" readonly>
                           <?php } ?>
                           <div class="invalid-tooltip">
                             Please provide a valid amount
@@ -152,7 +152,7 @@ if (DONATION) {
                               <span class="input-group-text" id="Payment_ForPrepend"><i class="fas fa-edit"></i></span>
                             </div>
                             <?php foreach ($quote as $row) {  ?>
-                              <input type="text" name="Agency_Quote" id="Agency_Quote" class="form-control form-control-lg required" value="<?php echo $row['agency_quote']; ?>" aria-describedby="Payment_ForPrepend" readonly>
+                              <input type="text" name="Agency_Quote" id="Agency_Quote" class="form-control form-control-lg required" value="<?php //echo $row['agency_quote']; ?>" aria-describedby="Payment_ForPrepend" readonly>
                             <?php } ?>
                             <div class="invalid-tooltip">
                               Please enter payment details
@@ -455,8 +455,8 @@ if (DONATION) {
                           <div class="input-group-prepend">
                             <span class="input-group-text" id="AmountPrepend"><b>Total:</b></span>
                           </div>
-                          <input type="number" name="Amount" id="Amount" class="form-control form-control-lg required" value="<?php echo $row['website_quote'] + $row['agency_quote']; ?>" aria-describedby="AmountPrepend" hidden>
-                          <input type="text" class="form-control form-control-lg text-right amount" value="$<?php echo $row['website_quote'] + $row['agency_quote'] ?>" style="font-weight:bold;" disabled>
+                          <input type="number" name="Amount" id="Amount" class="form-control form-control-lg required" value="<?php //echo $row['website_quote'] + $row['agency_quote']; ?>" aria-describedby="AmountPrepend" hidden>
+                          <input type="text" class="form-control form-control-lg text-right amount" value="$<?php //echo $row['website_quote'] + $row['agency_quote'] ?>" style="font-weight:bold;" disabled>
                           <div class="input-group-append recurring" style="display:none;">
                             <span class="input-group-text" id="recurringfreq"></span>
                           </div>

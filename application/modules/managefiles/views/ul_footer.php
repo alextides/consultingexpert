@@ -88,10 +88,9 @@
          success: function(data) {
             let result = JSON.parse(data);
             $('[name="file_title"]').val(result[0].file_title);
-            $('[name="file"]').val(result[0].file);
             $('[name="fk_user_id"]').val(result[0].fk_user_id);
             $('[name="file_id"]').val(result[0].file_id);
-            // $('[name="uploaded_by"]').val(result[0].uploaded_by);
+            $('[name="file"]').val(result[0].file);
             $('#editAttachedFileModal').modal('show');
          },
          error: function(data) {
