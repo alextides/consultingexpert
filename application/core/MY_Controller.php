@@ -141,11 +141,11 @@ class MY_Controller extends MX_Controller {
 		$config = array(
 			'protocol'    => 'SMTP',
 			'smtp_host'   => 'secure.emailsrvr.com',
-			'smtp_port'   => 587,
-			'smtp_user'   => 'onlineform6@proweaver.net',
-			'smtp_pass'   => '#@pPzT1mGw@F0',
+			'smtp_port'   => '587',
+			'smtp_user'   => 'onlineform7@proweaver.net',
+			'smtp_pass'   => '4Y@LaWaMlTY20_foR',
 			'mailtype'    => 'html',
-			'charset'     => 'iso-8859-1',
+			'charset'     => 'utf-8', //iso-8859-1
 			'wordwrap'    => TRUE,
 			'set_newline' => "\r\n"
 		);

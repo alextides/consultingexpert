@@ -136,9 +136,9 @@ if (DONATION) {
                           <div class="input-group-prepend">
                             <span class="input-group-text" id="AmountPrepend"><i class="fas fa-dollar-sign"></i></span>
                           </div>
-                          <?php foreach ($quote as $row) {  ?>
-                            <input type="number" name="Website_Quote" id="Website_Quote" class="form-control form-control-lg required" value="<?php echo $Website_Quote; ?>" aria-describedby="AmountPrepend" readonly>
-                          <?php } ?>
+                          <?php //foreach ($quote as $row) {  ?>
+                            <input type="number" name="Website_Quote" id="Website_Quote" class="form-control form-control-lg required" aria-describedby="AmountPrepend" readonly>
+                          <?php //} ?>
                           <div class="invalid-tooltip">
                             Please provide a valid amount
                           </div>
@@ -151,9 +151,9 @@ if (DONATION) {
                             <div class="input-group-prepend">
                               <span class="input-group-text" id="Payment_ForPrepend"><i class="fas fa-edit"></i></span>
                             </div>
-                            <?php foreach ($quote as $row) {  ?>
+                            <?php //foreach ($quote as $row) {  ?>
                               <input type="text" name="Agency_Quote" id="Agency_Quote" class="form-control form-control-lg required" value="<?php //echo $row['agency_quote']; ?>" aria-describedby="Payment_ForPrepend" readonly>
-                            <?php } ?>
+                            <?php //} ?>
                             <div class="invalid-tooltip">
                               Please enter payment details
                             </div>

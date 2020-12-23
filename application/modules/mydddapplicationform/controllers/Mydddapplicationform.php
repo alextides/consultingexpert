@@ -249,8 +249,10 @@ class Mydddapplicationform extends MY_Controller
                'agency_city'           => $post["agency_city"],
                'agency_state'          => $post["agency_state"],
                'agency_zip'            => $post["agency_zip"],
+               'irs_ein'               => $post["irs_ein"],
                'website_questionnaire' => $this->upload->data('file_name'),
                'website_logo'          => $this->upload->data('file_name'),
+               'upload_irs_ein'        => $this->upload->data('file_name'),
                'agency_tax_year1'      => $this->upload->data('file_name'),
                'agency_tax_year2'      => $this->upload->data('file_name'),
                'agency_tax_year3'      => $this->upload->data('file_name'),
@@ -500,6 +502,9 @@ class Mydddapplicationform extends MY_Controller
          if (!empty($explode_steps[2])) {
            $action_btn .= "<a style='background-color: #1065a2; border-color: #1065a2' class='btn btn-info btn-xs step3_details_btn' data-sid=" . $user_explode_steps[2] . " data-fid=".$r->fk_stepform_id." href='javascript:void(0)'>Step 3 Details <i class='fa fa-arrow-right'></i></a>";
          }
+         if (!empty($explode_steps[2])) {
+            $action_btn .= "<a style='background-color: #1d95e9; border-color: #1d95e9' class='btn btn-info btn-xs step4' data-pid=" . $explode_steps[2] . " data-fid=" . $r->fk_stepform_id . " data-sid= " . $explode_steps[2] . " href='javascript:void(0)'>Step 4 " . $explode_steps[2] . "<i class='fa fa-arrow-right'></i></a>";
+         }
          // $action_btn .= "<a style='background-color: #1065a2; border-color: #1065a2' class='btn btn-success btn-xs step2' data-id=" . $r->step1_id . " href='javascript:void(0)'>Step 2 $r->step1_id<i class='fa fa-arrow-right'></i></a>";
          // $action_btn .= "<a style='background-color: #1d95e9; border-color: #1d95e9' class='btn btn-primary btn-xs step3' data-id=" . $r->step3_id . " href='javascript:void(0)'>Step 3 $r->step3_id<i class='fa fa-arrow-right'></i></a>";
          // $action_btn .= "<a style='background-color: #1065a2; border-color: #1065a2' class='btn btn-success btn-xs step4' data-id=" . $r->step4_id . " href='javascript:void(0)'>Step 4 $r->step4_id<i class='fa fa-arrow-right'></i></a>";
@@ -690,6 +695,19 @@ class Mydddapplicationform extends MY_Controller
          ->select('*')
          ->from('ci_formlist_step4_user')
          ->where('step4_id', $id)
+         ->get()
+         ->result_array();
+      echo json_encode($result);
+      exit();
+   }
+
+
+   public function get_ci_formlist_step3_admin($id = '') // get step1 details query
+   {
+      $result = $this->db
+         ->select('*')
+         ->from('ci_formlist_step3_admin')
+         ->where('step3_id', $id)
          ->get()
          ->result_array();
       echo json_encode($result);

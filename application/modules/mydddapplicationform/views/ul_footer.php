@@ -33,13 +33,13 @@
       //       // $('[name="fk_user_id"]').val(result[0].fk_user_id);
       //       $('[name="ddd_application_id"]').val(result[0].ddd_application_id);
 
-            // $('[name="selected_services"]').val(result[0].services);
-            // $('[name="website"]').val(result[0].website);
-            // $('[name="agency"]').val(result[0].agency);
+      // $('[name="selected_services"]').val(result[0].services);
+      // $('[name="website"]').val(result[0].website);
+      // $('[name="agency"]').val(result[0].agency);
 
-            // $('[name="website_invoice"]').val(result[0].website_invoice);
-            // $('[name="agency_invoice"]').val(result[0].agency_invoice);
-            $('#step1').modal('show');
+      // $('[name="website_invoice"]').val(result[0].website_invoice);
+      // $('[name="agency_invoice"]').val(result[0].agency_invoice);
+      $('#step1').modal('show');
       //    },
       //    error: function(data) {
       //       alert(data);
@@ -153,6 +153,52 @@
             // $('[name="website_invoice"]').val(result[0].website_invoice);
             // $('[name="agency_invoice"]').val(result[0].agency_invoice);
             $('#step3').modal('show');
+         },
+         error: function(data) {
+            alert(data);
+         }
+      });
+   });
+
+   $(document).on('click', '.step4', function(e) { //step1_details button - view step1_details details by user_id on modal
+      e.preventDefault();
+      var data_id = $(this).attr('data-sid');
+      // var form_id = $(this).attr('data-fid');
+      // $('#form_id_step3').val(form_id);
+      let new_array = [];
+      let checker = '';
+
+      var base_url = "<?php echo base_url(); ?>mydddapplicationform/get_ci_formlist_step3_admin/";
+      $.ajax({
+         type: "GET",
+         url: base_url + data_id,
+         success: function(data) {
+            let result = JSON.parse(data);
+            $('[name="ws_url1"]').val(result[0].ws_url1);
+            $('[name="ws_url2"]').val(result[0].ws_url2);
+            $('[name="ws_url3"]').val(result[0].ws_url3);
+            $('[name="irs_ein"]').val(result[0].irs_ein);
+            $('[name="irs_ein_file"]').val(result[0].irs_ein_file);
+            $('[name="irs_submitted"]').val(result[0].irs_submitted);
+            $('[name="irs_mailed"]').val(result[0].irs_mailed);
+            $('[name="irs_rdate"]').val(result[0].irs_rdate);
+            $('[name="irs_cspecialist"]').val(result[0].irs_cspecialist);
+            $('[name="nia_file"]').val(result[0].nia_file);
+            $('[name="nia_ddate"]').val(result[0].nia_ddate);
+            $('[name="nia_bplan"]').val(result[0].nia_bplan);
+            $('[name="nia_cplan"]').val(result[0].nia_cplan);
+            $('[name="app_denial_file"]').val(result[0].app_denial_file);
+            $('[name="ad_rdate"]').val(result[0].ad_rdate);
+            $('[name="ad_rfocus"]').val(result[0].ad_rfocus);
+            $('[name="ad_mdate"]').val(result[0].ad_mdate);
+
+            $('[name="nca_file"]').val(result[0].nca_file);
+            $('[name="npa_file"]').val(result[0].npa_file);
+            $('[name="padate"]').val(result[0].padate);
+            $('[name="na_file"]').val(result[0].na_file);
+
+
+            $('#step4').modal('show');
          },
          error: function(data) {
             alert(data);
