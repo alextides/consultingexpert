@@ -98,13 +98,13 @@ class MY_Controller extends MX_Controller {
 		$config['smtp_host']    = 'secure.emailsrvr.com';
 		$config['smtp_port']    = '587';
 		$config['smtp_user']    = 'onlineform7@proweaver.net';
-		$config['_smtp_auth'] = TRUE;
+		// $config['_smtp_auth'] = TRUE;
 		$config['smtp_pass']    = '4Y@LaWaMlTY20_foR';
-		$config['smtp_crypto'] = 'tls';
+		// $config['smtp_crypto'] = 'tls';
 		$config['mailtype'] = 'html'; // or html
-		$config['charset'] = 'utf-8';
-		$config['wordwrap'] = TRUE;
-		$config['newline']  = "\r\n";
+		// $config['charset'] = 'utf-8';
+		// $config['wordwrap'] = TRUE;
+		// $config['newline']  = "\r\n";
 
 		$this->email->initialize($config);
 		$this->email->set_newline("\r\n");
@@ -116,17 +116,17 @@ class MY_Controller extends MX_Controller {
 		if ($use_html_template) {
 			$messageData['title'] = $subject;
 			$messageData['content'] = $message;
-			$message = $this->load->view('mail_template',$messageData,true);
+			$message = $this->load->view('mail_template', $messageData, true);
 			$this->email->message($message);
-		}else{
+		} else {
 			$this->email->message($message);
 		}
+
 
 		// $this->email->send();
 
 		if ($this->email->send()) {
 			return true;
-
 		} else {
 			echo $this->email->print_debugger();
 

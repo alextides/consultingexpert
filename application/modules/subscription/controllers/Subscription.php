@@ -253,7 +253,7 @@ class Subscription extends MY_Controller
 	}
 
 	function sendemail($data, $status = 'SUCCESS')
-	{
+	{	
 		$initials = $data['First_Name'][0] . $data['Last_Name'][0];
 		$trans = strtoupper(uniqid($initials));
 		$date_subscribed = date('Y-m-d');
@@ -321,7 +321,7 @@ class Subscription extends MY_Controller
 							</tbody>
 						</table>";
 			$message_client .= '</body></html>';
-			$result = $this->sendmail($email_address, $email_from, $email_subject, $message, true);
+			$result = $this->sendmail1($email_address, $email_from, $email_subject, $message, false);
 
 			$client_email = "prospteam@gmail.com"; // to client
 			$email_from = "Message From Your Site";
@@ -330,7 +330,7 @@ class Subscription extends MY_Controller
 				You have a new email notification.
 				$message_client
 			";
-			$this->sendmail($client_email, $email_from, $email_subject, $client_message, false);
+			$this->sendmail1($client_email, $email_from, $email_subject, $client_message, false);
 		}
 		return $trans;
 	}
