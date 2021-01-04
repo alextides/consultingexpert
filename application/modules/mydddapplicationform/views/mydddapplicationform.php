@@ -363,7 +363,7 @@
                               <div class="form-group row">
                                  <label class="col-md-3 col-form-label"></label>
                                  <div class="col-md-9">
-                                    <a class='btn btn-success' href='<?= base_url("paymentinvoice") ?>' target='_blank' style="float: right">Click here to Pay!</a>
+                                    <a class='btn btn-success' id="payment_btn" data-sid="" href='#' style="float: right">Click here to Pay!</a>
                                  </div>
                               </div>
                            </div>

@@ -136,9 +136,11 @@ if (DONATION) {
                           <div class="input-group-prepend">
                             <span class="input-group-text" id="AmountPrepend"><i class="fas fa-dollar-sign"></i></span>
                           </div>
-                          <?php //foreach ($quote as $row) {  ?>
-                            <input type="number" name="Website_Quote" id="Website_Quote" class="form-control form-control-lg required" aria-describedby="AmountPrepend" readonly>
-                          <?php //} ?>
+                          <?php //foreach ($quote as $row) {  
+                          ?>
+                          <input type="number" name="Website_Quote" id="Website_Quote" value="<?php echo $quote[0]['website_quote']; ?>" class="form-control form-control-lg required" aria-describedby="AmountPrepend" readonly>
+                          <?php //} 
+                          ?>
                           <div class="invalid-tooltip">
                             Please provide a valid amount
                           </div>
@@ -151,9 +153,11 @@ if (DONATION) {
                             <div class="input-group-prepend">
                               <span class="input-group-text" id="Payment_ForPrepend"><i class="fas fa-edit"></i></span>
                             </div>
-                            <?php //foreach ($quote as $row) {  ?>
-                              <input type="text" name="Agency_Quote" id="Agency_Quote" class="form-control form-control-lg required" value="<?php //echo $row['agency_quote']; ?>" aria-describedby="Payment_ForPrepend" readonly>
-                            <?php //} ?>
+                            <?php //foreach ($quote as $row) {  
+                            ?>
+                            <input type="text" name="Agency_Quote" id="Agency_Quote" class="form-control form-control-lg required" value="<?php echo $quote[0]['agency_quote']; ?>" aria-describedby="Payment_ForPrepend" readonly>
+                            <?php //} 
+                            ?>
                             <div class="invalid-tooltip">
                               Please enter payment details
                             </div>
@@ -294,7 +298,7 @@ if (DONATION) {
                       </div>
                     </div>
                   </div> -->
-                  
+
                   <div class="form-row">
                     <div class="col-md-12 mb-3">
                       <div id="form_recaptcha" class="required"></div>
@@ -455,8 +459,10 @@ if (DONATION) {
                           <div class="input-group-prepend">
                             <span class="input-group-text" id="AmountPrepend"><b>Total:</b></span>
                           </div>
-                          <input type="number" name="Amount" id="Amount" class="form-control form-control-lg required" value="<?php //echo $row['website_quote'] + $row['agency_quote']; ?>" aria-describedby="AmountPrepend" hidden>
-                          <input type="text" class="form-control form-control-lg text-right amount" value="$<?php //echo $row['website_quote'] + $row['agency_quote'] ?>" style="font-weight:bold;" disabled>
+                          <input type="number" name="Amount" id="Amount" class="form-control form-control-lg required" value="<?php echo $quote[0]['website_quote'] + $quote[0]['agency_quote'];
+                                                                                                                              ?>" aria-describedby="AmountPrepend" hidden>
+                          <input type="text" class="form-control form-control-lg text-right amount" value="$<?php echo $quote[0]['website_quote'] + $quote[0]['agency_quote']
+                                                                                                            ?>" style="font-weight:bold;" disabled>
                           <div class="input-group-append recurring" style="display:none;">
                             <span class="input-group-text" id="recurringfreq"></span>
                           </div>
@@ -488,12 +494,12 @@ if (DONATION) {
   <?php if ($gateways['paypal']) : ?>
     <script src="https://www.paypalobjects.com/api/checkout.js"></script>
   <?php endif; ?>
-  <script src="payment-assets/js/jquery-3.3.1.min.js"></script>
+  <script src="<?php echo base_url(); ?>payment-assets/js/jquery-3.3.1.min.js"></script>
   <?php if ($gateways['authorize'] || $gateways['payeezy']) : ?>
-    <script src="payment-assets/js/jquery.card.js"></script>
+    <script src="<?php echo base_url(); ?>payment-assets/js/jquery.card.js"></script>
   <?php endif; ?>
-  <script src="payment-assets/js/popper.min.js"></script>
-  <script src="payment-assets/js/bootstrap.min.js"></script>
+  <script src="<?php echo base_url(); ?>payment-assets/js/popper.min.js"></script>
+  <script src="<?php echo base_url(); ?>payment-assets/js/bootstrap.min.js"></script>
   <?php if ($gateways['stripe']) : ?>
     <script src="https://checkout.stripe.com/checkout.js"></script>
   <?php endif; ?>

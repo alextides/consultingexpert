@@ -17,6 +17,14 @@ class Paymentinvoice extends MY_Controller
 		$this->load->view("paymentinvoice", $data);
 	}
 
+	public function redirectPayment($step_id){
+		$data["title"] = "Register Account";
+		$param["select"] = "website_quote, agency_quote, agency_invoice, website_invoice";
+		$param["where"] = array("step1_id" => $step_id);
+		$data['quote'] = $this->MY_Model->getRows("ci_formlist_step1", $param);
+		$this->load->view("paymentinvoice", $data);
+	}
+
 	public function getquote()
 	{
 		$fk_user_id = $this->session->userdata('user_details')[0]['fk_user_id'];

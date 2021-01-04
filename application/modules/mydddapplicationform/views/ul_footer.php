@@ -81,7 +81,6 @@
       var data_id = $(this).attr('data-sid');
       let new_array = [];
       let checker = '';
-
       var base_url = "<?php echo base_url(); ?>mydddapplicationform/get_step1_details/";
       $.ajax({
          type: "GET",
@@ -97,6 +96,7 @@
 
             $('[name="website_invoice"]').val(result[0].website_invoice);
             $('[name="agency_invoice"]').val(result[0].agency_invoice);
+            $('#payment_btn').attr('data-sid', data_id);
             $('#step2').modal('show');
          },
          error: function(data) {
@@ -129,6 +129,12 @@
          }
       });
    });
+
+   $(document).on('click', '#payment_btn', function(e) {
+      var step_id = $(this).attr('data-sid');
+      var base_url = "<?php echo base_url(); ?>paymentinvoice/redirectPayment/" + step_id;
+      window.open(base_url, '_blank');
+   })
 
    $(document).on('click', '.step3', function(e) { //step1_details button - view step1_details details by user_id on modal
       e.preventDefault();
